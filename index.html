@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -28,6 +29,7 @@
         <a href="levels/b1/writing.html">書面表達</a>
         <a href="levels/b1/listening.html">聽力理解</a>
         <a href="levels/b1/speaking.html">口語表達</a>
+        <a href="levels/b1/grammar.html">文法診斷</a>
         <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
       </div>
     </div>
@@ -255,6 +257,65 @@
     </div>
   </section>
 
+  <!-- ===== RADAR SECTION ===== -->
+  <section class="section bg-gray">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">能力雷達圖</div>
+        <h2>你目前的 B1 能力分布</h2>
+        <p>完成各模組練習後，雷達圖會自動更新。做<a href="levels/b1/grammar.html" style="color:var(--blue);font-weight:600;">文法診斷</a>後資料最準確。</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;max-width:800px;margin:0 auto;">
+        <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:24px;">
+          <canvas id="homeRadar" style="max-height:280px;"></canvas>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div id="radar-reading"  style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
+              <span>📖 閱讀理解</span><span id="r-read-val" style="color:var(--blue);">尚未練習</span>
+            </div>
+            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
+              <div id="r-read-bar" style="height:100%;border-radius:100px;background:var(--blue);width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
+              <span>✍️ 書面表達</span><span id="r-write-val" style="color:var(--red);">尚未練習</span>
+            </div>
+            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
+              <div id="r-write-bar" style="height:100%;border-radius:100px;background:var(--red);width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
+              <span>🎧 聽力理解</span><span id="r-listen-val" style="color:var(--gold);">尚未練習</span>
+            </div>
+            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
+              <div id="r-listen-bar" style="height:100%;border-radius:100px;background:var(--gold);width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
+              <span>🗣️ 口語表達</span><span id="r-speak-val" style="color:#2E7D32;">尚未練習</span>
+            </div>
+            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
+              <div id="r-speak-bar" style="height:100%;border-radius:100px;background:#2E7D32;width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
+              <span>🔬 文法程度</span><span id="r-grammar-val" style="color:#7B1FA2;">尚未診斷</span>
+            </div>
+            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
+              <div id="r-grammar-bar" style="height:100%;border-radius:100px;background:#7B1FA2;width:0%;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <a href="levels/b1/grammar.html" class="btn btn-blue btn-sm" style="text-align:center;">🔬 做文法診斷更新圖表</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== PROGRESS ===== -->
   <section class="section progress-section">
     <div class="container">
@@ -331,9 +392,9 @@
       <div class="footer-col">
         <h4>備考資源</h4>
         <ul>
+          <li><a href="levels/b1/grammar.html">文法診斷</a></li>
           <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
           <li><a href="#exam-overview">考試說明</a></li>
-          <li><a href="index.html#tips">備考策略</a></li>
         </ul>
       </div>
     </div>
@@ -344,12 +405,10 @@
   </footer>
 
   <script>
-    // ---- Mobile nav ----
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
     }
 
-    // ---- Progress (localStorage) ----
     const keys = { read: 'prog_read', write: 'prog_write', listen: 'prog_listen', speak: 'prog_speak' };
 
     function loadProgress() {
@@ -364,14 +423,73 @@
 
     function resetProgress() {
       if (confirm('確定要重置所有進度嗎？')) {
-        Object.values(keys).forEach(k => localStorage.removeItem(k));
+        ['prog_read','prog_write','prog_listen','prog_speak','prog_grammar','diag_score'].forEach(k => {
+          try { localStorage.removeItem(k); } catch(e){}
+        });
         loadProgress();
+        initRadar();
       }
     }
 
-    // Animate on load
+    // ---- Radar Chart ----
+    let radarChart = null;
+
+    function initRadar() {
+      const read    = parseInt(localStorage.getItem('prog_read'))    || 0;
+      const write   = parseInt(localStorage.getItem('prog_write'))   || 0;
+      const listen  = parseInt(localStorage.getItem('prog_listen'))  || 0;
+      const speak   = parseInt(localStorage.getItem('prog_speak'))   || 0;
+      const grammar = parseInt(localStorage.getItem('prog_grammar')) || 0;
+
+      // Update bar labels
+      const fmt = v => v > 0 ? v + '%' : '尚未練習';
+      const fmtG = v => v > 0 ? v + '%' : '尚未診斷';
+      document.getElementById('r-read-val').textContent    = fmt(read);
+      document.getElementById('r-write-val').textContent   = fmt(write);
+      document.getElementById('r-listen-val').textContent  = fmt(listen);
+      document.getElementById('r-speak-val').textContent   = fmt(speak);
+      document.getElementById('r-grammar-val').textContent = fmtG(grammar);
+      document.getElementById('r-read-bar').style.width    = read + '%';
+      document.getElementById('r-write-bar').style.width   = write + '%';
+      document.getElementById('r-listen-bar').style.width  = listen + '%';
+      document.getElementById('r-speak-bar').style.width   = speak + '%';
+      document.getElementById('r-grammar-bar').style.width = grammar + '%';
+
+      const ctx = document.getElementById('homeRadar');
+      if (!ctx) return;
+      if (radarChart) radarChart.destroy();
+      radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['閱讀理解','書面表達','聽力理解','口語表達','文法程度'],
+          datasets: [{
+            label: '你的程度',
+            data: [read, write, listen, speak, grammar],
+            backgroundColor: 'rgba(0,63,136,0.1)',
+            borderColor: '#003F88',
+            borderWidth: 2,
+            pointBackgroundColor: '#003F88',
+            pointRadius: 4,
+          },{
+            label: 'B1 目標',
+            data: [80,80,80,80,80],
+            backgroundColor: 'rgba(46,125,50,0.05)',
+            borderColor: 'rgba(46,125,50,0.35)',
+            borderWidth: 1.5,
+            borderDash: [4,4],
+            pointRadius: 0,
+          }]
+        },
+        options: {
+          scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 9 } }, pointLabels: { font: { size: 11, weight:'600' } } } },
+          plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } },
+          responsive: true,
+        }
+      });
+    }
+
     window.addEventListener('load', () => {
-      setTimeout(loadProgress, 300);
+      setTimeout(() => { loadProgress(); initRadar(); }, 300);
     });
   </script>
 
