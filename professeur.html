@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mon Professeur — 你的免費法文虛擬老師。貼上法文文字，即時獲得發音、翻譯、文法解析與修改建議。" />
+  <title>Mon Professeur · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/theme-lavender.css" />
+  <style>
+    /* ====== Mon Professeur 專用樣式 ====== */
+
+    /* Hero */
+    .prof-hero {
+      background: linear-gradient(135deg, #3D3350 0%, #2E2640 60%, #4A3F5C 100%);
+      padding: 72px 24px 64px;
+      text-align: center;
+      color: #fff;
+    }
+    .prof-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+      color: rgba(255,255,255,0.9);
+    }
+    .prof-hero h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color: #fff;
+      margin-bottom: 16px;
+      font-style: italic;
+      letter-spacing: 0.01em;
+    }
+    .prof-hero p {
+      color: rgba(255,255,255,0.78);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Main layout */
+    .prof-main {
+      padding: 60px 24px 100px;
+      background: var(--gray-50);
+      min-height: 60vh;
+    }
+    .prof-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* Step wrapper */
+    .prof-step {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .step-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    /* Textarea */
+    .input-wrap {
+      position: relative;
+    }
+    #frenchInput {
+      width: 100%;
+      min-height: 140px;
+      padding: 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-family: var(--font-main);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--black);
+      resize: vertical;
+      transition: border-color var(--transition);
+      background: var(--white);
+    }
+    #frenchInput:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+    #frenchInput::placeholder {
+      color: var(--gray-400);
+    }
+    .input-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    #charCount {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+    }
+    #charCount.near-limit { color: var(--gold); }
+    #charCount.at-limit   { color: var(--red); }
+    .btn-spell {
+      background: var(--blue-light);
+      color: var(--blue);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .btn-spell:hover { background: var(--blue); color: #fff; }
+    .btn-spell:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Spell results */
+    .spell-results {
+      margin-top: 16px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .spell-ok {
+      background: #EEF7EE;
+      color: #2E7D32;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .spell-warning-header {
+      background: #FFF3E0;
+      color: #E65100;
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    }
+    .spell-item {
+      background: #FFFBF5;
+      border: 1px solid #FFE0B2;
+      border-top: none;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .spell-item:last-of-type { border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+    .spell-error { color: var(--red); font-weight: 700; }
+    .spell-msg   { color: var(--gray-600); display: block; margin: 2px 0; }
+    .spell-suggest { color: #2E7D32; font-weight: 600; display: block; }
+    .spell-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    /* Function radio cards */
+    .func-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 600px) {
+      .func-options { grid-template-columns: 1fr; }
+    }
+    .func-option input[type="radio"] { display: none; }
+    .func-card {
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+      user-select: none;
+    }
+    .func-card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-sm);
+    }
+    .func-option input[type="radio"]:checked + .func-card {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .func-icon {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .func-card strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--black);
+    }
+    .func-card p {
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Translate language checkboxes */
+    .translate-opts {
+      margin-top: 18px;
+      padding: 16px 20px;
+      background: var(--blue-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .translate-opts span {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .translate-opts label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .translate-opts input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--blue);
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+    .btn-submit:hover { background: var(--blue-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Loading */
+    .loading-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--gray-400);
+      font-size: 0.95rem;
+    }
+    .loading-spinner {
+      font-size: 2rem;
+      animation: spin 1s linear infinite;
+      display: block;
+      margin-bottom: 12px;
+    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* Results card */
+    .result-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      margin-top: 20px;
+    }
+    .result-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 20px;
+    }
+    .result-original {
+      background: var(--gray-50);
+      border-left: 3px solid var(--blue);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.95rem;
+      color: var(--gray-800);
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+
+    /* Speak results */
+    .speak-text {
+      font-size: 1.1rem;
+      color: var(--black);
+      font-weight: 600;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: var(--blue-light);
+      border-radius: var(--radius-sm);
+      line-height: 1.7;
+    }
+    .speak-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .speak-controls button {
+      padding: 9px 20px;
+      border: 1.5px solid var(--blue);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--blue);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .speak-controls button:hover { background: var(--blue); color: #fff; }
+
+    /* Translation results */
+    .trans-block {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .trans-lang-header {
+      background: var(--gray-50);
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .trans-content {
+      padding: 14px 16px;
+      font-size: 1rem;
+      color: var(--black);
+      line-height: 1.75;
+    }
+
+    /* Analysis results */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 500px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    .stat-item {
+      text-align: center;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: 16px 8px;
+    }
+    .stat-num {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--blue);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+      font-weight: 500;
+    }
+    .analyze-ok {
+      background: #EEF7EE;
+      color: #2E7D32;
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .issues-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 14px;
+    }
+    .issue-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 12px;
+      background: var(--white);
+    }
+    .issue-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .issue-type {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .issue-error {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+    .issue-error mark {
+      background: #FFE0B2;
+      color: #BF360C;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .issue-msg {
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+      line-height: 1.6;
+    }
+    .issue-fix {
+      font-size: 0.9rem;
+      color: #2E7D32;
+    }
+
+    /* Shared note */
+    .result-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    /* Error state */
+    .error-msg {
+      color: var(--red);
+      font-size: 0.9rem;
+      padding: 12px 16px;
+      background: var(--red-light);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Disclaimer banner */
+    .disclaimer {
+      max-width: 780px;
+      margin: 0 auto 32px;
+      background: var(--gold-light);
+      border: 1px solid #FFE082;
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      font-size: 0.84rem;
+      color: #5D4037;
+      line-height: 1.6;
+    }
+    .disclaimer strong { color: #BF360C; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="index.html">首頁</a>
+        <a href="levels/b1/reading.html">閱讀</a>
+        <a href="levels/b1/writing.html">寫作</a>
+        <a href="levels/b1/listening.html">聽力</a>
+        <a href="levels/b1/speaking.html">口說</a>
+        <a href="levels/b1/grammar.html">文法診斷</a>
+        <a href="professeur.html" class="active navbar-cta-secondary">✨ Mon Professeur</a>
+        <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="prof-hero">
+    <div class="container">
+      <div class="prof-badge">✨ 虛擬法文老師 · 免費使用</div>
+      <h1>Mon Professeur</h1>
+      <p>貼上你的法文句子或段落，我幫你<br>朗讀發音、翻譯理解、或分析文法。</p>
+    </div>
+  </section>
+
+  <!-- ===== MAIN TOOL ===== -->
+  <section class="prof-main">
+    <div class="prof-inner">
+
+      <!-- Disclaimer -->
+      <div class="disclaimer">
+        ⚠️ <strong>使用提醒：</strong>本工具使用免費開源 API（LanguageTool、MyMemory），分析結果僅供學習參考，建議搭配其他資源一起使用，不保證 100% 準確。每天翻譯限制約 1000 字（全站共用）。
+      </div>
+
+      <!-- Step 1: Input -->
+      <div class="prof-step">
+        <div class="step-header">
+          <span class="step-num">1</span>
+          <h3>貼入或輸入法文文字</h3>
+        </div>
+        <div class="input-wrap">
+          <textarea
+            id="frenchInput"
+            maxlength="300"
+            placeholder="在這裡貼上或輸入你的法文…&#10;&#10;例如：Je voudrais réserver une table pour deux personnes pour ce soir, s'il vous plaît."
+          ></textarea>
+          <div class="input-footer">
+            <span id="charCount">0 / 300 字</span>
+            <button class="btn-spell" id="spellCheckBtn" onclick="checkSpelling()">🔍 檢查拼字</button>
+          </div>
+        </div>
+        <div id="spellResults"></div>
+      </div>
+
+      <!-- Step 2: Choose function -->
+      <div class="prof-step">
+        <div class="step-header">
+          <span class="step-num">2</span>
+          <h3>選擇功能（單選）</h3>
+        </div>
+        <div class="func-options">
+
+          <label class="func-option">
+            <input type="radio" name="funcType" value="speak" onchange="onFuncChange()">
+            <div class="func-card">
+              <span class="func-icon">🔊</span>
+              <strong>發音</strong>
+              <p>用標準法語朗讀這段文字，支援正常與慢速兩種語速</p>
+            </div>
+          </label>
+
+          <label class="func-option">
+            <input type="radio" name="funcType" value="translate" onchange="onFuncChange()">
+            <div class="func-card">
+              <span class="func-icon">🌐</span>
+              <strong>翻譯</strong>
+              <p>翻成繁體中文或英文，幫助你理解法文句子的意思</p>
+            </div>
+          </label>
+
+          <label class="func-option">
+            <input type="radio" name="funcType" value="analyze" onchange="onFuncChange()">
+            <div class="func-card">
+              <span class="func-icon">📖</span>
+              <strong>文章解析</strong>
+              <p>找出文法與拼字問題，附上具體修改建議與說明</p>
+            </div>
+          </label>
+
+        </div>
+
+        <!-- Translation language options (shown only for 翻譯) -->
+        <div class="translate-opts" id="translateOpts" style="display:none;">
+          <span>翻譯成：</span>
+          <label>
+            <input type="checkbox" id="transChinese" checked>
+            🇹🇼 繁體中文
+          </label>
+          <label>
+            <input type="checkbox" id="transEnglish">
+            🇬🇧 English
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 3: Submit -->
+      <button class="btn-submit" id="submitBtn" onclick="submitRequest()">
+        送出，請老師幫我看 →
+      </button>
+
+      <!-- Results -->
+      <div id="resultsArea"></div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">🇫🇷 DELF B1 備考</div>
+        <p>專為繁體中文自學者設計的法語備考工具。<br>一個考生做的，為了跟你一樣的人。</p>
+      </div>
+      <div class="footer-col">
+        <h4>練習科目</h4>
+        <ul>
+          <li><a href="levels/b1/reading.html">閱讀理解</a></li>
+          <li><a href="levels/b1/writing.html">書面表達</a></li>
+          <li><a href="levels/b1/listening.html">聽力理解</a></li>
+          <li><a href="levels/b1/speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="levels/b1/grammar.html">文法診斷</a></li>
+          <li><a href="professeur.html">Mon Professeur</a></li>
+          <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 仿真自創內容，僅供學習使用</span>
+      <span>以考生視角出發 · 持續更新中</span>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Nav toggle =====
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ===== Char counter =====
+    const inputEl = document.getElementById('frenchInput');
+    const charCountEl = document.getElementById('charCount');
+
+    inputEl.addEventListener('input', () => {
+      const len = inputEl.value.length;
+      charCountEl.textContent = `${len} / 300 字`;
+      charCountEl.className = len >= 300 ? 'at-limit' : len >= 240 ? 'near-limit' : '';
+    });
+
+    // ===== Show/hide translate options =====
+    function onFuncChange() {
+      const val = document.querySelector('input[name="funcType"]:checked')?.value;
+      document.getElementById('translateOpts').style.display = val === 'translate' ? 'flex' : 'none';
+    }
+
+    // ===== Spell Check =====
+    async function checkSpelling() {
+      const text = inputEl.value.trim();
+      if (!text) {
+        showAlert('請先在上方輸入法文文字。');
+        return;
+      }
+
+      const btn = document.getElementById('spellCheckBtn');
+      btn.textContent = '檢查中…';
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch('https://api.languagetool.org/v2/check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ text: text, language: 'fr' })
+        });
+        const data = await resp.json();
+        renderSpellResults(data.matches, text);
+      } catch (e) {
+        document.getElementById('spellResults').innerHTML =
+          '<p class="spell-note" style="color:var(--red)">⚠️ 拼字檢查暫時無法連線，請稍後再試。</p>';
+      } finally {
+        btn.textContent = '🔍 重新檢查';
+        btn.disabled = false;
+      }
+    }
+
+    function renderSpellResults(matches, text) {
+      const container = document.getElementById('spellResults');
+      if (matches.length === 0) {
+        container.innerHTML = '<div class="spell-ok" style="margin-top:14px;">✅ 沒有發現拼字或文法問題，看起來不錯！</div>';
+        return;
+      }
+
+      let html = `<div class="spell-warning-header" style="margin-top:14px;">⚠️ 發現 ${matches.length} 個可能的問題（僅提示，不影響送出）</div>`;
+      matches.forEach(m => {
+        const original = text.substr(m.offset, m.length);
+        const suggestions = m.replacements.slice(0, 3).map(r => r.value).join('、');
+        html += `<div class="spell-item">
+          <span class="spell-error">"${escHtml(original)}"</span>
+          <span class="spell-msg">${escHtml(m.message)}</span>
+          ${suggestions ? `<span class="spell-suggest">✅ 建議改為：${escHtml(suggestions)}</span>` : ''}
+        </div>`;
+      });
+      html += '<p class="spell-note">💡 以上為提示，你可以修改後再送出，或直接選功能送出。</p>';
+      container.innerHTML = html;
+    }
+
+    // ===== Submit =====
+    async function submitRequest() {
+      const text = inputEl.value.trim();
+      if (!text) { showAlert('請先在步驟 1 輸入法文文字。'); return; }
+
+      const func = document.querySelector('input[name="funcType"]:checked')?.value;
+      if (!func) { showAlert('請在步驟 2 選擇一個功能。'); return; }
+
+      const resultsArea = document.getElementById('resultsArea');
+      resultsArea.innerHTML = `
+        <div class="result-card">
+          <div class="loading-state">
+            <span class="loading-spinner">⚙️</span>
+            處理中，請稍候…
+          </div>
+        </div>`;
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+
+      try {
+        if (func === 'speak')     { await doSpeak(text); }
+        else if (func === 'translate') { await doTranslate(text); }
+        else if (func === 'analyze')   { await doAnalyze(text); }
+      } catch (e) {
+        resultsArea.innerHTML = `<div class="result-card"><p class="error-msg">⚠️ 處理時發生錯誤，請稍後再試。</p></div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // ===== 發音 =====
+    function doSpeak(text) {
+      const resultsArea = document.getElementById('resultsArea');
+
+      if (!window.speechSynthesis) {
+        resultsArea.innerHTML = `<div class="result-card"><p class="error-msg">⚠️ 你的瀏覽器不支援語音功能，建議使用 Chrome 或 Edge。</p></div>`;
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      speak(text, 0.85);
+
+      resultsArea.innerHTML = `
+        <div class="result-card">
+          <div class="result-label">🔊 發音</div>
+          <div class="speak-text">${escHtml(text)}</div>
+          <div class="speak-controls">
+            <button onclick="speak(${JSON.stringify(text)}, 0.85)">▶ 正常速度重播</button>
+            <button onclick="speak(${JSON.stringify(text)}, 0.55)">🐢 慢速重播</button>
+          </div>
+          <p class="result-note">💡 法語發音由瀏覽器 Web Speech API 提供。建議使用 Chrome 或 Edge 以獲得最佳法語音質。</p>
+        </div>`;
+    }
+
+    function speak(text, rate) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'fr-FR';
+      u.rate = rate;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    }
+
+    // ===== 翻譯 =====
+    async function doTranslate(text) {
+      const resultsArea = document.getElementById('resultsArea');
+      const doChinese = document.getElementById('transChinese').checked;
+      const doEnglish = document.getElementById('transEnglish').checked;
+
+      if (!doChinese && !doEnglish) {
+        resultsArea.innerHTML = `<div class="result-card"><p class="error-msg">請至少勾選一種翻譯語言（繁體中文 或 English）。</p></div>`;
+        return;
+      }
+
+      let html = `<div class="result-card">
+        <div class="result-label">🌐 翻譯</div>
+        <div class="result-original"><strong>法文原文：</strong>${escHtml(text)}</div>`;
+
+      if (doChinese) {
+        try {
+          const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=fr|zh-TW`);
+          const d = await r.json();
+          const translated = d.responseData?.translatedText || '（翻譯失敗）';
+          html += `<div class="trans-block">
+            <div class="trans-lang-header">🇹🇼 繁體中文</div>
+            <div class="trans-content">${escHtml(translated)}</div>
+          </div>`;
+        } catch {
+          html += `<div class="trans-block">
+            <div class="trans-lang-header">🇹🇼 繁體中文</div>
+            <div class="trans-content"><span style="color:var(--red)">翻譯失敗，請稍後再試。</span></div>
+          </div>`;
+        }
+      }
+
+      if (doEnglish) {
+        try {
+          const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=fr|en`);
+          const d = await r.json();
+          const translated = d.responseData?.translatedText || '（Translation failed）';
+          html += `<div class="trans-block">
+            <div class="trans-lang-header">🇬🇧 English</div>
+            <div class="trans-content">${escHtml(translated)}</div>
+          </div>`;
+        } catch {
+          html += `<div class="trans-block">
+            <div class="trans-lang-header">🇬🇧 English</div>
+            <div class="trans-content"><span style="color:var(--red)">Translation failed, please try again later.</span></div>
+          </div>`;
+        }
+      }
+
+      html += `<p class="result-note">💡 翻譯由 MyMemory API（開源翻譯引擎）提供，建議作為理解參考而非標準答案。法文免費使用量每日約 1000 字（全站共用）。</p></div>`;
+      document.getElementById('resultsArea').innerHTML = html;
+    }
+
+    // ===== 文章解析 =====
+    async function doAnalyze(text) {
+      const resultsArea = document.getElementById('resultsArea');
+
+      try {
+        const resp = await fetch('https://api.languagetool.org/v2/check', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ text: text, language: 'fr' })
+        });
+        const data = await resp.json();
+
+        // Basic stats
+        const words     = text.trim().split(/\s+/).filter(w => w).length;
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim()).length || 1;
+        const avgLen    = (text.replace(/\s/g, '').length / words).toFixed(1);
+        const issues    = data.matches.length;
+
+        let html = `<div class="result-card">
+          <div class="result-label">📖 文章解析報告</div>
+
+          <div class="stats-row">
+            <div class="stat-item">
+              <span class="stat-num">${words}</span>
+              <span class="stat-label">單字數</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">${sentences}</span>
+              <span class="stat-label">句子數</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">${avgLen}</span>
+              <span class="stat-label">平均字長</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" style="color:${issues > 0 ? 'var(--red)' : '#2E7D32'}">${issues}</span>
+              <span class="stat-label">發現問題</span>
+            </div>
+          </div>`;
+
+        if (issues === 0) {
+          html += `<div class="analyze-ok">✅ 沒有發現明顯的文法或拼字問題，這段文字寫得很好！</div>`;
+        } else {
+          html += `<div class="issues-title">📌 具體修改建議（共 ${issues} 項）</div>`;
+          data.matches.forEach((m, i) => {
+            const original    = text.substr(m.offset, m.length);
+            const suggestions = m.replacements.slice(0, 3).map(r => r.value);
+            let icon  = '📌';
+            let label = '文法問題';
+            if (m.rule.issueType === 'misspelling')  { icon = '❌'; label = '拼字錯誤'; }
+            else if (m.rule.issueType === 'grammar')  { icon = '⚠️'; label = '文法錯誤'; }
+            else if (m.rule.issueType === 'style')    { icon = '💡'; label = '風格建議'; }
+
+            html += `<div class="issue-item">
+              <div class="issue-header">
+                <span>${icon}</span>
+                <span class="issue-type">${label} ${i + 1}</span>
+              </div>
+              <div class="issue-error">原文：<mark>"${escHtml(original)}"</mark></div>
+              <div class="issue-msg">${escHtml(m.message)}</div>
+              ${suggestions.length > 0
+                ? `<div class="issue-fix">✅ 建議改為：<strong>${escHtml(suggestions.join(' 或 '))}</strong></div>`
+                : ''}
+            </div>`;
+          });
+        }
+
+        html += `<p class="result-note">💡 文法分析由 LanguageTool（開源法文文法引擎）提供。若希望更深入的解析，未來將推出進階版功能。</p></div>`;
+        resultsArea.innerHTML = html;
+
+      } catch (e) {
+        resultsArea.innerHTML = `<div class="result-card"><p class="error-msg">⚠️ 文章解析暫時無法連線，請稍後再試。</p></div>`;
+      }
+    }
+
+    // ===== Utilities =====
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showAlert(msg) {
+      // Simple inline alert style
+      const a = document.createElement('div');
+      a.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#3D3350;color:#fff;padding:12px 24px;border-radius:8px;font-size:0.9rem;font-weight:600;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.2)';
+      a.textContent = msg;
+      document.body.appendChild(a);
+      setTimeout(() => a.remove(), 3000);
+    }
+  </script>
+
+</body>
+</html>
