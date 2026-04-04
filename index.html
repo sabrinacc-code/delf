@@ -3,14 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="專為台灣考生設計的 DELF B1 法語檢定備考網站，提供仿真練習題、解題策略、範文模板，幫助你高效通過考試。" />
-  <title>DELF B1 法語備考 — 高效通過法語檢定</title>
+  <meta name="description" content="專為自學者設計的 DELF B1 備考工具。沒有老師、沒有補習班，用中文學法文，有效率地通過法語檢定。" />
+  <title>DELF B1 備考 — 靠自己通過法語檢定</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="stylesheet" href="assets/css/theme-green.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="assets/css/theme-lavender.css" />
+  <style>
+    /* ---- Landing Page 專用樣式 ---- */
+
+    /* 初衷 section */
+    .origin-section {
+      padding: 100px 24px;
+      background: var(--white);
+    }
+    .origin-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .origin-quote {
+      position: relative;
+    }
+    .origin-quote::before {
+      content: '"';
+      position: absolute;
+      top: -40px;
+      left: -16px;
+      font-size: 8rem;
+      color: var(--blue-light);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .origin-quote blockquote {
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    .origin-quote .quote-source {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--gray-400);
+      font-style: italic;
+    }
+    .origin-text h2 {
+      margin-bottom: 20px;
+    }
+    .origin-text p {
+      font-size: 0.97rem;
+      color: var(--gray-600);
+      line-height: 1.9;
+      margin-bottom: 14px;
+    }
+
+    /* 概念 section */
+    .concept-section {
+      padding: 100px 24px;
+      background: var(--gray-50);
+    }
+    .concept-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .concept-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      border: 1px solid var(--gray-200);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .concept-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+    .concept-num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--blue-light);
+      line-height: 1;
+      margin-bottom: 16px;
+      font-family: Georgia, serif;
+    }
+    .concept-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .concept-card p  { font-size: 0.88rem; color: var(--gray-600); line-height: 1.8; }
+
+    /* 功能 section */
+    .features-section {
+      padding: 100px 24px;
+      background: var(--white);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .feature-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 28px 22px;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .feature-card.coming-soon {
+      background: var(--gray-50);
+    }
+    .feature-card.coming-soon:hover {
+      border-color: var(--gray-400);
+    }
+    .coming-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--gold-light);
+      color: var(--gold);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.3px;
+    }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .feature-card h3 { font-size: 0.97rem; margin-bottom: 8px; }
+    .feature-card p  { font-size: 0.84rem; color: var(--gray-600); line-height: 1.7; }
+
+    /* 目標對象 section */
+    .audience-section {
+      padding: 100px 24px;
+      background: linear-gradient(135deg, #3D3350 0%, #2E2640 100%);
+    }
+    .audience-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .audience-inner .section-tag {
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 20px;
+    }
+    .audience-inner h2 { color: var(--white); margin-bottom: 40px; }
+    .audience-checks {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+      max-width: 520px;
+      margin: 0 auto 48px;
+    }
+    .audience-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .audience-check:last-child { border-bottom: none; }
+    .check-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .audience-closing {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.95rem;
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* Final CTA section */
+    .final-cta {
+      padding: 120px 24px;
+      background: var(--white);
+      text-align: center;
+    }
+    .final-cta h2 { margin-bottom: 12px; }
+    .final-cta .sub {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      margin-bottom: 40px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .final-cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .origin-inner   { grid-template-columns: 1fr; gap: 40px; }
+      .concept-cards  { grid-template-columns: 1fr; }
+      .origin-quote::before { font-size: 5rem; top: -28px; }
+      .origin-section,
+      .concept-section,
+      .features-section,
+      .audience-section,
+      .final-cta { padding: 64px 20px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -39,337 +266,153 @@
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="container">
-      <div class="hero-badge">✦ 為台灣考生設計 · 繁體中文教學</div>
-      <h1>從 A2 到 B1<br>系統性通過 DELF 考試</h1>
-      <p>仿真練習題、解題策略、範文模板，全部免費。<br>跟著你的學習節奏，有效備考。</p>
+      <div class="hero-badge">🇫🇷 繁體中文 · 免費 · 為自學者設計</div>
+      <h1>時間有限，<br>還是要通過 DELF B1</h1>
+      <p>沒有老師、沒有補習班。<br>這個網站是一個考生為自己做的，也為跟你一樣的人做的。</p>
       <div class="hero-actions">
-        <a href="levels/b1/reading.html" class="btn btn-primary">🚀 開始練習 B1</a>
-        <a href="#exam-overview" class="btn btn-outline">📋 了解考試結構</a>
+        <a href="levels/b1/grammar.html" class="btn btn-primary">🔬 先做程度診斷</a>
+        <a href="#origin" class="btn btn-outline">了解這個網站 ↓</a>
       </div>
     </div>
   </section>
 
-  <!-- ===== STATS BAR ===== -->
-  <div class="stats-bar">
-    <div class="stats-bar-inner">
-      <div class="stat-item">
-        <span class="stat-num">4</span>
-        <span class="stat-label">考試科目</span>
+  <!-- ===== 初衷 ===== -->
+  <section class="origin-section" id="origin">
+    <div class="origin-inner">
+      <div class="origin-quote">
+        <blockquote>
+          我找不到一個用中文解釋、專門為了通過 DELF 設計的學習工具，所以我自己做了一個。
+        </blockquote>
+        <p class="quote-source">— 這個網站的起點</p>
       </div>
-      <div class="stat-item">
-        <span class="stat-num">100</span>
-        <span class="stat-label">總分</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">50</span>
-        <span class="stat-label">及格分數</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">5</span>
-        <span class="stat-label">每科最低分</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">2h55</span>
-        <span class="stat-label">考試總時長</span>
+      <div class="origin-text">
+        <div class="section-tag" style="margin-bottom:14px;">初衷</div>
+        <h2>從一個真實的學習困境出發</h2>
+        <p>法文書全是法文，看不懂卻沒人解釋。做完考試題目，改完答案，不知道為什麼錯。想問問題，沒有人可以問。</p>
+        <p>每天能學習的時間不多，卻不確定自己現在的程度在哪、離 B1 還差多遠、該先補強哪個部分。</p>
+        <p>這個網站試圖解決這些問題——用繁體中文，針對 DELF B1，讓你能夠自學、自我修正、有方向地備考。</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ===== MODULES ===== -->
-  <section class="section">
+  <!-- ===== 概念 ===== -->
+  <section class="concept-section">
     <div class="container">
       <div class="section-header">
-        <div class="section-tag">四大考試科目</div>
-        <h2>選擇你想練習的模組</h2>
-        <p>每個模組包含解題策略、仿真練習題與詳解，對應真實 DELF B1 考試格式。</p>
+        <div class="section-tag">核心概念</div>
+        <h2>這個網站怎麼思考學習這件事</h2>
       </div>
-      <div class="modules-grid">
-
-        <!-- 閱讀 -->
-        <div class="module-card">
-          <div class="module-icon">📖</div>
-          <h3>閱讀理解</h3>
-          <p class="fr-title">Compréhension de l'écrit</p>
-          <p>閱讀廣告、信件、新聞、說明文等不同文本，回答選擇題與理解題。</p>
-          <div class="module-meta">
-            <span class="meta-tag score">25 分</span>
-            <span class="meta-tag">60 分鐘</span>
-          </div>
-          <a href="levels/b1/reading.html" class="card-link">開始練習 →</a>
+      <div class="concept-cards">
+        <div class="concept-card">
+          <div class="concept-num">01</div>
+          <h3>以考試為終點，往回設計</h3>
+          <p>不是學完所有法文再去考，而是先搞清楚 B1 要考什麼，只學那些東西。目標明確，時間才不會浪費在不會考的地方。</p>
         </div>
-
-        <!-- 書面表達 -->
-        <div class="module-card red">
-          <div class="module-icon">✍️</div>
-          <h3>書面表達</h3>
-          <p class="fr-title">Production écrite</p>
-          <p>撰寫個人敘述文與觀點表達文（正式信件或文章），展現書面溝通能力。</p>
-          <div class="module-meta">
-            <span class="meta-tag red">25 分</span>
-            <span class="meta-tag">45 分鐘</span>
-          </div>
-          <a href="levels/b1/writing.html" class="card-link">開始練習 →</a>
+        <div class="concept-card">
+          <div class="concept-num">02</div>
+          <h3>用中文學法文</h3>
+          <p>解題說明、文法解析、文化背景全部用繁體中文說清楚。在台灣，這樣的 DELF 備考資源幾乎不存在。</p>
         </div>
-
-        <!-- 聽力 -->
-        <div class="module-card gold">
-          <div class="module-icon">🎧</div>
-          <h3>聽力理解</h3>
-          <p class="fr-title">Compréhension de l'oral</p>
-          <p>聆聽三段不同情境的法語錄音（日常對話、廣播、訪談），回答理解題。</p>
-          <div class="module-meta">
-            <span class="meta-tag gold">25 分</span>
-            <span class="meta-tag">~25 分鐘</span>
-          </div>
-          <a href="levels/b1/listening.html" class="card-link">開始練習 →</a>
+        <div class="concept-card">
+          <div class="concept-num">03</div>
+          <h3>即時回饋，不需要老師</h3>
+          <p>語音辨識練口說、文法診斷找弱點、作文批改分析錯誤。在對的時間點給你回饋，讓自學也能有方向。</p>
         </div>
-
-        <!-- 口語 -->
-        <div class="module-card green">
-          <div class="module-icon">🗣️</div>
-          <h3>口語表達</h3>
-          <p class="fr-title">Production orale</p>
-          <p>三個口試部分：照片描述、觀點表達、角色扮演，展現日常溝通能力。</p>
-          <div class="module-meta">
-            <span class="meta-tag green">25 分</span>
-            <span class="meta-tag">~30 分鐘</span>
-          </div>
-          <a href="levels/b1/speaking.html" class="card-link">開始練習 →</a>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- ===== EXAM OVERVIEW ===== -->
-  <section class="section bg-gray" id="exam-overview">
+  <!-- ===== 功能強項 ===== -->
+  <section class="features-section">
     <div class="container">
       <div class="section-header">
-        <div class="section-tag">考試結構</div>
-        <h2>DELF B1 完整考試說明</h2>
-        <p>了解每個科目的分數配置和時間安排，制定有效的備考策略。</p>
+        <div class="section-tag">功能</div>
+        <h2>你可以在這裡做什麼</h2>
+        <p>從診斷程度到練習四大科目，全部針對 DELF B1 設計。</p>
       </div>
-      <div class="exam-table-wrap">
-        <table class="exam-table">
-          <thead>
-            <tr>
-              <th>科目</th>
-              <th>法語名稱</th>
-              <th>時間</th>
-              <th>總分</th>
-              <th>及格線</th>
-              <th>題型</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>閱讀理解</strong></td>
-              <td>Compréhension de l'écrit</td>
-              <td>60 分鐘</td>
-              <td><span class="score-badge">25 分</span></td>
-              <td>5 分</td>
-              <td>多選題、配對題、填空題</td>
-            </tr>
-            <tr>
-              <td><strong>書面表達</strong></td>
-              <td>Production écrite</td>
-              <td>45 分鐘</td>
-              <td><span class="score-badge">25 分</span></td>
-              <td>5 分</td>
-              <td>個人描述 + 觀點表達（各約 160 字）</td>
-            </tr>
-            <tr>
-              <td><strong>聽力理解</strong></td>
-              <td>Compréhension de l'oral</td>
-              <td>約 25 分鐘</td>
-              <td><span class="score-badge">25 分</span></td>
-              <td>5 分</td>
-              <td>三段錄音，每段聽兩遍</td>
-            </tr>
-            <tr>
-              <td><strong>口語表達</strong></td>
-              <td>Production orale</td>
-              <td>15 分鐘準備<br>+ 15 分鐘口試</td>
-              <td><span class="score-badge">25 分</span></td>
-              <td>5 分</td>
-              <td>照片描述 + 觀點表達 + 角色扮演</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div style="background:var(--blue-light);border-left:4px solid var(--blue);padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:24px;font-size:0.9rem;color:var(--blue);">
-        <strong>⚠️ 重要：</strong>總分需達到 <strong>50/100</strong>，且每科均不得低於 <strong>5分</strong>，否則整個 DELF 視為不及格。
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <span class="feature-icon">🔬</span>
+          <h3>文法程度診斷</h3>
+          <p>20 題涵蓋 6 大文法重點，做完產出個人雷達圖，直接告訴你弱點在哪、該先補什麼。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">📖</span>
+          <h3>閱讀理解練習</h3>
+          <p>仿真練習題附詳解，包含解題步驟說明和常考詞彙，不只告訴你對錯，也告訴你為什麼。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">✍️</span>
+          <h3>書面表達練習</h3>
+          <p>範文模板、字數計算、評分標準拆解。兩種題型各有練習題，配備連接詞清單和常犯錯誤提醒。</p>
+        </div>
+
+        <div class="feature-card coming-soon">
+          <span class="coming-badge">即將推出</span>
+          <span class="feature-icon">📷</span>
+          <h3>作文 AI 批改</h3>
+          <p>上傳手寫稿照片或直接貼上文字，依 DELF 評分標準逐項分析，給出改善建議。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🎧</span>
+          <h3>聽力理解練習</h3>
+          <p>嵌入真實法語影片（RFI、TV5MONDE），搭配文化背景說明，讓你聽懂的不只是語言，還有語境。</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🗣️</span>
+          <h3>口語發音練習</h3>
+          <p>用瀏覽器內建語音辨識，說法語後即時顯示辨識率，不需要安裝任何軟體，完全免費。</p>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ===== TIPS ===== -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag gold">備考策略</div>
-        <h2>通過 B1 的 6 個關鍵技巧</h2>
-        <p>根據考試規則與考生經驗整理的高效備考方法。</p>
-      </div>
-      <div class="tips-grid">
-        <div class="tip-card">
-          <div class="tip-num">1</div>
-          <div>
-            <h4>先讀題目，再讀文章</h4>
-            <p>閱讀理解考試時，先快速閱覽所有問題，再有目的性地掃讀文章，節省大量時間。</p>
-          </div>
+  <!-- ===== 目標對象 ===== -->
+  <section class="audience-section">
+    <div class="audience-inner">
+      <div class="section-tag">這是為誰做的</div>
+      <h2>如果你有任何一條符合</h2>
+      <div class="audience-checks">
+        <div class="audience-check">
+          <div class="check-icon">✓</div>
+          <span>你有工作、課業或家庭責任，每天能學習的時間有限</span>
         </div>
-        <div class="tip-card">
-          <div class="tip-num">2</div>
-          <div>
-            <h4>寫作要用連接詞</h4>
-            <p>考官評分重視「篇章連貫性」，多用 Cependant、De plus、En revanche 等連接詞可有效提分。</p>
-          </div>
+        <div class="audience-check">
+          <div class="check-icon">✓</div>
+          <span>你沒有上正式法文課，主要靠網路、書本、AI 自學</span>
         </div>
-        <div class="tip-card">
-          <div class="tip-num">3</div>
-          <div>
-            <h4>聽力預讀題目</h4>
-            <p>錄音播放前會有準備時間，務必用來預讀題目並圈出關鍵字，預判聽力重點。</p>
-          </div>
+        <div class="audience-check">
+          <div class="check-icon">✓</div>
+          <span>你做完考試書，改完答案，但看不懂為什麼錯</span>
         </div>
-        <div class="tip-card">
-          <div class="tip-num">4</div>
-          <div>
-            <h4>口試不能沉默</h4>
-            <p>口語評分重視「溝通流暢度」，犯錯繼續說比停下來更好，可以用 Je veux dire... 來修正。</p>
-          </div>
+        <div class="audience-check">
+          <div class="check-icon">✓</div>
+          <span>你不確定自己現在的程度，以及離 B1 還差多遠</span>
         </div>
-        <div class="tip-card">
-          <div class="tip-num">5</div>
-          <div>
-            <h4>每科都要達到 5 分</h4>
-            <p>即使一科發揮極好，其他科不足 5 分也會整體不及格。每科都需均衡準備。</p>
-          </div>
-        </div>
-        <div class="tip-card">
-          <div class="tip-num">6</div>
-          <div>
-            <h4>用真實素材練習聽力</h4>
-            <p>多聽 RFI Savoirs、TV5MONDE 的簡易法語節目，比教科書錄音更接近真實考試語速。</p>
-          </div>
+        <div class="audience-check">
+          <div class="check-icon">✓</div>
+          <span>你有一個明確的終點：通過 DELF B1</span>
         </div>
       </div>
+      <p class="audience-closing">不管你是上班族、學生、全職爸媽，<br>還是任何時間有限但目標明確的人——這裡是為你做的。</p>
     </div>
   </section>
 
-  <!-- ===== RADAR SECTION ===== -->
-  <section class="section bg-gray">
+  <!-- ===== FINAL CTA ===== -->
+  <section class="final-cta">
     <div class="container">
-      <div class="section-header">
-        <div class="section-tag">能力雷達圖</div>
-        <h2>你目前的 B1 能力分布</h2>
-        <p>完成各模組練習後，雷達圖會自動更新。做<a href="levels/b1/grammar.html" style="color:var(--blue);font-weight:600;">文法診斷</a>後資料最準確。</p>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;max-width:800px;margin:0 auto;">
-        <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:24px;">
-          <canvas id="homeRadar" style="max-height:280px;"></canvas>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div id="radar-reading"  style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
-              <span>📖 閱讀理解</span><span id="r-read-val" style="color:var(--blue);">尚未練習</span>
-            </div>
-            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
-              <div id="r-read-bar" style="height:100%;border-radius:100px;background:var(--blue);width:0%;transition:width 1s ease;"></div>
-            </div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
-              <span>✍️ 書面表達</span><span id="r-write-val" style="color:var(--red);">尚未練習</span>
-            </div>
-            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
-              <div id="r-write-bar" style="height:100%;border-radius:100px;background:var(--red);width:0%;transition:width 1s ease;"></div>
-            </div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
-              <span>🎧 聽力理解</span><span id="r-listen-val" style="color:var(--gold);">尚未練習</span>
-            </div>
-            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
-              <div id="r-listen-bar" style="height:100%;border-radius:100px;background:var(--gold);width:0%;transition:width 1s ease;"></div>
-            </div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
-              <span>🗣️ 口語表達</span><span id="r-speak-val" style="color:#2E7D32;">尚未練習</span>
-            </div>
-            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
-              <div id="r-speak-bar" style="height:100%;border-radius:100px;background:#2E7D32;width:0%;transition:width 1s ease;"></div>
-            </div>
-          </div>
-          <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:0.85rem;font-weight:600;">
-              <span>🔬 文法程度</span><span id="r-grammar-val" style="color:#7B1FA2;">尚未診斷</span>
-            </div>
-            <div style="background:var(--gray-200);border-radius:100px;height:6px;overflow:hidden;">
-              <div id="r-grammar-bar" style="height:100%;border-radius:100px;background:#7B1FA2;width:0%;transition:width 1s ease;"></div>
-            </div>
-          </div>
-          <a href="levels/b1/grammar.html" class="btn btn-blue btn-sm" style="text-align:center;">🔬 做文法診斷更新圖表</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== PROGRESS ===== -->
-  <section class="section progress-section">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">學習進度</div>
-        <h2>你的 B1 備考進度</h2>
-        <p>追蹤每個模組的練習完成情況。</p>
-      </div>
-      <div class="progress-cards">
-        <div class="progress-card">
-          <div class="progress-label">📖 閱讀理解</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="prog-read" style="width:0%"></div>
-          </div>
-          <div class="progress-pct" id="pct-read">0% 完成</div>
-        </div>
-        <div class="progress-card">
-          <div class="progress-label">✍️ 書面表達</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill red" id="prog-write" style="width:0%"></div>
-          </div>
-          <div class="progress-pct" id="pct-write">0% 完成</div>
-        </div>
-        <div class="progress-card">
-          <div class="progress-label">🎧 聽力理解</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill gold" id="prog-listen" style="width:0%"></div>
-          </div>
-          <div class="progress-pct" id="pct-listen">0% 完成</div>
-        </div>
-        <div class="progress-card">
-          <div class="progress-label">🗣️ 口語表達</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill green" id="prog-speak" style="width:0%"></div>
-          </div>
-          <div class="progress-pct" id="pct-speak">0% 完成</div>
-        </div>
-      </div>
-      <div style="text-align:center;">
-        <button class="btn btn-blue btn-sm" onclick="resetProgress()">🔄 重置進度</button>
-        <span style="font-size:0.82rem;color:var(--gray-400);margin-left:12px;">進度儲存於瀏覽器本地</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CTA ===== -->
-  <section class="cta-banner">
-    <div class="container">
-      <h2>現在就開始備考</h2>
-      <p>從閱讀理解開始，逐步建立 B1 的全科實力。</p>
-      <div class="hero-actions">
-        <a href="levels/b1/reading.html" class="btn btn-primary">📖 閱讀理解練習</a>
-        <a href="levels/b1/writing.html" class="btn btn-outline">✍️ 書面表達練習</a>
+      <div class="section-tag" style="margin-bottom:16px;">開始備考</div>
+      <h2>先知道你現在在哪裡</h2>
+      <p class="sub">做一次文法診斷，找出你的弱點，再從那裡開始練習。</p>
+      <div class="final-cta-actions">
+        <a href="levels/b1/grammar.html" class="btn btn-blue" style="padding:14px 36px;font-size:1rem;">🔬 開始文法診斷</a>
+        <a href="levels/b1/reading.html" class="btn" style="border:1.5px solid var(--gray-200);color:var(--gray-600);padding:14px 36px;font-size:1rem;">瀏覽學習內容</a>
       </div>
     </div>
   </section>
@@ -379,7 +422,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <div class="logo">🇫🇷 DELF B1 備考</div>
-        <p>為台灣法語學習者設計的免費備考資源。<br>所有練習題均為仿真自創題，不包含 DELF 真實試題。</p>
+        <p>為有限時間、明確目標的自學者設計。<br>所有練習題均為仿真自創，不包含 DELF 真實試題。</p>
       </div>
       <div class="footer-col">
         <h4>學習模組</h4>
@@ -391,17 +434,16 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>備考資源</h4>
+        <h4>工具</h4>
         <ul>
           <li><a href="levels/b1/grammar.html">文法診斷</a></li>
           <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
-          <li><a href="#exam-overview">考試說明</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 DELF B1 備考 · 所有練習題為仿真自創，僅供學習使用</span>
-      <span>以考生視角出發 · 持續更新中 ✨</span>
+      <span>© 2026 DELF B1 備考 · 仿真自創內容，僅供學習使用</span>
+      <span>以考生視角出發 · 持續更新中</span>
     </div>
   </footer>
 
@@ -409,89 +451,6 @@
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
     }
-
-    const keys = { read: 'prog_read', write: 'prog_write', listen: 'prog_listen', speak: 'prog_speak' };
-
-    function loadProgress() {
-      Object.keys(keys).forEach(k => {
-        const val = parseInt(localStorage.getItem(keys[k])) || 0;
-        const bar = document.getElementById('prog-' + k);
-        const pct = document.getElementById('pct-' + k);
-        if (bar) bar.style.width = val + '%';
-        if (pct) pct.textContent = val + '% 完成';
-      });
-    }
-
-    function resetProgress() {
-      if (confirm('確定要重置所有進度嗎？')) {
-        ['prog_read','prog_write','prog_listen','prog_speak','prog_grammar','diag_score'].forEach(k => {
-          try { localStorage.removeItem(k); } catch(e){}
-        });
-        loadProgress();
-        initRadar();
-      }
-    }
-
-    // ---- Radar Chart ----
-    let radarChart = null;
-
-    function initRadar() {
-      const read    = parseInt(localStorage.getItem('prog_read'))    || 0;
-      const write   = parseInt(localStorage.getItem('prog_write'))   || 0;
-      const listen  = parseInt(localStorage.getItem('prog_listen'))  || 0;
-      const speak   = parseInt(localStorage.getItem('prog_speak'))   || 0;
-      const grammar = parseInt(localStorage.getItem('prog_grammar')) || 0;
-
-      // Update bar labels
-      const fmt = v => v > 0 ? v + '%' : '尚未練習';
-      const fmtG = v => v > 0 ? v + '%' : '尚未診斷';
-      document.getElementById('r-read-val').textContent    = fmt(read);
-      document.getElementById('r-write-val').textContent   = fmt(write);
-      document.getElementById('r-listen-val').textContent  = fmt(listen);
-      document.getElementById('r-speak-val').textContent   = fmt(speak);
-      document.getElementById('r-grammar-val').textContent = fmtG(grammar);
-      document.getElementById('r-read-bar').style.width    = read + '%';
-      document.getElementById('r-write-bar').style.width   = write + '%';
-      document.getElementById('r-listen-bar').style.width  = listen + '%';
-      document.getElementById('r-speak-bar').style.width   = speak + '%';
-      document.getElementById('r-grammar-bar').style.width = grammar + '%';
-
-      const ctx = document.getElementById('homeRadar');
-      if (!ctx) return;
-      if (radarChart) radarChart.destroy();
-      radarChart = new Chart(ctx, {
-        type: 'radar',
-        data: {
-          labels: ['閱讀理解','書面表達','聽力理解','口語表達','文法程度'],
-          datasets: [{
-            label: '你的程度',
-            data: [read, write, listen, speak, grammar],
-            backgroundColor: 'rgba(0,63,136,0.1)',
-            borderColor: '#003F88',
-            borderWidth: 2,
-            pointBackgroundColor: '#003F88',
-            pointRadius: 4,
-          },{
-            label: 'B1 目標',
-            data: [80,80,80,80,80],
-            backgroundColor: 'rgba(46,125,50,0.05)',
-            borderColor: 'rgba(46,125,50,0.35)',
-            borderWidth: 1.5,
-            borderDash: [4,4],
-            pointRadius: 0,
-          }]
-        },
-        options: {
-          scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 9 } }, pointLabels: { font: { size: 11, weight:'600' } } } },
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } },
-          responsive: true,
-        }
-      });
-    }
-
-    window.addEventListener('load', () => {
-      setTimeout(() => { loadProgress(); initRadar(); }, 300);
-    });
   </script>
 
 </body>
