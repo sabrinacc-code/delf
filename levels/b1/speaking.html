@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 口語表達練習 — 瀏覽器語音辨識練習法語發音、口試題型攻略、範例腳本。" />
+  <title>口語表達 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <style>
+    .speak-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .speak-card .part-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #E8F5E9;
+      color: #2E7D32;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 12px;
+    }
+
+    /* Voice recorder UI */
+    .recorder-box {
+      background: var(--gray-50);
+      border: 1.5px dashed var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      margin: 20px 0;
+      transition: all 0.2s;
+    }
+    .recorder-box.listening {
+      background: #FFF3E0;
+      border-color: #FF9800;
+    }
+    .recorder-box.has-result {
+      background: #E8F5E9;
+      border-color: #4CAF50;
+    }
+
+    .record-btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: none;
+      background: var(--blue);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(0,63,136,0.3);
+      margin-bottom: 12px;
+    }
+    .record-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,63,136,0.4); }
+    .record-btn.recording { background: var(--red); animation: pulse 1.2s infinite; }
+    .record-btn.recording::after {
+      content: '';
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid var(--red);
+      animation: ripple 1.2s infinite;
+    }
+    @keyframes pulse  { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    @keyframes ripple { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.5); opacity: 0; } }
+
+    .record-status { font-size: 0.85rem; color: var(--gray-400); font-weight: 500; }
+    .record-status.active { color: var(--red); font-weight: 600; }
+
+    .transcript-result {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 16px;
+      min-height: 80px;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      text-align: left;
+      color: var(--black);
+    }
+    .transcript-result .placeholder { color: var(--gray-400); font-style: italic; }
+
+    .score-display {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      text-align: left;
+    }
+    .score-display.show { display: block; }
+    .score-display .score-label { font-size: 0.8rem; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 12px; }
+    .score-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 0.85rem; }
+    .score-row .s-label { min-width: 90px; color: var(--gray-600); }
+    .score-row .s-bar { flex: 1; background: var(--gray-200); border-radius: 100px; height: 6px; overflow: hidden; }
+    .score-row .s-fill { height: 100%; border-radius: 100px; background: var(--blue); transition: width 0.8s ease; }
+    .score-row .s-val { font-weight: 700; color: var(--blue); min-width: 36px; text-align: right; }
+
+    /* Practice prompts */
+    .prompt-card {
+      background: var(--blue-light);
+      border: 1px solid rgba(0,63,136,0.15);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+    }
+    .prompt-card .prompt-label { font-size: 0.75rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .prompt-card .prompt-text { font-weight: 600; color: var(--black); line-height: 1.6; margin-bottom: 8px; }
+    .prompt-card .prompt-hint { font-size: 0.8rem; color: var(--gray-600); font-style: italic; }
+
+    .phrase-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .phrase-chip {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--blue);
+      font-weight: 500;
+    }
+    .phrase-chip:hover { background: var(--blue); color: var(--white); border-color: var(--blue); }
+
+    .speak-target {
+      background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+      border: 1px solid #A5D6A7;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 0.92rem;
+    }
+    .speak-target .target-label { font-size: 0.75rem; font-weight: 700; color: #2E7D32; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .speak-target .target-fr { font-weight: 600; color: #1B5E20; font-size: 1rem; margin-bottom: 4px; }
+    .speak-target .target-zh { font-size: 0.82rem; color: #388E3C; }
+    .speak-target .target-pron { font-size: 0.8rem; color: #558B2F; font-style: italic; margin-top: 4px; }
+
+    /* Checklist */
+    .check-list { list-style: none; }
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.88rem;
+    }
+    .check-list li:last-child { border-bottom: none; }
+    .check-list li input[type=checkbox] { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer; }
+
+    /* Browser support notice */
+    .browser-notice {
+      background: #FFF8E1;
+      border: 1px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 0.83rem;
+      color: #5D4037;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../../index.html" class="navbar-logo"><span class="flag">🇫🇷</span><span>DELF B1 備考</span></a>
+      <button class="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
+      <div class="navbar-links" id="navLinks">
+        <a href="../../index.html">首頁</a>
+        <a href="reading.html">閱讀理解</a>
+        <a href="writing.html">書面表達</a>
+        <a href="listening.html">聽力理解</a>
+        <a href="speaking.html" class="active">口語表達</a>
+        <a href="grammar.html">文法診斷</a>
+        <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero" style="background:linear-gradient(135deg,#2E7D32,#1B5E20);">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="../../index.html">首頁</a><span class="sep">›</span><span>口語表達</span>
+      </div>
+      <h1>🗣️ 口語表達</h1>
+      <p class="subtitle">Production orale — 瀏覽器語音練習 + 口試題型攻略 + 範例腳本</p>
+      <div class="page-hero-meta">
+        <div class="hero-meta-item"><span class="icon">⏱</span> 準備時間：15 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">🎤</span> 口試時間：15 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">🏆</span> 滿分：25 分</div>
+        <div class="hero-meta-item"><span class="icon">📱</span> 語音辨識練習</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <main class="content-main">
+
+      <!-- 考試說明 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:#E8F5E9;">📋</div>
+          <div><h2>口試三個部分說明</h2><div class="subtitle">每個部分的時間分配與評分重點</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;">
+          <div style="background:#E8F5E9;border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">1️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:#2E7D32;">Monologue suivi</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">描述一張圖片或情況，2–3 分鐘獨白</p>
+          </div>
+          <div style="background:#E8F5E9;border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">2️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:#2E7D32;">Exercice en interaction</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">與考官的角色扮演對話，模擬真實情境</p>
+          </div>
+          <div style="background:#E8F5E9;border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">3️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:#2E7D32;">Point de vue</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">針對議題表達個人觀點，3–4 分鐘</p>
+          </div>
+        </div>
+        <div style="background:var(--blue-light);border-left:4px solid var(--blue);padding:12px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.85rem;color:var(--blue);">
+          <strong>💡 重要：</strong>口語考試評分重視「溝通能力」而非「零錯誤」。說錯了繼續說比停下來更好——犯錯後可以用 <em>Je veux dire... / En fait... / C'est-à-dire...</em> 來修正。
+        </div>
+      </div>
+
+      <!-- 語音辨識練習 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:#E8F5E9;">🎤</div>
+          <div><h2>語音辨識練習</h2><div class="subtitle">用瀏覽器語音辨識檢測你的法語清晰度（免費，不需安裝任何軟體）</div></div>
+        </div>
+
+        <div class="browser-notice">
+          ⚠️ <strong>使用說明：</strong>此功能使用 Chrome / Edge 瀏覽器的內建語音辨識 API，<strong>請用 Chrome 或 Edge 開啟此頁面</strong>。Safari 及 Firefox 支援有限。點擊麥克風按鈕，說法語，系統會顯示辨識結果。辨識率越高代表你的發音越清晰。
+        </div>
+
+        <div id="speechNotSupported" style="display:none;background:var(--red-light);border-radius:var(--radius-sm);padding:14px;color:var(--red);font-size:0.88rem;margin-bottom:16px;">
+          ⚠️ 你的瀏覽器不支援語音辨識功能。請改用 Google Chrome 或 Microsoft Edge 開啟此頁面。
+        </div>
+
+        <!-- Target sentence picker -->
+        <div class="prompt-card">
+          <div class="prompt-label">🎯 選擇練習句子</div>
+          <div class="prompt-text" id="currentTarget">Bonjour, je m'appelle Sabrina et j'apprends le français depuis un an.</div>
+          <div class="prompt-hint">點下方按鈕換一個句子，然後按麥克風開始說</div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="setTarget(0)">自我介紹</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="setTarget(1)">描述圖片</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="setTarget(2)">表達意見</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="setTarget(3)">禮貌請求</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="setTarget(4)">談論過去</button>
+        </div>
+
+        <!-- Recorder UI -->
+        <div class="recorder-box" id="recorderBox">
+          <button class="record-btn" id="recordBtn" onclick="toggleRecording()">🎤</button>
+          <div class="record-status" id="recordStatus">點擊開始說法語</div>
+        </div>
+
+        <div class="transcript-result" id="transcriptResult">
+          <span class="placeholder">你說的內容會顯示在這裡...</span>
+        </div>
+
+        <div class="score-display" id="scoreDisplay" style="background:var(--gray-50);border:1px solid var(--gray-200);">
+          <div class="score-label">📊 辨識分析</div>
+          <div class="score-row">
+            <span class="s-label">辨識成功率</span>
+            <div class="s-bar"><div class="s-fill" id="scoreBar" style="width:0%"></div></div>
+            <span class="s-val" id="scoreVal">—</span>
+          </div>
+          <div id="feedbackMsg" style="font-size:0.83rem;color:var(--gray-600);margin-top:10px;"></div>
+        </div>
+
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);">
+          <div style="font-size:0.83rem;font-weight:700;color:var(--gray-600);margin-bottom:10px;">🔊 B1 口語常用起始句（點擊複製提示）</div>
+          <div class="phrase-bank">
+            <span class="phrase-chip" onclick="copyPhrase(this)">Selon moi...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Je pense que...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">D'un côté... d'un autre côté...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Ce qui m'intéresse, c'est...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Je voudrais vous parler de...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">En ce qui me concerne...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Il me semble que...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Pour conclure...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part 1: Monologue -->
+      <div class="speak-card">
+        <span class="part-badge">🖼 第一部分 Monologue suivi</span>
+        <h3 style="margin-bottom:6px;">照片描述練習</h3>
+        <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:18px;">考試中你有 15 分鐘準備，然後說 2–3 分鐘獨白描述一張照片並連結到一個社會議題。</p>
+
+        <div class="prompt-card">
+          <div class="prompt-label">📋 練習題目</div>
+          <div class="prompt-text">「Regardez cette photo et décrivez-la. Qu'est-ce que vous voyez ? Quel est le lien avec la vie moderne ? »<br><em>（看這張照片並描述它。你看到了什麼？它與現代生活有什麼關聯？）</em></div>
+          <div class="prompt-hint">💡 想像照片內容：一個人在咖啡廳裡用手機，旁邊有一本書放在桌上。</div>
+        </div>
+
+        <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;margin-bottom:16px;">
+          <strong style="color:#7B5E00;">📝 描述照片的結構（3段式）：</strong>
+          <ol style="list-style:decimal;padding-left:20px;margin-top:8px;line-height:1.9;color:var(--gray-800);">
+            <li><strong>描述畫面：</strong>Sur cette photo, je vois... / Au premier plan... / En arrière-plan...</li>
+            <li><strong>連結主題：</strong>Cette image me fait penser à... / Cela représente...</li>
+            <li><strong>表達看法：</strong>Selon moi, ... / Je pense que cette situation est...</li>
+          </ol>
+        </div>
+
+        <div class="speak-target">
+          <div class="target-label">💬 範例開場白</div>
+          <div class="target-fr">Sur cette photo, je vois une jeune femme assise dans un café. Elle tient son téléphone dans la main gauche, mais il y a aussi un livre ouvert sur la table devant elle.</div>
+          <div class="target-zh">在這張照片上，我看到一位年輕女性坐在咖啡廳裡。她左手拿著手機，但桌上還有一本打開的書。</div>
+        </div>
+
+        <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+          <strong>🔈 現在練習：</strong>用上方麥克風功能，照著範例嘗試說說看。目標是讓語音辨識能識別出你說的法語句子。
+        </div>
+      </div>
+
+      <!-- Part 2: Interaction -->
+      <div class="speak-card">
+        <span class="part-badge">🤝 第二部分 Exercice en interaction</span>
+        <h3 style="margin-bottom:6px;">角色扮演對話練習</h3>
+        <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:18px;">考試中你和考官扮演不同角色，模擬日常生活情境（投訴、詢問、協商等）。</p>
+
+        <div class="prompt-card">
+          <div class="prompt-label">📋 情境題目</div>
+          <div class="prompt-text">「Vous avez réservé une chambre d'hôtel pour 3 nuits. En arrivant, vous constatez que la chambre ne correspond pas à ce que vous avez commandé en ligne. Vous allez à la réception pour régler le problème.」</div>
+          <div class="prompt-hint">（你預訂了 3 晚酒店。抵達時，你發現房間與你在網上訂的不符。你去前台解決問題。）</div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAcc(this)">💬 查看範例對話腳本 <span class="accordion-chevron">▼</span></button>
+          <div class="accordion-body">
+            <div style="font-size:0.88rem;line-height:2;">
+              <p><strong style="color:#2E7D32;">Vous :</strong> Bonjour. J'ai une réservation au nom de Martin pour trois nuits, mais il y a un problème avec ma chambre.</p>
+              <p><strong style="color:var(--blue);">Réceptionniste :</strong> Bonjour, quel est le problème exactement ?</p>
+              <p><strong style="color:#2E7D32;">Vous :</strong> J'avais réservé une chambre avec vue sur la mer, mais la chambre qu'on m'a donnée donne sur le parking. C'est vraiment décevant.</p>
+              <p><strong style="color:var(--blue);">Réceptionniste :</strong> Je suis désolé(e) de l'entendre. Laissez-moi vérifier les disponibilités.</p>
+              <p><strong style="color:#2E7D32;">Vous :</strong> J'apprécierais beaucoup si vous pouviez m'upgrader. J'ai choisi cet hôtel précisément pour la vue.</p>
+              <p><strong style="color:var(--blue);">Réceptionniste :</strong> Je comprends. Il me semble qu'une chambre avec vue est disponible à partir de demain. Ce soir, je pourrais vous offrir une réduction de 20%.</p>
+              <p><strong style="color:#2E7D32;">Vous :</strong> D'accord, ça me convient. Merci beaucoup.</p>
+            </div>
+            <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:10px 12px;margin-top:12px;font-size:0.8rem;color:#7B5E00;">
+              <strong>⭐ 注意這些加分表達：</strong>C'est vraiment décevant（表達失望）、J'apprécierais beaucoup si...（禮貌條件式）、Il me semble que...（委婉表達）
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <div style="font-size:0.83rem;font-weight:700;color:var(--gray-600);margin-bottom:8px;">💬 投訴場景常用句</div>
+          <div class="phrase-bank">
+            <span class="phrase-chip" onclick="copyPhrase(this)">J'ai un problème avec...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Ce n'est pas ce que j'avais commandé.</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Je voudrais que vous...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Serait-il possible de... ?</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Je comprends, mais...</span>
+            <span class="phrase-chip" onclick="copyPhrase(this)">Pourriez-vous m'aider à résoudre ce problème ?</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Part 3: Point de vue -->
+      <div class="speak-card">
+        <span class="part-badge">💭 第三部分 Point de vue</span>
+        <h3 style="margin-bottom:6px;">觀點表達練習</h3>
+        <p style="font-size:0.85rem;color:var(--gray-600);margin-bottom:18px;">拿到題目後有 10 分鐘準備，然後發表 3–4 分鐘的意見，考官可以提問。</p>
+
+        <div class="prompt-card">
+          <div class="prompt-label">📋 口試題目示例</div>
+          <div class="prompt-text">「De nos jours, de plus en plus de personnes travaillent à distance, depuis chez elles. Quels sont, selon vous, les avantages et les inconvénients du télétravail ? »</div>
+          <div class="prompt-hint">（如今越來越多人在家遠端工作。你認為遠端工作的優缺點是什麼？）</div>
+        </div>
+
+        <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;font-size:0.85rem;">
+          <strong>📝 觀點題 3 分鐘口說架構：</strong>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:10px;line-height:1.9;">
+            <span style="color:var(--blue);font-weight:700;">0:00–0:30</span>
+            <span>開場 + 表明立場（Selon moi, le télétravail a des avantages et des inconvénients...）</span>
+            <span style="color:var(--blue);font-weight:700;">0:30–1:30</span>
+            <span>論點 1 優點 + 具體例子（D'une part, on économise du temps de transport...）</span>
+            <span style="color:var(--blue);font-weight:700;">1:30–2:30</span>
+            <span>論點 2 缺點 + 具體例子（D'autre part, il peut être difficile de séparer la vie pro et perso...）</span>
+            <span style="color:var(--blue);font-weight:700;">2:30–3:00</span>
+            <span>結論 + 個人建議（En conclusion, je pense qu'un équilibre est important...）</span>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-header" onclick="toggleAcc(this)">🔊 查看範例口說稿 <span class="accordion-chevron">▼</span></button>
+          <div class="accordion-body">
+            <div style="font-size:0.88rem;line-height:2;background:var(--gray-50);padding:14px;border-radius:var(--radius-sm);">
+              <p>Selon moi, le télétravail est une évolution importante du monde du travail moderne, avec des avantages réels mais aussi des défis à ne pas ignorer.</p>
+              <p>D'un côté, les avantages sont nombreux. On économise beaucoup de temps de transport, ce qui permet de consacrer plus de temps à la famille ou aux loisirs. De plus, on peut travailler dans un environnement plus calme, ce qui favorise la concentration.</p>
+              <p>D'un autre côté, le télétravail peut créer des problèmes. Par exemple, il est souvent difficile de séparer clairement la vie professionnelle et la vie personnelle. On peut aussi se sentir isolé et moins connecté avec ses collègues, ce qui nuit à la cohésion d'équipe.</p>
+              <p>En conclusion, je pense qu'un bon équilibre entre présentiel et télétravail est la solution idéale. Deux ou trois jours par semaine à domicile me semble raisonnable.</p>
+            </div>
+            <div style="background:#E8F5E9;padding:10px 12px;border-radius:0 0 var(--radius-sm) var(--radius-sm);font-size:0.8rem;color:#2E7D32;">
+              <strong>✅ 亮點分析：</strong>使用 D'un côté / D'un autre côté 對比結構、ce qui 關係子句、條件式「me semble raisonnable」，展示多樣文法能力。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 口試評分說明 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:#E8F5E9;">🏆</div>
+          <div><h2>口試評分說明</h2><div class="subtitle">考官用這 4 個面向給分</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:#2E7D32;margin-bottom:6px;">📌 任務完成</div>
+            <p style="color:var(--gray-600);">有沒有回應題目所有要求？說的內容夠不夠完整？</p>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:#2E7D32;margin-bottom:6px;">🔗 口語流暢度</div>
+            <p style="color:var(--gray-600);">說話是否流暢連貫？有沒有不自然的長停頓？</p>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:#2E7D32;margin-bottom:6px;">📚 詞彙與語法</div>
+            <p style="color:var(--gray-600);">詞彙是否多樣？語法結構是否正確複雜？</p>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:#2E7D32;margin-bottom:6px;">🗣 發音清晰度</div>
+            <p style="color:var(--gray-600);">發音是否讓人清楚理解？語調是否自然？</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <aside class="content-sidebar">
+      <div class="sidebar-widget">
+        <div class="widget-title">B1 學習模組</div>
+        <ul class="nav-list">
+          <li><a href="reading.html">📖 閱讀理解</a></li>
+          <li><a href="writing.html">✍️ 書面表達</a></li>
+          <li><a href="listening.html">🎧 聽力理解</a></li>
+          <li><a href="speaking.html" class="current">🗣️ 口語表達</a></li>
+          <li><a href="grammar.html">🔬 文法診斷</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget" style="background:#E8F5E9;border-color:#A5D6A7;">
+        <div class="widget-title" style="color:#2E7D32;border-color:#C8E6C9;">✅ 口試前檢查</div>
+        <ul class="check-list">
+          <li><input type="checkbox"> 準備好自我介紹（2 分鐘版本）</li>
+          <li><input type="checkbox"> 熟悉照片描述句型</li>
+          <li><input type="checkbox"> 練習投訴/協商對話</li>
+          <li><input type="checkbox"> 準備 3 個常見社會議題的觀點</li>
+          <li><input type="checkbox"> 練習用 Je veux dire... 修正自己</li>
+          <li><input type="checkbox"> 熟悉表達意見的連接詞</li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="widget-title">💡 口說備考建議</div>
+        <p style="font-size:0.83rem;color:var(--gray-800);line-height:1.7;">
+          每天對著手機或電腦說 5 分鐘法語，不管是自言自語、描述你看到的東西，還是唸出你學到的新句子。持續說比偶爾練習長時間更有效。
+        </p>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="widget-title">🔴 口試常見失分點</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:0.83rem;">
+          <div style="color:var(--red);">❌ 沉默超過 5 秒</div>
+          <div style="color:var(--gray-600);">→ 用「Euh... comment dire...」填補</div>
+          <div style="border-top:1px solid var(--gray-100);padding-top:8px;color:var(--red);">❌ 只說「Oui / Non」</div>
+          <div style="color:var(--gray-600);">→ 每個答案加上理由和例子</div>
+          <div style="border-top:1px solid var(--gray-100);padding-top:8px;color:var(--red);">❌ 語速太快或太慢</div>
+          <div style="color:var(--gray-600);">→ 語速自然，重要詞語稍微強調</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>所有模組都練習了嗎？</h2>
+      <p>先做文法診斷，找出你目前最需要強化的地方。</p>
+      <div class="hero-actions">
+        <a href="grammar.html" class="btn btn-primary">🔬 做文法診斷測驗</a>
+        <a href="mock-exam.html" class="btn btn-outline">📋 挑戰模擬考試</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>所有練習題均為仿真自創題，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="reading.html">閱讀理解</a></li>
+          <li><a href="writing.html">書面表達</a></li>
+          <li><a href="listening.html">聽力理解</a></li>
+          <li><a href="speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="grammar.html">文法診斷</a></li>
+          <li><a href="mock-exam.html">模擬考試</a></li>
+          <li><a href="../../index.html">返回首頁</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考</span>
+      <a href="../../index.html">← 返回首頁</a>
+    </div>
+  </footer>
+
+<script>
+function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  btn.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+// ============================================================
+// TARGET SENTENCES
+// ============================================================
+const targets = [
+  "Bonjour, je m'appelle Sabrina et j'apprends le français depuis un an.",
+  "Sur cette photo, je vois une jeune femme assise dans un café avec un téléphone.",
+  "Selon moi, les réseaux sociaux ont des avantages mais aussi des inconvénients importants.",
+  "Pourriez-vous m'aider à résoudre ce problème, s'il vous plaît ?",
+  "Quand j'étais enfant, je jouais souvent au parc avec mes amis.",
+];
+
+let currentTargetIdx = 0;
+function setTarget(idx) {
+  currentTargetIdx = idx;
+  document.getElementById('currentTarget').textContent = targets[idx];
+  document.getElementById('transcriptResult').innerHTML = '<span class="placeholder">你說的內容會顯示在這裡...</span>';
+  document.getElementById('scoreDisplay').classList.remove('show');
+  document.getElementById('recorderBox').className = 'recorder-box';
+}
+
+// ============================================================
+// WEB SPEECH API
+// ============================================================
+let recognition = null;
+let isRecording = false;
+
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    document.getElementById('speechNotSupported').style.display = 'block';
+    document.getElementById('recordBtn').disabled = true;
+    return false;
+  }
+  recognition = new SpeechRecognition();
+  recognition.lang = 'fr-FR';
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () => {
+    document.getElementById('recordStatus').textContent = '🔴 正在聆聽... 說完後自動停止';
+    document.getElementById('recordStatus').className = 'record-status active';
+    document.getElementById('recorderBox').className = 'recorder-box listening';
+    document.getElementById('recordBtn').className = 'record-btn recording';
+    document.getElementById('recordBtn').textContent = '⏹';
+    document.getElementById('transcriptResult').innerHTML = '<span class="placeholder" style="color:var(--red)">聆聽中...</span>';
+  };
+
+  recognition.onresult = (e) => {
+    let interim = '', final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const text = e.results[i][0].transcript;
+      if (e.results[i].isFinal) final += text;
+      else interim += text;
+    }
+    document.getElementById('transcriptResult').innerHTML = final || interim || '<span class="placeholder">...</span>';
+    if (final) analyzeResult(final.trim());
+  };
+
+  recognition.onerror = (e) => {
+    let msg = '辨識失敗，請再試一次';
+    if (e.error === 'no-speech') msg = '沒有偵測到聲音，請確認麥克風正常並靠近說話。';
+    if (e.error === 'not-allowed') msg = '麥克風被封鎖，請在瀏覽器允許麥克風存取。';
+    document.getElementById('transcriptResult').innerHTML = `<span style="color:var(--red)">⚠️ ${msg}</span>`;
+    stopRecording();
+  };
+
+  recognition.onend = () => stopRecording();
+  return true;
+}
+
+function stopRecording() {
+  isRecording = false;
+  document.getElementById('recordBtn').className = 'record-btn';
+  document.getElementById('recordBtn').textContent = '🎤';
+  document.getElementById('recordStatus').textContent = '點擊開始說法語';
+  document.getElementById('recordStatus').className = 'record-status';
+  document.getElementById('recorderBox').className = 'recorder-box';
+}
+
+function toggleRecording() {
+  if (!recognition && !initSpeechRecognition()) return;
+  if (isRecording) {
+    recognition.stop();
+    isRecording = false;
+  } else {
+    isRecording = true;
+    recognition.start();
+    document.getElementById('recorderBox').className = 'recorder-box listening';
+  }
+}
+
+function analyzeResult(spoken) {
+  const target = targets[currentTargetIdx];
+  // Simple similarity: count matching words
+  const spokenWords = spoken.toLowerCase().replace(/[,.'!?]/g,'').split(/\s+/);
+  const targetWords = target.toLowerCase().replace(/[,.'!?]/g,'').split(/\s+/);
+  let matches = 0;
+  spokenWords.forEach(w => { if (targetWords.includes(w)) matches++; });
+  const sim = Math.round((matches / Math.max(targetWords.length, 1)) * 100);
+  const capped = Math.min(sim, 100);
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const scoreBar = document.getElementById('scoreBar');
+  const scoreVal = document.getElementById('scoreVal');
+  const feedbackMsg = document.getElementById('feedbackMsg');
+
+  scoreDisplay.classList.add('show');
+  scoreDisplay.style.background = capped >= 70 ? '#E8F5E9' : capped >= 40 ? '#FFF8E1' : 'var(--red-light)';
+  scoreDisplay.style.border = `1px solid ${capped >= 70 ? '#A5D6A7' : capped >= 40 ? '#F9A825' : '#EF9A9A'}`;
+
+  setTimeout(() => {
+    scoreBar.style.width = capped + '%';
+    scoreBar.style.background = capped >= 70 ? '#4CAF50' : capped >= 40 ? '#F9A825' : '#C62828';
+  }, 100);
+
+  scoreVal.textContent = capped + '%';
+
+  if (capped >= 80) {
+    feedbackMsg.innerHTML = '🎉 <strong>發音清晰度優秀！</strong>辨識系統能清楚識別你說的法語，繼續保持。';
+    document.getElementById('recorderBox').className = 'recorder-box has-result';
+  } else if (capped >= 50) {
+    feedbackMsg.innerHTML = '👍 <strong>辨識成功，但可以更清晰。</strong>嘗試放慢語速，注意母音的開口度（surtout les sons [y], [ø], [œ]）。';
+  } else if (capped >= 20) {
+    feedbackMsg.innerHTML = '💪 <strong>有偵測到法語！</strong>建議對著目標句子一個字一個字唸，熟悉後再連起來說。';
+  } else {
+    feedbackMsg.innerHTML = '🔧 <strong>辨識率較低。</strong>可能是：1) 麥克風距離太遠 2) 環境太嘈雜 3) 發音需要加強。可以先對著 Google 翻譯聽發音，再模仿。';
+  }
+
+  try { localStorage.setItem('prog_speak', Math.max(capped, parseInt(localStorage.getItem('prog_speak'))||0)); } catch(e){}
+}
+
+function copyPhrase(el) {
+  const text = el.textContent;
+  document.getElementById('currentTarget').textContent = text;
+  currentTargetIdx = -1;
+  // Flash feedback
+  el.style.background = '#4CAF50';
+  el.style.color = '#fff';
+  el.style.borderColor = '#4CAF50';
+  setTimeout(() => {
+    el.style.background = '';
+    el.style.color = '';
+    el.style.borderColor = '';
+  }, 600);
+}
+
+// Init on load
+window.addEventListener('load', () => { initSpeechRecognition(); });
+</script>
+</body>
+</html>

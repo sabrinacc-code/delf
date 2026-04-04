@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 聽力理解練習 — 真實法語影片練習、文化背景說明、解題策略，有效備考法語檢定。" />
+  <title>聽力理解 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <style>
+    .video-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .video-header {
+      padding: 20px 24px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .video-header h3 { font-size: 1.05rem; margin-bottom: 4px; }
+    .video-header .fr-title { font-size: 0.82rem; color: var(--gray-400); font-style: italic; margin-bottom: 10px; }
+    .level-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--gold-light);
+      color: #7B5E00;
+      flex-shrink: 0;
+    }
+    .video-embed-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      margin: 16px 24px;
+      border-radius: var(--radius-sm);
+      background: #000;
+    }
+    .video-embed-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+    .video-body { padding: 0 24px 24px; }
+
+    .culture-note {
+      background: var(--gold-light);
+      border: 1px solid #F9A825;
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+    }
+    .culture-note .cn-title {
+      font-weight: 700;
+      color: #7B5E00;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .culture-note ul { list-style: none; }
+    .culture-note ul li {
+      display: flex;
+      gap: 8px;
+      padding: 3px 0;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+    .culture-note ul li::before { content: "🔖"; flex-shrink: 0; }
+
+    .listen-strategy {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+    }
+    .listen-strategy strong { color: var(--blue); }
+
+    .listen-q { margin-bottom: 18px; }
+    .listen-q-num { font-size: 0.78rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 5px; }
+    .listen-q-text { font-weight: 600; font-size: 0.93rem; margin-bottom: 10px; }
+    .listen-opts { display: flex; flex-direction: column; gap: 7px; }
+    .listen-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: all 0.15s;
+    }
+    .listen-opt:hover { border-color: var(--gold); background: var(--gold-light); }
+    .listen-opt.correct { border-color: #2E7D32; background: #E8F5E9; }
+    .listen-opt.wrong   { border-color: var(--red); background: var(--red-light); }
+    .opt-letter { width: 24px; height: 24px; border-radius: 50%; background: var(--gray-100); color: var(--gray-600); font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .listen-opt.correct .opt-letter { background: #2E7D32; color: #fff; }
+    .listen-opt.wrong   .opt-letter { background: var(--red);  color: #fff; }
+
+    .vocab-pill {
+      display: inline-block;
+      background: var(--gray-100);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      margin: 3px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .vocab-pill:hover { background: var(--blue-light); color: var(--blue); }
+    .vocab-tooltip {
+      display: none;
+      position: fixed;
+      background: var(--black);
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      z-index: 9999;
+      pointer-events: none;
+      max-width: 200px;
+    }
+
+    .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 7px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--gray-600);
+      transition: all 0.15s;
+    }
+    .tab-btn.active { background: var(--gold); border-color: var(--gold); color: var(--white); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .transcript-box {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      font-size: 0.88rem;
+      line-height: 2;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .transcript-box .tr-speaker { font-weight: 700; color: var(--blue); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../../index.html" class="navbar-logo"><span class="flag">🇫🇷</span><span>DELF B1 備考</span></a>
+      <button class="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
+      <div class="navbar-links" id="navLinks">
+        <a href="../../index.html">首頁</a>
+        <a href="reading.html">閱讀理解</a>
+        <a href="writing.html">書面表達</a>
+        <a href="listening.html" class="active">聽力理解</a>
+        <a href="speaking.html">口語表達</a>
+        <a href="grammar.html">文法診斷</a>
+        <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero" style="background:linear-gradient(135deg,#7B5E00,#F57F17);">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="../../index.html">首頁</a><span class="sep">›</span><span>聽力理解</span>
+      </div>
+      <h1>🎧 聽力理解</h1>
+      <p class="subtitle">Compréhension de l'oral — 真實法語影片 + 文化背景說明 + 解題策略</p>
+      <div class="page-hero-meta">
+        <div class="hero-meta-item"><span class="icon">⏱</span> 考試時間：約 25 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">🏆</span> 滿分：25 分</div>
+        <div class="hero-meta-item"><span class="icon">🎵</span> 每段錄音聽兩遍</div>
+        <div class="hero-meta-item"><span class="icon">📝</span> 三段不同情境</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-layout">
+    <main class="content-main">
+
+      <!-- 解題策略 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--gold-light);">💡</div>
+          <div><h2>解題策略</h2><div class="subtitle">聽力測驗前中後的操作方式</div></div>
+        </div>
+        <div class="strategy-box">
+          <div class="strategy-title">⭐ 黃金三步驟</div>
+          <ul class="strategy-list">
+            <li><strong>播放前（1–2 分鐘）：</strong>利用準備時間快速讀題，圈出問題中的關鍵字（人名、地點、數字、時間），預判聽力會出現什麼資訊。</li>
+            <li><strong>第一遍：</strong>聽整體架構，抓大意，不要糾結聽不懂的單字，在題目旁邊做記號。</li>
+            <li><strong>第二遍：</strong>帶著問題精聽，確認第一遍的答案，特別注意數字、否定詞（ne...pas）、轉折詞。</li>
+          </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;">
+          <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:12px;font-size:0.83rem;">
+            <strong style="color:var(--red);">❌ 常犯錯誤</strong>
+            <ul style="list-style:disc;padding-left:16px;margin-top:6px;color:var(--gray-800);line-height:1.8;">
+              <li>聽到文中出現的字就選，但意思可能相反</li>
+              <li>第一遍就急著作答，第二遍反而錯亂</li>
+              <li>遇到不認識的單字就放棄，無法靠語境推測</li>
+            </ul>
+          </div>
+          <div style="background:#E8F5E9;border-radius:var(--radius-sm);padding:12px;font-size:0.83rem;">
+            <strong style="color:#2E7D32;">✅ 高分技巧</strong>
+            <ul style="list-style:disc;padding-left:16px;margin-top:6px;color:var(--gray-800);line-height:1.8;">
+              <li>注意語氣和語調，能幫助判斷正面/負面情緒</li>
+              <li>注意否定結構：ne...pas / ne...plus / ne...jamais</li>
+              <li>數字題用符號速記，別試圖寫完整單字</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 練習 1 — 日常對話 -->
+      <div class="video-card">
+        <div class="video-header">
+          <div>
+            <h3>練習一：日常對話 / 廣播節目</h3>
+            <div class="fr-title">Document 1 — Situation de la vie quotidienne</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span class="meta-tag gold">B1 程度</span>
+              <span class="meta-tag">真實法語</span>
+              <span class="meta-tag">約 2–3 分鐘</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-body" style="padding-top:16px;">
+
+          <div class="culture-note">
+            <div class="cn-title">🌍 文化背景：看這段影片前你需要知道的</div>
+            <ul>
+              <li><strong>RFI (Radio France Internationale)</strong> — 法國國際廣播電台，是 DELF 聽力常用素材，語速比日常對話略慢，清晰度高，非常適合練習。</li>
+              <li><strong>Journal en français facile</strong> — RFI 每日提供的簡易法語新聞，使用 B1–B2 等級詞彙，15 分鐘一集。</li>
+              <li><strong>法語新聞常見詞：</strong>le gouvernement（政府）、les élections（選舉）、le sommet（峰會）、en hausse/baisse（上升/下降）</li>
+            </ul>
+          </div>
+
+          <div class="listen-strategy">
+            <strong>📌 本段聽力練習說明：</strong>點擊下方 YouTube 影片收聽，先看題目預習關鍵字，聽完後回答問題。建議先不看文字稿聽兩遍，有困難再開文字稿輔助。
+          </div>
+
+          <!-- YouTube embed: RFI Journal en français facile -->
+          <div class="video-embed-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PLu7c6_m4OTpL_uSBF55hxhRsTaRi03mEN&start=0"
+              title="RFI Journal en français facile"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:0.83rem;color:var(--blue);margin-bottom:16px;">
+            💡 <strong>使用建議：</strong>選播放清單中最新的一集。先開影片，記下你聽到的關鍵詞（人名/地名/數字），然後到 RFI 網站查看原文 transcript 對照。
+          </div>
+
+          <!-- 練習題 -->
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('t1','questions')">❓ 練習題</button>
+            <button class="tab-btn" onclick="switchTab('t1','culture')">🌍 文化詞彙</button>
+            <button class="tab-btn" onclick="switchTab('t1','tips')">💡 備考小技巧</button>
+          </div>
+
+          <div id="t1-questions" class="tab-content active">
+            <p style="font-size:0.82rem;color:var(--gray-400);margin-bottom:12px;font-style:italic;">以下為仿真練習題，根據你聽到的 RFI 新聞內容回答（答案因每集內容不同而有所不同，以下為練習題格式示範）：</p>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型示範 1</div>
+              <div class="listen-q-text">在日常法語對話/廣播中，如果聽到「En revanche（相反地）」，後面的內容通常是？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 支持前面說法的理由</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">B</span> 與前面相反或對比的資訊</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">C</span> 重複前面說過的內容</div>
+              </div>
+            </div>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型示範 2</div>
+              <div class="listen-q-text">法語廣播中聽到「D'après les derniers chiffres...（根據最新數字...）」，這句話後面最可能是？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 主播的個人意見</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">B</span> 具體的數據或統計</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">C</span> 採訪某人的話語</div>
+              </div>
+            </div>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型示範 3</div>
+              <div class="listen-q-text">聽到「Il s'agit de...」時，這個句型是在做什麼？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 表達說話者的情緒</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">B</span> 詢問對方的意見</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">C</span> 介紹或說明一個主題</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="t1-culture" class="tab-content">
+            <div style="margin-bottom:14px;font-size:0.85rem;font-weight:600;color:var(--gray-600);">📻 法語廣播/新聞高頻詞彙（點擊查看中文）</div>
+            <div>
+              <span class="vocab-pill" onclick="showVocab(event,'首相')">le Premier ministre</span>
+              <span class="vocab-pill" onclick="showVocab(event,'總統')">le Président</span>
+              <span class="vocab-pill" onclick="showVocab(event,'選舉')">les élections</span>
+              <span class="vocab-pill" onclick="showVocab(event,'國會')">l\'Assemblée nationale</span>
+              <span class="vocab-pill" onclick="showVocab(event,'政府')">le gouvernement</span>
+              <span class="vocab-pill" onclick="showVocab(event,'通貨膨脹')">l\'inflation</span>
+              <span class="vocab-pill" onclick="showVocab(event,'罷工')">la grève</span>
+              <span class="vocab-pill" onclick="showVocab(event,'峰會')">le sommet</span>
+              <span class="vocab-pill" onclick="showVocab(event,'失業率')">le taux de chômage</span>
+              <span class="vocab-pill" onclick="showVocab(event,'國內生產總值')">le PIB</span>
+              <span class="vocab-pill" onclick="showVocab(event,'法案')">un projet de loi</span>
+              <span class="vocab-pill" onclick="showVocab(event,'歐盟')">l\'Union européenne</span>
+              <span class="vocab-pill" onclick="showVocab(event,'增加/提高')">en hausse</span>
+              <span class="vocab-pill" onclick="showVocab(event,'減少/下降')">en baisse</span>
+              <span class="vocab-pill" onclick="showVocab(event,'根據消息來源')">selon nos sources</span>
+            </div>
+          </div>
+
+          <div id="t1-tips" class="tab-content">
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+                <strong>🎯 每天 15 分鐘 RFI 練習法：</strong><br>
+                1. 播放最新一集 Journal en français facile<br>
+                2. 第一遍：只聽，在紙上記下你能抓到的字詞<br>
+                3. 第二遍：邊聽邊查看 RFI 網站的文字稿<br>
+                4. 圈出你完全沒聽到的單字，加入你的字彙清單
+              </div>
+              <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+                <strong>🔈 發音特殊現象（liason & élision）：</strong><br>
+                • <em>les enfants</em> 會唸成 /lez-ɑ̃fɑ̃/（連音）<br>
+                • <em>il n'est pas</em> 快速唸時 ne 常被省略 → il est pas<br>
+                • 口語中 <em>tu</em> 常縮成 <em>t'</em>：T'as vu ça ？
+              </div>
+              <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;color:var(--blue);">
+                <strong>📱 推薦 App：</strong>Radio France（免費）可以收聽 France Inter、France Culture 的節目，是最道地的法語聽力素材。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 練習 2 — 訪談/對話 -->
+      <div class="video-card">
+        <div class="video-header">
+          <div>
+            <h3>練習二：電視訪談 / 日常對話</h3>
+            <div class="fr-title">Document 2 — TV5MONDE 法語學習節目</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <span class="meta-tag gold">B1 程度</span>
+              <span class="meta-tag">清晰法語</span>
+              <span class="meta-tag">短片 2–5 分鐘</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-body" style="padding-top:16px;">
+          <div class="culture-note">
+            <div class="cn-title">🌍 文化背景：法國日常生活詞彙</div>
+            <ul>
+              <li><strong>la boulangerie</strong> — 麵包店，法國人幾乎每天早上去買 baguette（法國麵包），是日常生活的重要一環。</li>
+              <li><strong>la Sécu（Sécurité sociale）</strong> — 法國社會保障系統，類似健保，對話中常出現。</li>
+              <li><strong>le bac（baccalauréat）</strong> — 法國高中畢業考，重要人生轉折點，常在教育話題中提及。</li>
+              <li><strong>SNCF</strong> — 法國國鐵公司，交通/旅行主題一定會出現。</li>
+              <li><strong>le marché</strong> — 露天市場，法國文化重要場景，通常週末在廣場舉辦。</li>
+            </ul>
+          </div>
+
+          <div class="video-embed-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PLFn0KoAtkBiLZwPdV6YRBPVlmpkJcJkNx"
+              title="TV5MONDE - Apprendre le français"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+
+          <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:0.83rem;color:#7B5E00;margin-bottom:16px;">
+            💡 <strong>TV5MONDE 學習網站：</strong>每個影片都配有字幕和練習題，直接到 <strong>apprendre.tv5monde.com</strong> 選 B1 等級，有完整學習材料。
+          </div>
+
+          <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchTab('t2','questions')">❓ 練習題</button>
+            <button class="tab-btn" onclick="switchTab('t2','culture')">🏛 法國文化</button>
+            <button class="tab-btn" onclick="switchTab('t2','transcript')">📄 對話示例</button>
+          </div>
+
+          <div id="t2-questions" class="tab-content active">
+            <p style="font-size:0.82rem;color:var(--gray-400);margin-bottom:12px;font-style:italic;">以下為 B1 訪談類聽力常見題型，訓練你的判斷能力：</p>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型練習 1</div>
+              <div class="listen-q-text">訪談中說話者提到「C'est vrai que... mais...」，這個句型表達的是？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 完全同意對方的說法</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">B</span> 先承認一個觀點，再提出反駁</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">C</span> 表達強烈反對</div>
+              </div>
+            </div>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型練習 2</div>
+              <div class="listen-q-text">當說話者語速加快、語調升高時，通常代表？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 說話者很平靜</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">B</span> 說話者感到興奮或強調某個重點</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">C</span> 話題即將結束</div>
+              </div>
+            </div>
+
+            <div class="listen-q">
+              <div class="listen-q-num">題型練習 3</div>
+              <div class="listen-q-text">面試/訪談情境中，「Quels sont vos points forts ?」這個問題是在問？</div>
+              <div class="listen-opts">
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">A</span> 你的弱點是什麼</div>
+                <div class="listen-opt" onclick="listenOpt(this,false)"><span class="opt-letter">B</span> 你的工作經歷</div>
+                <div class="listen-opt" onclick="listenOpt(this,true)"><span class="opt-letter">C</span> 你的優點是什麼</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="t2-culture" class="tab-content">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.83rem;">
+                <div style="font-weight:700;color:var(--blue);margin-bottom:8px;">🥖 日常生活場景</div>
+                <ul style="list-style:none;line-height:1.9;">
+                  <li>chez le médecin — 看醫生</li>
+                  <li>à la poste — 在郵局</li>
+                  <li>à la banque — 在銀行</li>
+                  <li>en voiture — 開車/在車上</li>
+                  <li>au travail — 在工作</li>
+                </ul>
+              </div>
+              <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.83rem;">
+                <div style="font-weight:700;color:var(--blue);margin-bottom:8px;">😤 情緒表達詞彙</div>
+                <ul style="list-style:none;line-height:1.9;">
+                  <li>C'est incroyable ! — 太不可思議了！</li>
+                  <li>Je suis ravi(e) — 我很高興</li>
+                  <li>Ça m'énerve — 這讓我很煩</li>
+                  <li>Je suis déçu(e) — 我很失望</li>
+                  <li>C'est dommage — 真可惜</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="t2-transcript" class="tab-content">
+            <div style="font-size:0.82rem;color:var(--gray-400);margin-bottom:10px;">📄 B1 對話示例（訪談情境）— 仿真自創文字稿</div>
+            <div class="transcript-box">
+              <p><span class="tr-speaker">Journaliste :</span> Bonsoir et bienvenue dans notre émission. Ce soir, nous recevons Camille, qui a décidé de quitter son emploi de cadre pour ouvrir une boulangerie. Camille, qu'est-ce qui vous a motivée à faire ce grand changement ?</p>
+              <br>
+              <p><span class="tr-speaker">Camille :</span> Bonsoir. C'est vrai que ça peut paraître surprenant, mais j'ai toujours eu cette passion pour la boulangerie. Je me levais à cinq heures du matin pour faire du pain avant d'aller au bureau. Un jour, j'ai réalisé que je passais plus de temps à penser à la farine qu'aux réunions !</p>
+              <br>
+              <p><span class="tr-speaker">Journaliste :</span> Et vous n'aviez pas peur de tout perdre, financièrement parlant ?</p>
+              <br>
+              <p><span class="tr-speaker">Camille :</span> Bien sûr, c'était un risque. Mais j'avais économisé pendant trois ans et mon mari m'a soutenue. En revanche, ce que je n'avais pas prévu, c'était la difficulté à trouver un local abordable à Paris. Les loyers sont extrêmement élevés.</p>
+            </div>
+            <div style="background:var(--gold-light);border-radius:0 0 var(--radius-sm) var(--radius-sm);padding:10px 14px;font-size:0.8rem;color:#7B5E00;">
+              💡 <strong>注意這些 B1 重點詞彙：</strong>cadre（幹部/主管）、motivée（有動力的）、locaux（場地/店面）、abordable（負擔得起的）、les loyers（房租）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 聽力資源推薦 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--gold-light);">📚</div>
+          <div><h2>免費聽力資源完整清單</h2><div class="subtitle">從初學到 B1 的資源路徑</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">🎙 RFI Savoirs</div>
+            <p style="color:var(--gray-600);margin-bottom:8px;">savoirs.rfi.fr — B1 等級新聞，有文字稿和練習題</p>
+            <span class="meta-tag">免費</span> <span class="meta-tag score">★★★ 推薦</span>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">📺 TV5MONDE</div>
+            <p style="color:var(--gray-600);margin-bottom:8px;">apprendre.tv5monde.com — 有配字幕的影片，按等級分類</p>
+            <span class="meta-tag">免費</span> <span class="meta-tag score">★★★ 推薦</span>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">🎧 France Inter</div>
+            <p style="color:var(--gray-600);margin-bottom:8px;">franceinter.fr — 真實廣播，適合 B1+ 程度</p>
+            <span class="meta-tag">免費</span> <span class="meta-tag">進階</span>
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:6px;">🎬 InnerFrench</div>
+            <p style="color:var(--gray-600);margin-bottom:8px;">YouTube — 用法語說法語，清晰度佳，適合 B1</p>
+            <span class="meta-tag">免費</span> <span class="meta-tag score">★★★ 推薦</span>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <aside class="content-sidebar">
+      <div class="sidebar-widget">
+        <div class="widget-title">B1 學習模組</div>
+        <ul class="nav-list">
+          <li><a href="reading.html">📖 閱讀理解</a></li>
+          <li><a href="writing.html">✍️ 書面表達</a></li>
+          <li><a href="listening.html" class="current">🎧 聽力理解</a></li>
+          <li><a href="speaking.html">🗣️ 口語表達</a></li>
+          <li><a href="grammar.html">🔬 文法診斷</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-widget" style="background:var(--gold-light);border-color:#F9A825;">
+        <div class="widget-title" style="color:#7B5E00;border-color:#F9A825;">🏆 DELF 聽力三段說明</div>
+        <div style="font-size:0.83rem;color:var(--gray-800);">
+          <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(249,168,37,0.3);">
+            <strong>第一段（簡短錄音）</strong><br>
+            日常對話、電話、廣播通知，約 1 分鐘
+          </div>
+          <div style="margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(249,168,37,0.3);">
+            <strong>第二段（較長錄音）</strong><br>
+            廣播節目、訪談、報導，約 2–3 分鐘
+          </div>
+          <div>
+            <strong>第三段（文件類錄音）</strong><br>
+            廣告、電話留言、公告，需判斷資訊
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-widget">
+        <div class="widget-title">💡 每日練習計畫</div>
+        <div style="font-size:0.83rem;color:var(--gray-800);line-height:1.8;">
+          <strong style="color:var(--blue);">週一、三、五（15 分鐘）</strong><br>
+          聽一集 RFI Journal en français facile<br><br>
+          <strong style="color:var(--blue);">週二、四（20 分鐘）</strong><br>
+          TV5MONDE 影片 + 練習題<br><br>
+          <strong style="color:var(--blue);">週末（30 分鐘）</strong><br>
+          完整模擬聽力題（仿 DELF 格式）
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="cta-banner">
+    <div class="container">
+      <h2>聽力練習完了？</h2>
+      <p>接下來練習口語表達，用瀏覽器語音辨識測試你的法語發音。</p>
+      <div class="hero-actions">
+        <a href="speaking.html" class="btn btn-primary">🗣️ 口語表達練習</a>
+        <a href="grammar.html" class="btn btn-outline">🔬 做文法診斷</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>所有練習題均為仿真自創題，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="reading.html">閱讀理解</a></li>
+          <li><a href="writing.html">書面表達</a></li>
+          <li><a href="listening.html">聽力理解</a></li>
+          <li><a href="speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="grammar.html">文法診斷</a></li>
+          <li><a href="mock-exam.html">模擬考試</a></li>
+          <li><a href="../../index.html">返回首頁</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考</span>
+      <a href="../../index.html">← 返回首頁</a>
+    </div>
+  </footer>
+
+  <div class="vocab-tooltip" id="vocabTip"></div>
+
+  <script>
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+    function switchTab(group, tab) {
+      document.querySelectorAll(`[id^="${group}-"]`).forEach(el => el.classList.remove('active'));
+      document.getElementById(`${group}-${tab}`).classList.add('active');
+      // update buttons
+      const btns = document.getElementById(`${group}-${tab}`).closest('.video-body').querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    function listenOpt(el, isCorrect) {
+      if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+      const siblings = el.parentElement.querySelectorAll('.listen-opt');
+      siblings.forEach(s => {
+        const isThisCorrect = s.getAttribute('onclick') && s.getAttribute('onclick').includes('true');
+        if (isThisCorrect) s.classList.add('correct');
+        s.style.pointerEvents = 'none';
+      });
+      if (!isCorrect) el.classList.add('wrong');
+    }
+
+    function showVocab(e, meaning) {
+      const tip = document.getElementById('vocabTip');
+      tip.textContent = meaning;
+      tip.style.display = 'block';
+      tip.style.left = (e.pageX + 10) + 'px';
+      tip.style.top  = (e.pageY - 30) + 'px';
+      setTimeout(() => { tip.style.display = 'none'; }, 2000);
+    }
+  </script>
+</body>
+</html>

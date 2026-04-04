@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 文法診斷測驗 — 20 題找出你的文法弱點，針對性強化練習，加速通過法語檢定。" />
+  <title>文法診斷 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    /* ---- Diagnosis specific ---- */
+    .diag-intro {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      color: #fff;
+      border-radius: var(--radius-md);
+      padding: 32px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .diag-intro h2 { color: #fff; margin-bottom: 10px; }
+    .diag-intro p  { color: rgba(255,255,255,0.85); font-size: 0.95rem; max-width: 520px; margin: 0 auto 20px; }
+    .diag-meta { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 16px; }
+    .diag-meta-item { background: rgba(255,255,255,0.12); border-radius: var(--radius-sm); padding: 8px 18px; font-size: 0.85rem; font-weight: 600; }
+
+    /* Progress indicator */
+    .diag-progress-wrap { margin-bottom: 24px; }
+    .diag-progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--gray-600); margin-bottom: 8px; }
+    .diag-progress-bar { background: var(--gray-200); border-radius: 100px; height: 6px; overflow: hidden; }
+    .diag-progress-fill { height: 100%; background: var(--blue); border-radius: 100px; transition: width 0.4s ease; }
+
+    /* Question card */
+    .question-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .question-card.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .q-category {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 12px;
+      border-radius: 100px;
+      background: var(--blue-light);
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .q-number { font-size: 0.82rem; color: var(--gray-400); font-weight: 600; float: right; }
+    .q-sentence {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .q-sentence .blank {
+      display: inline-block;
+      min-width: 80px;
+      border-bottom: 2px solid var(--blue);
+      text-align: center;
+      font-weight: 700;
+      color: var(--blue);
+      padding: 0 4px;
+    }
+    .q-instruction { font-size: 0.82rem; color: var(--gray-400); margin-bottom: 18px; font-style: italic; }
+
+    .q-options { display: flex; flex-direction: column; gap: 10px; }
+    .q-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.92rem;
+      transition: all 0.15s;
+      background: var(--white);
+      user-select: none;
+    }
+    .q-opt:hover:not(.disabled) { border-color: var(--blue); background: var(--blue-light); }
+    .q-opt.selected  { border-color: var(--blue); background: var(--blue-light); }
+    .q-opt.correct   { border-color: #2E7D32 !important; background: #E8F5E9 !important; color: #1B5E20; }
+    .q-opt.wrong     { border-color: var(--red) !important; background: var(--red-light) !important; color: #7F0000; }
+    .q-opt.disabled  { cursor: default; }
+    .q-opt .opt-icon { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--gray-200); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; color: var(--gray-400); }
+    .q-opt.correct .opt-icon { background: #2E7D32; border-color: #2E7D32; color: #fff; }
+    .q-opt.wrong   .opt-icon { background: var(--red);  border-color: var(--red);  color: #fff; }
+    .q-opt.selected .opt-icon { border-color: var(--blue); color: var(--blue); }
+
+    .q-explanation {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+    .q-explanation.show { display: block; }
+    .q-explanation.correct-exp { background: #E8F5E9; border-left: 3px solid #2E7D32; }
+    .q-explanation.wrong-exp   { background: var(--red-light); border-left: 3px solid var(--red); }
+    .q-explanation .exp-label  { font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+
+    .q-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+    .q-nav-right { display: flex; gap: 10px; }
+
+    /* Results */
+    .results-panel {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .results-panel.show { display: block; }
+
+    .result-header {
+      background: linear-gradient(135deg, var(--blue), #1a237e);
+      color: #fff;
+      border-radius: var(--radius-md);
+      padding: 36px;
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .result-score-big {
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 1;
+      margin: 12px 0;
+    }
+    .result-score-big span { font-size: 1.8rem; opacity: 0.7; }
+    .result-level {
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+    .level-great  { background: #4CAF50; color: #fff; }
+    .level-ok     { background: var(--gold); color: #fff; }
+    .level-need   { background: var(--red); color: #fff; }
+
+    .result-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .breakdown-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .breakdown-card .cat-name { font-size: 0.78rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+    .breakdown-card .cat-score { font-size: 1.6rem; font-weight: 800; color: var(--blue); }
+    .breakdown-card .cat-total { font-size: 0.78rem; color: var(--gray-400); }
+    .breakdown-card .cat-bar { background: var(--gray-200); border-radius: 100px; height: 5px; margin-top: 8px; overflow: hidden; }
+    .breakdown-card .cat-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
+
+    .radar-wrap { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; }
+    .radar-wrap canvas { max-height: 300px; }
+
+    .weak-points { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; }
+    .weak-title  { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+    .weak-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .weak-item:last-child { border-bottom: none; }
+    .weak-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .weak-item h4 { font-size: 0.92rem; margin-bottom: 3px; }
+    .weak-item p  { font-size: 0.82rem; color: var(--gray-600); line-height: 1.6; }
+    .weak-cta { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; font-weight: 600; color: var(--blue); margin-top: 4px; }
+
+    /* Grammar reference cards */
+    .grammar-ref {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .grammar-ref h3 { font-size: 1rem; margin-bottom: 4px; }
+    .grammar-ref .fr-name { font-size: 0.82rem; color: var(--gray-400); font-style: italic; margin-bottom: 14px; }
+    .example-row { background: var(--gray-50); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; }
+    .example-row .ex-fr { font-weight: 600; color: var(--black); font-size: 0.9rem; margin-bottom: 3px; }
+    .example-row .ex-zh { font-size: 0.82rem; color: var(--gray-600); }
+    .example-row .ex-note { font-size: 0.78rem; color: var(--blue); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../../index.html" class="navbar-logo"><span class="flag">🇫🇷</span><span>DELF B1 備考</span></a>
+      <button class="nav-toggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
+      <div class="navbar-links" id="navLinks">
+        <a href="../../index.html">首頁</a>
+        <a href="reading.html">閱讀理解</a>
+        <a href="writing.html">書面表達</a>
+        <a href="listening.html">聽力理解</a>
+        <a href="speaking.html">口語表達</a>
+        <a href="grammar.html" class="active">文法診斷</a>
+        <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero" style="background:linear-gradient(135deg,#1a237e,#283593);">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="../../index.html">首頁</a><span class="sep">›</span><span>文法診斷</span>
+      </div>
+      <h1>🔬 B1 文法程度診斷</h1>
+      <p class="subtitle">20 題找出你的文法弱點，產出個人化學習建議</p>
+      <div class="page-hero-meta">
+        <div class="hero-meta-item"><span class="icon">📝</span> 20 道選擇題</div>
+        <div class="hero-meta-item"><span class="icon">⏱</span> 約 10–15 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">📊</span> 完成後出報告</div>
+        <div class="hero-meta-item"><span class="icon">💾</span> 結果存入進度</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:760px;margin:40px auto;padding:0 24px 80px;">
+
+    <!-- INTRO -->
+    <div class="diag-intro" id="diagIntro">
+      <h2>開始前先了解測驗方式</h2>
+      <p>這 20 題涵蓋 DELF B1 最常考的 6 個文法重點。做完後，系統會幫你找出弱點，告訴你應該優先加強哪個方向。</p>
+      <div class="diag-meta">
+        <span class="diag-meta-item">🔵 時態用法</span>
+        <span class="diag-meta-item">🟣 虛擬式</span>
+        <span class="diag-meta-item">🟡 代名詞</span>
+        <span class="diag-meta-item">🟠 關係子句</span>
+        <span class="diag-meta-item">🔴 條件式</span>
+        <span class="diag-meta-item">⚫ 被動式</span>
+      </div>
+      <button class="btn btn-primary" style="margin-top:24px;background:#fff;color:var(--blue);" onclick="startDiagnosis()">🚀 開始診斷測驗</button>
+    </div>
+
+    <!-- QUIZ SECTION -->
+    <div id="quizSection" style="display:none;">
+      <div class="diag-progress-wrap">
+        <div class="diag-progress-header">
+          <span id="progressLabel">題目 1 / 20</span>
+          <span id="progressPct">0%</span>
+        </div>
+        <div class="diag-progress-bar"><div class="diag-progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+      <div id="questionsContainer"></div>
+    </div>
+
+    <!-- RESULTS SECTION -->
+    <div class="results-panel" id="resultsPanel"></div>
+
+  </div>
+
+  <!-- GRAMMAR REFERENCE SECTION -->
+  <div style="background:var(--gray-50);padding:60px 0;">
+    <div style="max-width:760px;margin:0 auto;padding:0 24px;">
+      <div class="section-header">
+        <div class="section-tag">文法參考</div>
+        <h2>B1 最常考的 6 大文法重點</h2>
+        <p>台灣考生最容易出錯的地方，附例句說明。</p>
+      </div>
+
+      <!-- 1. 複合過去式 vs 未完成過去式 -->
+      <div class="grammar-ref">
+        <h3>1. 複合過去式 vs 未完成過去式</h3>
+        <div class="fr-name">Passé composé vs Imparfait — 最常考，最多人搞混</div>
+        <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:0.85rem;color:var(--blue);margin-bottom:12px;">
+          <strong>關鍵差異：</strong>複合過去式 = 完成的單次動作；未完成過去式 = 當時的狀態、習慣、背景
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Quand je suis arrivé, il <strong>pleuvait</strong>.</div>
+          <div class="ex-zh">我到的時候，（當時狀態）正在下雨。</div>
+          <div class="ex-note">💡 pleuvait（imparfait）= 當時的背景狀況</div>
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Hier, il <strong>a plu</strong> pendant deux heures.</div>
+          <div class="ex-zh">昨天下了兩個小時的雨。（完成的事件）</div>
+          <div class="ex-note">💡 a plu（passé composé）= 有明確時間的完成事件</div>
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Quand j'étais enfant, je <strong>jouais</strong> au foot tous les jours.</div>
+          <div class="ex-zh">我小時候，每天都踢足球。（過去的習慣）</div>
+          <div class="ex-note">💡 jouais（imparfait）= 過去重複的習慣</div>
+        </div>
+      </div>
+
+      <!-- 2. 虛擬式 -->
+      <div class="grammar-ref">
+        <h3>2. 虛擬式現在時</h3>
+        <div class="fr-name">Subjonctif présent — B1 考試必考，台灣考生失分重災區</div>
+        <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:12px 14px;font-size:0.85rem;color:var(--red);margin-bottom:12px;">
+          <strong>觸發虛擬式的常見結構：</strong>Il faut que / Je veux que / Bien que / Pour que / Il est important que...
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Il faut que tu <strong>fasses</strong> tes devoirs.</div>
+          <div class="ex-zh">你必須做功課。</div>
+          <div class="ex-note">💡 faire → que + je fasse / tu fasses / il fasse / nous fassions / vous fassiez / ils fassent</div>
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Bien qu'il <strong>soit</strong> fatigué, il continue à travailler.</div>
+          <div class="ex-zh">雖然他很累，但他繼續工作。</div>
+          <div class="ex-note">💡 bien que 後面永遠接虛擬式</div>
+        </div>
+        <div style="margin-top:12px;font-size:0.85rem;">
+          <strong>最不規則的虛擬式動詞（必背）：</strong>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;">
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">être → <strong>soit</strong></div>
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">avoir → <strong>ait</strong></div>
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">aller → <strong>aille</strong></div>
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">faire → <strong>fasse</strong></div>
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">pouvoir → <strong>puisse</strong></div>
+            <div style="background:var(--gray-100);border-radius:4px;padding:8px;font-size:0.82rem;">vouloir → <strong>veuille</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 條件式 -->
+      <div class="grammar-ref">
+        <h3>3. 條件式現在時</h3>
+        <div class="fr-name">Conditionnel présent — 用於假設、禮貌請求、建議</div>
+        <div class="example-row">
+          <div class="ex-fr">Si j'avais plus de temps, je <strong>voyagerais</strong> plus souvent.</div>
+          <div class="ex-zh">如果我有更多時間，我會更常旅行。</div>
+          <div class="ex-note">💡 si + imparfait → conditionnel présent（與現在相反的假設）</div>
+        </div>
+        <div class="example-row">
+          <div class="ex-fr"><strong>Pourriez</strong>-vous m'aider, s'il vous plaît ?</div>
+          <div class="ex-zh">請問您能幫助我嗎？（禮貌用語）</div>
+          <div class="ex-note">💡 conditionnel 讓請求語氣更禮貌，B1 書面表達常考</div>
+        </div>
+      </div>
+
+      <!-- 4. 關係代名詞 -->
+      <div class="grammar-ref">
+        <h3>4. 關係代名詞</h3>
+        <div class="fr-name">Pronoms relatifs : qui / que / dont / où</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:10px;font-size:0.83rem;">
+            <strong style="color:var(--blue);">qui</strong> = 主語（取代人或物）<br>
+            <span style="color:var(--gray-600);">L'homme qui parle est mon prof.</span>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:10px;font-size:0.83rem;">
+            <strong style="color:var(--blue);">que</strong> = 受詞（人或物）<br>
+            <span style="color:var(--gray-600);">Le livre que je lis est intéressant.</span>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:10px;font-size:0.83rem;">
+            <strong style="color:var(--blue);">dont</strong> = de + 名詞（from/about/whose）<br>
+            <span style="color:var(--gray-600);">Le film dont je parle est excellent.</span>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:10px;font-size:0.83rem;">
+            <strong style="color:var(--blue);">où</strong> = 地點或時間<br>
+            <span style="color:var(--gray-600);">La ville où j'habite est Lyon.</span>
+          </div>
+        </div>
+        <div style="background:var(--gold-light);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 4px 4px 0;font-size:0.83rem;color:#5D4037;">
+          <strong>⚠️ dont 的陷阱：</strong>如果動詞後面接 de（parler de, avoir besoin de, se souvenir de...），就用 dont 而不是 que。
+        </div>
+      </div>
+
+      <!-- 5. 人稱代名詞 -->
+      <div class="grammar-ref">
+        <h3>5. 直接受詞 vs 間接受詞代名詞</h3>
+        <div class="fr-name">Pronoms COD (le/la/les) vs COI (lui/leur)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <div>
+            <div style="font-weight:700;font-size:0.82rem;color:var(--blue);margin-bottom:6px;">直接受詞（COD）= 動詞直接接名詞</div>
+            <div class="example-row">
+              <div class="ex-fr">Je vois <u>Marie</u> → Je <strong>la</strong> vois.</div>
+              <div class="ex-zh">我看到她。</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:0.82rem;color:var(--red);margin-bottom:6px;">間接受詞（COI）= 動詞 + à + 名詞</div>
+            <div class="example-row">
+              <div class="ex-fr">Je parle <u>à Marie</u> → Je <strong>lui</strong> parle.</div>
+              <div class="ex-zh">我跟她說話。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 被動式 -->
+      <div class="grammar-ref">
+        <h3>6. 被動式</h3>
+        <div class="fr-name">Voix passive — être + participe passé (+ par)</div>
+        <div class="example-row">
+          <div class="ex-fr">Ce roman <strong>a été écrit</strong> par Victor Hugo.</div>
+          <div class="ex-zh">這部小說是由維克多·雨果所寫的。</div>
+          <div class="ex-note">💡 être 要根據時態變化，過去分詞要與主詞性數配合</div>
+        </div>
+        <div class="example-row">
+          <div class="ex-fr">Le projet <strong>sera terminé</strong> demain.</div>
+          <div class="ex-zh">這個計畫明天將會完成。</div>
+          <div class="ex-note">💡 未來時態的被動：sera（futur de être）+ terminé</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2>找到弱點了嗎？</h2>
+      <p>針對你的弱點進行練習是最有效的備考方式，回到各模組進行實戰練習。</p>
+      <div class="hero-actions">
+        <a href="writing.html" class="btn btn-primary">✍️ 書面表達練習</a>
+        <a href="reading.html" class="btn btn-outline">📖 閱讀理解練習</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>所有練習題均為仿真自創題，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="reading.html">閱讀理解</a></li>
+          <li><a href="writing.html">書面表達</a></li>
+          <li><a href="listening.html">聽力理解</a></li>
+          <li><a href="speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="grammar.html">文法診斷</a></li>
+          <li><a href="mock-exam.html">模擬考試</a></li>
+          <li><a href="../../index.html">返回首頁</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考</span>
+      <a href="../../index.html">← 返回首頁</a>
+    </div>
+  </footer>
+
+<script>
+function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+
+// ============================================================
+// QUIZ DATA — 20 questions across 6 grammar categories
+// ============================================================
+const CATEGORIES = {
+  TENSE:    { name: '時態用法', color: '#1565C0', emoji: '🔵' },
+  SUBJ:     { name: '虛擬式',   color: '#7B1FA2', emoji: '🟣' },
+  PRON:     { name: '代名詞',   color: '#F57F17', emoji: '🟡' },
+  REL:      { name: '關係子句', color: '#E65100', emoji: '🟠' },
+  COND:     { name: '條件式',   color: '#C62828', emoji: '🔴' },
+  PASSIVE:  { name: '被動式',   color: '#212121', emoji: '⚫' },
+};
+
+const QUESTIONS = [
+  // --- TENSE (4 questions) ---
+  {
+    id: 1, cat: 'TENSE',
+    sentence: 'Quand j\'étais enfant, je _____ au foot tous les samedis.',
+    instruction: '選擇正確的動詞形式',
+    options: ['jouais', 'ai joué', 'jouerai', 'joue'],
+    correct: 0,
+    explanation: '「每週六都踢球」是過去重複的習慣，使用未完成過去式 <strong>imparfait（jouais）</strong>。若用 passé composé（ai joué），表示某一次具體完成的事件。',
+  },
+  {
+    id: 2, cat: 'TENSE',
+    sentence: 'Hier, pendant que je lisais, quelqu\'un _____ à la porte.',
+    instruction: '選擇正確的動詞形式',
+    options: ['frappait', 'a frappé', 'frappera', 'frappe'],
+    correct: 1,
+    explanation: '「讀書」是背景（imparfait : lisais），「敲門」是打斷背景的單次事件，用 <strong>passé composé（a frappé）</strong>。這是 PC/Imparfait 最典型的搭配句型。',
+  },
+  {
+    id: 3, cat: 'TENSE',
+    sentence: 'À cette époque-là, les gens _____ sans électricité.',
+    instruction: '選擇正確的動詞形式',
+    options: ['ont vécu', 'vivaient', 'vivront', 'vivent'],
+    correct: 1,
+    explanation: '「那個年代人們的生活方式」是一段時期內的持續狀態，用 <strong>imparfait（vivaient）</strong>。passé composé 強調「完成了一件事」，不適合描述一段時期的狀況。',
+  },
+  {
+    id: 4, cat: 'TENSE',
+    sentence: 'Elle _____ trois fois au Japon depuis 2020.',
+    instruction: '選擇正確的動詞形式',
+    options: ['allait', 'est allée', 'irait', 'ira'],
+    correct: 1,
+    explanation: '「depuis 2020 到現在去了三次」是從過去到現在的累計次數，法語用 <strong>passé composé（est allée）</strong>，不像中文直覺上想用現在式。',
+  },
+
+  // --- SUBJONCTIF (4 questions) ---
+  {
+    id: 5, cat: 'SUBJ',
+    sentence: 'Il faut que vous _____ ce formulaire avant vendredi.',
+    instruction: '選擇正確的虛擬式形式',
+    options: ['remplissez', 'remplissiez', 'remplissant', 'remplir'],
+    correct: 1,
+    explanation: '「Il faut que」後面一定接虛擬式。<strong>remplissiez</strong> 是 remplir 的虛擬式 vous 形（= rempliss- + -iez）。注意不是直陳式的 remplissez。',
+  },
+  {
+    id: 6, cat: 'SUBJ',
+    sentence: 'Bien qu\'il _____ riche, il vit simplement.',
+    instruction: '選擇正確的虛擬式形式',
+    options: ['est', 'était', 'soit', 'sera'],
+    correct: 2,
+    explanation: '「Bien que（雖然）」是讓步連接詞，後面永遠接虛擬式。être 的虛擬式三人稱單數是 <strong>soit</strong>（不是 est/était）。',
+  },
+  {
+    id: 7, cat: 'SUBJ',
+    sentence: 'Je suis contente que tu _____ enfin me rejoindre.',
+    instruction: '選擇正確的虛擬式形式',
+    options: ['peux', 'pouvais', 'pourras', 'puisses'],
+    correct: 3,
+    explanation: '表達情感的結構（être content/heureux/triste que...）後面接虛擬式。pouvoir 的虛擬式 tu 形是 <strong>puisses</strong>。',
+  },
+  {
+    id: 8, cat: 'SUBJ',
+    sentence: 'Pour que la réunion _____ un succès, tout le monde doit coopérer.',
+    instruction: '選擇正確的虛擬式形式',
+    options: ['sera', 'est', 'soit', 'serait'],
+    correct: 2,
+    explanation: '「Pour que（為了讓...）」是目的連接詞，後面接虛擬式。être 的虛擬式是 <strong>soit</strong>。Pour que 後面永遠不會接直陳式或條件式。',
+  },
+
+  // --- PRONOMS (3 questions) ---
+  {
+    id: 9, cat: 'PRON',
+    sentence: 'J\'ai vu Marie hier. Je _____ ai expliqué la situation.',
+    instruction: 'Marie = 間接受詞（expliquer à quelqu\'un），選正確的代名詞',
+    options: ['la', 'lui', 'les', 'leur'],
+    correct: 1,
+    explanation: '「expliquer à quelqu\'un」= 間接受詞（COI）。Marie 是單數女性，COI 代名詞是 <strong>lui</strong>（不分男女）。la 是 COD，只有在「voir Marie → la voir」才用。',
+  },
+  {
+    id: 10, cat: 'PRON',
+    sentence: 'Ces fleurs sont belles ! Tu _____ as achetées où ?',
+    instruction: '選正確的代名詞（les fleurs = 複數直接受詞）',
+    options: ['lui', 'les', 'leur', 'la'],
+    correct: 1,
+    explanation: '「ces fleurs（這些花）」是複數直接受詞，COD 代名詞用 <strong>les</strong>。注意過去分詞 achetées 要與前置 COD les 配合，加 -es（複數陰性）。',
+  },
+  {
+    id: 11, cat: 'PRON',
+    sentence: 'Mes parents habitent à Paris. Je pense souvent _____ .',
+    instruction: '「penser à quelqu\'un」→ 使用重讀人稱代名詞',
+    options: ['les', 'leur', 'à eux', 'eux'],
+    correct: 2,
+    explanation: '「penser à」後面如果是人，要用「à + 重讀人稱代名詞」，不能縮寫成簡單代名詞。mes parents（他們）→ <strong>à eux</strong>。',
+  },
+
+  // --- RELATIFS (3 questions) ---
+  {
+    id: 12, cat: 'REL',
+    sentence: 'C\'est un film _____ j\'ai beaucoup entendu parler.',
+    instruction: '選正確的關係代名詞（parler de → dont）',
+    options: ['qui', 'que', 'dont', 'où'],
+    correct: 2,
+    explanation: '「parler de quelque chose」= 動詞後接 de。用關係代名詞替代時，de + 名詞 → <strong>dont</strong>。這是 dont 最典型的用法。',
+  },
+  {
+    id: 13, cat: 'REL',
+    sentence: 'Le café _____ je travaille tous les matins est très calme.',
+    instruction: '選正確的關係代名詞（地點）',
+    options: ['qui', 'que', 'dont', 'où'],
+    correct: 3,
+    explanation: '「le café」是地點，關係子句說的是「在哪裡工作」，用表示地點的關係代名詞 <strong>où</strong>。',
+  },
+  {
+    id: 14, cat: 'REL',
+    sentence: 'La personne _____ a appelé ce matin n\'a pas laissé de message.',
+    instruction: '選正確的關係代名詞（主語）',
+    options: ['que', 'qui', 'dont', 'où'],
+    correct: 1,
+    explanation: '關係子句的動詞（a appelé）缺主語，用表示主語的關係代名詞 <strong>qui</strong>。若缺受詞才用 que。判斷方式：看關係子句後面的動詞是否有主語。',
+  },
+
+  // --- CONDITIONNEL (3 questions) ---
+  {
+    id: 15, cat: 'COND',
+    sentence: 'Si j\'avais plus d\'argent, je _____ le tour du monde.',
+    instruction: '與現在事實相反的假設，選正確形式',
+    options: ['ferai', 'ferais', 'fasse', 'faisais'],
+    correct: 1,
+    explanation: '「si + imparfait → conditionnel présent」是與現在相反的假設公式。faire 的條件式一人稱單數是 <strong>ferais</strong>（fer- + -ais）。',
+  },
+  {
+    id: 16, cat: 'COND',
+    sentence: '_____ -vous me dire où se trouve la gare, s\'il vous plaît ?',
+    instruction: '禮貌請求，選正確動詞形式',
+    options: ['Pouvez', 'Pourriez', 'Puissiez', 'Pouviez'],
+    correct: 1,
+    explanation: '條件式用於禮貌請求，比直陳式更客氣。<strong>Pourriez</strong>-vous（您能...嗎？）是 B1 書面和口語中最常用的禮貌句型之一。',
+  },
+  {
+    id: 17, cat: 'COND',
+    sentence: 'Selon les prévisions, il _____ beau tout le week-end.',
+    instruction: '報導語氣（轉述未確認資訊），選正確形式',
+    options: ['fait', 'ferait', 'fasse', 'fera'],
+    correct: 1,
+    explanation: '用條件式轉述未確認的消息或預測（報導語氣）。「selon les prévisions（根據預報）」+ conditionnel 表示「據說、據報導」的意思。<strong>ferait</strong> 是 faire 的條件式。',
+  },
+
+  // --- PASSIVE (3 questions) ---
+  {
+    id: 18, cat: 'PASSIVE',
+    sentence: 'Ce tableau _____ par Picasso en 1907.',
+    instruction: '選正確的被動式形式',
+    options: ['peint', 'a peint', 'a été peint', 'était peint'],
+    correct: 2,
+    explanation: '「在 1907 年這個時間點完成的動作」→ 被動式 passé composé：être（au PC）+ participe passé。= <strong>a été peint</strong>（a été = passé composé de être）。',
+  },
+  {
+    id: 19, cat: 'PASSIVE',
+    sentence: 'Les résultats _____ annoncés demain matin.',
+    instruction: '選正確的被動式形式（未來）',
+    options: ['seront', 'sont', 'ont été', 'seraient'],
+    correct: 0,
+    explanation: '未來的被動式 = être（au futur）+ participe passé。les résultats 是複數陽性，<strong>seront annoncés</strong>（seront = futur de être，annoncés 複數配合主語）。',
+  },
+  {
+    id: 20, cat: 'PASSIVE',
+    sentence: 'La loi _____ votée par le parlement l\'année dernière.',
+    instruction: '選正確的被動式形式（過去）',
+    options: ['était', 'a été', 'avait été', 'sera'],
+    correct: 1,
+    explanation: '「去年這個具體事件完成」→ 被動式 passé composé：<strong>a été votée</strong>。la loi 是陰性單數，過去分詞加 -e（votée）。imparfait（était）表示持續狀態，不適合這裡。',
+  },
+];
+
+// ============================================================
+// QUIZ STATE
+// ============================================================
+let currentQ = 0;
+let answers   = new Array(QUESTIONS.length).fill(null);
+let answered  = new Array(QUESTIONS.length).fill(false);
+
+function startDiagnosis() {
+  document.getElementById('diagIntro').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'block';
+  renderQuestion(0);
+}
+
+function renderQuestion(idx) {
+  currentQ = idx;
+  const container = document.getElementById('questionsContainer');
+  const q = QUESTIONS[idx];
+  const cat = CATEGORIES[q.cat];
+  const isAnswered = answered[idx];
+  const userAns = answers[idx];
+
+  updateProgress(idx);
+
+  container.innerHTML = `
+    <div class="question-card active" id="qCard${idx}">
+      <div>
+        <span class="q-category" style="background:${cat.color}20;color:${cat.color}">
+          ${cat.emoji} ${cat.name}
+        </span>
+        <span class="q-number">題目 ${idx + 1} / ${QUESTIONS.length}</span>
+      </div>
+      <div class="q-sentence">${q.sentence.replace('_____', '<span class="blank">_____</span>')}</div>
+      <div class="q-instruction">💡 ${q.instruction}</div>
+      <div class="q-options" id="opts${idx}">
+        ${q.options.map((opt, i) => `
+          <div class="q-opt ${isAnswered ? 'disabled' : ''} ${isAnswered && i === q.correct ? 'correct' : ''} ${isAnswered && userAns === i && i !== q.correct ? 'wrong' : ''} ${isAnswered && userAns === i && i === q.correct ? 'correct' : ''}"
+               onclick="${isAnswered ? '' : `selectAnswer(${idx},${i})`}">
+            <div class="opt-icon">${isAnswered ? (i === q.correct ? '✓' : (userAns === i ? '✗' : String.fromCharCode(65+i))) : String.fromCharCode(65+i)}</div>
+            <span>${opt}</span>
+          </div>
+        `).join('')}
+      </div>
+      ${isAnswered ? `
+        <div class="q-explanation show ${userAns === q.correct ? 'correct-exp' : 'wrong-exp'}">
+          <div class="exp-label">${userAns === q.correct ? '✅ 答對了！' : '❌ 答錯了'}</div>
+          <div>${q.explanation}</div>
+        </div>
+      ` : ''}
+      <div class="q-nav">
+        <div>
+          ${idx > 0 ? `<button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600)" onclick="renderQuestion(${idx-1})">← 上一題</button>` : ''}
+        </div>
+        <div class="q-nav-right">
+          ${isAnswered && idx < QUESTIONS.length - 1 ? `<button class="btn btn-blue btn-sm" onclick="renderQuestion(${idx+1})">下一題 →</button>` : ''}
+          ${isAnswered && idx === QUESTIONS.length - 1 ? `<button class="btn btn-blue btn-sm" onclick="showResults()">📊 查看診斷結果</button>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function selectAnswer(qIdx, optIdx) {
+  if (answered[qIdx]) return;
+  answers[qIdx] = optIdx;
+  answered[qIdx] = true;
+  renderQuestion(qIdx);
+}
+
+function updateProgress(idx) {
+  const pct = Math.round((idx / QUESTIONS.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `題目 ${idx + 1} / ${QUESTIONS.length}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+function showResults() {
+  document.getElementById('quizSection').style.display = 'none';
+  const panel = document.getElementById('resultsPanel');
+  panel.classList.add('show');
+
+  // Score by category
+  const catScores = {};
+  Object.keys(CATEGORIES).forEach(k => { catScores[k] = { correct: 0, total: 0 }; });
+  QUESTIONS.forEach((q, i) => {
+    catScores[q.cat].total++;
+    if (answers[i] === q.correct) catScores[q.cat].correct++;
+  });
+
+  const totalCorrect = QUESTIONS.filter((q,i) => answers[i] === q.correct).length;
+  const totalPct = Math.round((totalCorrect / QUESTIONS.length) * 100);
+
+  let levelClass = 'level-need', levelText = '需要加強基礎';
+  if (totalPct >= 80) { levelClass = 'level-great'; levelText = '接近 B1 水準 🎉'; }
+  else if (totalPct >= 60) { levelClass = 'level-ok'; levelText = '有基礎，需補強弱點'; }
+
+  // Find weak points
+  const weakPoints = Object.entries(catScores)
+    .map(([k, v]) => ({ key: k, pct: v.total > 0 ? Math.round((v.correct/v.total)*100) : 0, ...v }))
+    .sort((a,b) => a.pct - b.pct);
+
+  const weakItems = weakPoints.slice(0, 3);
+
+  const adviceMap = {
+    TENSE:   { tip: '每天練習一組 PC vs Imparfait 句子，試著分辨「完成事件」vs「背景狀態」。', link: 'writing.html', linkText: '書面表達練習' },
+    SUBJ:    { tip: '背下 10 個觸發虛擬式的結構（il faut que / bien que...），和 6 個不規則虛擬式動詞。', link: 'writing.html', linkText: '書面表達練習' },
+    PRON:    { tip: '練習替換：先找動詞，判斷是「動詞直接接」→ COD，還是「動詞 + à + 人」→ COI。', link: 'reading.html', linkText: '閱讀理解練習' },
+    REL:     { tip: '記住 dont = de + 名詞，où = 地點/時間，qui = 主語，que = 受語，背對應表。', link: 'reading.html', linkText: '閱讀理解練習' },
+    COND:    { tip: '熟記公式：si + imparfait → conditionnel。練習把直陳式句子改寫成禮貌句型。', link: 'speaking.html', linkText: '口語表達練習' },
+    PASSIVE: { tip: '練習把主動句改被動句，注意 être 的時態變化和過去分詞的性數配合。', link: 'writing.html', linkText: '書面表達練習' },
+  };
+
+  panel.innerHTML = `
+    <div class="result-header">
+      <div style="font-size:1rem;opacity:0.8;margin-bottom:4px;">診斷完成！你的 B1 文法程度</div>
+      <div class="result-score-big">${totalCorrect}<span> / ${QUESTIONS.length}</span></div>
+      <div class="result-score-big" style="font-size:2rem;margin-top:0;">${totalPct}%</div>
+      <span class="result-level ${levelClass}">${levelText}</span>
+    </div>
+
+    <div class="result-breakdown">
+      ${Object.entries(catScores).map(([k,v]) => {
+        const pct = v.total > 0 ? Math.round((v.correct/v.total)*100) : 0;
+        const fillColor = pct >= 80 ? '#4CAF50' : pct >= 60 ? '#F9A825' : '#C62828';
+        return `
+          <div class="breakdown-card">
+            <div class="cat-name">${CATEGORIES[k].emoji} ${CATEGORIES[k].name}</div>
+            <div class="cat-score">${v.correct}</div>
+            <div class="cat-total">/ ${v.total} 題</div>
+            <div class="cat-bar"><div class="cat-fill" style="width:${pct}%;background:${fillColor}"></div></div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="radar-wrap">
+      <div style="font-weight:700;font-size:0.9rem;margin-bottom:16px;color:var(--gray-600);">📊 能力雷達圖</div>
+      <canvas id="radarChart"></canvas>
+    </div>
+
+    <div class="weak-points">
+      <div class="weak-title">🎯 你的優先補強項目</div>
+      ${weakItems.map(item => `
+        <div class="weak-item">
+          <div class="weak-icon">${item.pct < 50 ? '🚨' : item.pct < 75 ? '⚠️' : '✅'}</div>
+          <div>
+            <h4>${CATEGORIES[item.key].name} — ${item.correct}/${item.total} 題（${item.pct}%）</h4>
+            <p>${adviceMap[item.key].tip}</p>
+            <a href="${adviceMap[item.key].link}" class="weak-cta">→ ${adviceMap[item.key].linkText}</a>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <button class="btn btn-blue" onclick="retakeDiagnosis()">🔄 重新測驗</button>
+      <a href="../../index.html" class="btn" style="border:1.5px solid var(--gray-200);color:var(--gray-600);margin-left:10px;">← 返回首頁</a>
+    </div>
+  `;
+
+  // Draw radar chart
+  setTimeout(() => {
+    const labels = Object.values(CATEGORIES).map(c => c.name);
+    const data   = Object.entries(catScores).map(([,v]) => v.total > 0 ? Math.round((v.correct/v.total)*100) : 0);
+    const ctx = document.getElementById('radarChart');
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels,
+        datasets: [{
+          label: '你的程度 (%)',
+          data,
+          backgroundColor: 'rgba(0,63,136,0.12)',
+          borderColor: '#003F88',
+          borderWidth: 2,
+          pointBackgroundColor: '#003F88',
+          pointRadius: 4,
+        },{
+          label: 'B1 目標',
+          data: [80,80,80,80,80,80],
+          backgroundColor: 'rgba(46,125,50,0.06)',
+          borderColor: 'rgba(46,125,50,0.4)',
+          borderWidth: 1.5,
+          borderDash: [5,5],
+          pointRadius: 0,
+        }]
+      },
+      options: {
+        scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 10 } }, pointLabels: { font: { size: 12, weight: '600' } } } },
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+        responsive: true,
+      }
+    });
+
+    // Save to localStorage
+    try {
+      localStorage.setItem('diag_score', totalPct);
+      localStorage.setItem('diag_detail', JSON.stringify(
+        Object.fromEntries(Object.entries(catScores).map(([k,v]) => [k, Math.round((v.correct/v.total)*100)]))
+      ));
+      localStorage.setItem('prog_grammar', totalPct);
+    } catch(e) {}
+  }, 100);
+}
+
+function retakeDiagnosis() {
+  currentQ = 0;
+  answers  = new Array(QUESTIONS.length).fill(null);
+  answered = new Array(QUESTIONS.length).fill(false);
+  document.getElementById('resultsPanel').classList.remove('show');
+  document.getElementById('resultsPanel').innerHTML = '';
+  document.getElementById('quizSection').style.display = 'block';
+  renderQuestion(0);
+}
+</script>
+</body>
+</html>
