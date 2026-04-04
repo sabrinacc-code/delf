@@ -1,0 +1,77 @@
+/* ============================================================
+   主題色：薰衣草灰 Muted Lavender (Option D)
+   主色 #7A6E8C · 淺色 #EEEAF4 · 輔色 #8C7A6A（暖棕）
+   ============================================================ */
+
+:root {
+  --blue:        #7A6E8C;
+  --blue-mid:    #9080A0;
+  --blue-light:  #EEEAF4;
+
+  --gold:        #8C7A6A;
+  --gold-light:  #F5F0EB;
+
+  --red:         #A05060;
+  --red-light:   #F9EEF1;
+}
+
+/* ---- Hero / CTA 漸層 ---- */
+.hero {
+  background: linear-gradient(135deg, #3D3350 0%, #2E2640 60%, #4A3F5C 100%);
+}
+.cta-banner {
+  background: linear-gradient(135deg, #3D3350, #2E2640);
+}
+
+/* ---- Navbar ---- */
+.navbar-links a.active     { background: #EEEAF4; color: #7A6E8C; }
+.navbar-cta                { background: #7A6E8C !important; }
+.navbar-cta:hover          { background: #9080A0 !important; }
+
+/* ---- Module cards ---- */
+.module-card::before       { background: #7A6E8C; }
+.module-card:hover         { border-color: #7A6E8C; }
+.module-card .module-icon  { background: #EEEAF4; }
+
+/* ---- Score badge ---- */
+.score-badge               { background: #7A6E8C; }
+
+/* ---- Buttons ---- */
+.btn-blue                  { background: #7A6E8C; }
+.btn-blue:hover            { background: #9080A0; }
+.btn-primary               { color: #3D3350; }
+
+/* ---- Progress bars ---- */
+.progress-bar-fill         { background: #7A6E8C; }
+
+/* ---- Sidebar current link ---- */
+.nav-list li a.current     { background: #7A6E8C; }
+
+/* ---- Section tags ---- */
+.section-tag               { background: #EEEAF4; color: #7A6E8C; }
+.section-tag.gold          { background: #F5F0EB; color: #6B5A50; }
+
+/* ---- Exam table ---- */
+.exam-table th             { background: #4A3F5C; }
+.exam-table tr:hover td    { background: #EEEAF4; }
+
+/* ---- Tip numbers ---- */
+.tip-num                   { background: #7A6E8C; }
+
+/* ---- Strategy box ---- */
+.strategy-box              { background: #F5F0EB; border-color: #8C7A6A; }
+.strategy-box .strategy-title { color: #5C4A3A; }
+.strategy-list li::before  { color: #8C7A6A; }
+
+/* ---- Accordion ---- */
+.accordion-header.open     { background: #7A6E8C; }
+
+/* ---- Exercise intro ---- */
+.exercise-intro            { background: #EEEAF4; border-left-color: #7A6E8C; color: #4A3F5C; }
+
+/* ---- Meta tags ---- */
+.meta-tag.score            { background: #EEEAF4; color: #7A6E8C; }
+.module-card a.card-link   { color: #7A6E8C; }
+
+/* ---- Page hero (inner pages) — 各模組頁頂部保持原色彩，只改默認色 ---- */
+.page-hero                 { background: linear-gradient(135deg, #3D3350, #2E2640); }
