@@ -24,9 +24,12 @@
 }
 
 /* ---- Navbar ---- */
-.navbar-links a.active     { background: #EEEAF4; color: #7A6E8C; }
-.navbar-cta                { background: #7A6E8C !important; }
-.navbar-cta:hover          { background: #9080A0 !important; }
+.navbar-links a.active         { background: #EEEAF4; color: #7A6E8C; }
+.navbar-cta                    { background: #7A6E8C !important; }
+.navbar-cta:hover              { background: #9080A0 !important; }
+.navbar-cta-secondary          { border: 1.5px solid #7A6E8C !important; color: #7A6E8C !important; background: transparent !important; border-radius: 6px; padding: 5px 14px; font-weight: 600; font-size: 0.85rem; }
+.navbar-cta-secondary:hover    { background: #EEEAF4 !important; }
+.navbar-cta-secondary.active   { background: #EEEAF4 !important; }
 
 /* ---- Module cards ---- */
 .module-card::before       { background: #7A6E8C; }
