@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 書面表達練習 — 仿真考題、範文模板、評分標準說明，幫助你有效提升法語寫作能力。" />
+  <title>書面表達 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+  <style>
+    .rubric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .rubric-item {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      font-size: 0.85rem;
+    }
+    .rubric-title { font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+    .rubric-pts  { font-size: 1.1rem; font-weight: 800; color: var(--blue); }
+
+    .template-box {
+      background: #F3F8FF;
+      border: 1.5px dashed var(--blue);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      font-size: 0.88rem;
+      line-height: 2;
+      margin-bottom: 16px;
+    }
+    .template-box .ph {
+      background: #FFF8E1;
+      border: 1px solid var(--gold);
+      border-radius: 4px;
+      padding: 1px 8px;
+      font-style: italic;
+      color: #7B5E00;
+      white-space: nowrap;
+    }
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .phrase-item {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+    }
+    .phrase-fr { font-weight: 600; color: var(--blue); margin-bottom: 3px; }
+    .phrase-zh { color: var(--gray-600); font-size: 0.8rem; }
+
+    .writing-area {
+      width: 100%;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      resize: vertical;
+      color: var(--black);
+      transition: border-color var(--transition);
+      min-height: 200px;
+    }
+    .writing-area:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,63,136,0.08);
+    }
+    .word-count-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin-top: 8px;
+    }
+    .word-count-bar .count { font-weight: 700; }
+    .word-count-bar .count.ok   { color: #2E7D32; }
+    .word-count-bar .count.warn { color: var(--gold); }
+    .word-count-bar .count.low  { color: var(--red); }
+
+    .sample-answer {
+      display: none;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-top: 16px;
+      font-size: 0.88rem;
+      line-height: 2;
+    }
+    .sample-answer.show { display: block; }
+    .sample-answer .sample-title {
+      font-weight: 700;
+      color: #2E7D32;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sample-answer .annotation {
+      background: #FFF8E1;
+      border-left: 3px solid var(--gold);
+      padding: 8px 12px;
+      margin: 12px 0;
+      font-size: 0.8rem;
+      color: #5D4037;
+      border-radius: 0 4px 4px 0;
+    }
+    .connectors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+    .connector-tag {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 12px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+    }
+    .connector-tag .fr { font-weight: 600; color: var(--blue); flex-shrink: 0; min-width: 120px; }
+    .connector-tag .zh { color: var(--gray-600); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../../index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="../../index.html">首頁</a>
+        <a href="reading.html">閱讀理解</a>
+        <a href="writing.html" class="active">書面表達</a>
+        <a href="listening.html">聽力理解</a>
+        <a href="speaking.html">口語表達</a>
+        <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HERO ===== -->
+  <div class="page-hero" style="background:linear-gradient(135deg, var(--red) 0%, #7B1FA2 100%);">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="../../index.html">首頁</a>
+        <span class="sep">›</span>
+        <span>書面表達</span>
+      </div>
+      <h1>✍️ 書面表達</h1>
+      <p class="subtitle">Production écrite — 範文模板、寫作策略、評分標準詳解</p>
+      <div class="page-hero-meta">
+        <div class="hero-meta-item"><span class="icon">⏱</span> 考試時間：45 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">🏆</span> 滿分：25 分</div>
+        <div class="hero-meta-item"><span class="icon">⚠️</span> 最低及格：5 分</div>
+        <div class="hero-meta-item"><span class="icon">📝</span> 兩篇文章各約 160 字</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="content-layout">
+
+    <!-- ====== MAIN ====== -->
+    <main class="content-main">
+
+      <!-- 考試說明 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--red-light);">📋</div>
+          <div>
+            <h2>考試結構說明</h2>
+            <div class="subtitle">兩種題型，各有策略</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+          <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:16px;">
+            <div style="font-weight:700;color:var(--red);margin-bottom:8px;">📝 題型一：個人描述 / 敘事</div>
+            <p style="font-size:0.85rem;color:var(--gray-800);line-height:1.7;">描述一次個人經歷、事件或情況（如旅行、工作、生活事件）。字數約 <strong>160 字</strong>，語氣可以較為個人化。</p>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:16px;">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:8px;">📝 題型二：觀點表達</div>
+            <p style="font-size:0.85rem;color:var(--gray-800);line-height:1.7;">針對某一議題（如科技、環境、社會現象）表達個人立場，字數約 <strong>160 字</strong>，需有論點和舉例。</p>
+          </div>
+        </div>
+        <div style="background:var(--blue-light);border-left:4px solid var(--blue);padding:14px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.88rem;color:var(--blue);">
+          <strong>⚠️ 重要提醒：</strong>字數不足 120 字會被大幅扣分。建議寫到 160–180 字為最佳範圍。
+        </div>
+      </div>
+
+      <!-- 評分標準 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--red-light);">🏆</div>
+          <div>
+            <h2>評分標準詳解</h2>
+            <div class="subtitle">了解考官如何給分</div>
+          </div>
+        </div>
+        <p style="font-size:0.88rem;color:var(--gray-600);margin-bottom:14px;">每篇文章（12.5 分）按以下四個面向評分：</p>
+        <div class="rubric-grid">
+          <div class="rubric-item">
+            <div class="rubric-title">📌 任務完成</div>
+            <div class="rubric-pts">3 分</div>
+            <p style="color:var(--gray-600);margin-top:4px;">是否回應題目所有要求？有沒有遺漏重要內容？</p>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-title">🔗 篇章連貫</div>
+            <div class="rubric-pts">3 分</div>
+            <p style="color:var(--gray-600);margin-top:4px;">文章是否有清晰的邏輯結構？段落之間是否有連接詞？</p>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-title">📚 詞彙豐富度</div>
+            <div class="rubric-pts">3 分</div>
+            <p style="color:var(--gray-600);margin-top:4px;">是否使用多樣的詞彙？能否避免重複使用同一個字？</p>
+          </div>
+          <div class="rubric-item">
+            <div class="rubric-title">📐 語法正確性</div>
+            <div class="rubric-pts">3.5 分</div>
+            <p style="color:var(--gray-600);margin-top:4px;">動詞變化、性數配合、句子結構是否正確？</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 解題策略 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--gold-light);">💡</div>
+          <div>
+            <h2>書面表達策略</h2>
+            <div class="subtitle">45 分鐘時間分配建議</div>
+          </div>
+        </div>
+        <div class="strategy-box">
+          <div class="strategy-title">⭐ 45 分鐘最佳分配</div>
+          <ul class="strategy-list">
+            <li><strong>閱讀題目（2 分鐘）：</strong>仔細確認題目要求，確保你理解所有需要回答的點。</li>
+            <li><strong>草稿規劃（5 分鐘）：</strong>在草稿紙上列出 3–4 個主要想法，規劃段落結構。</li>
+            <li><strong>寫作（15 分鐘 × 2）：</strong>每篇文章寫 15 分鐘，先完成再回頭修改。</li>
+            <li><strong>最後檢查（8 分鐘）：</strong>重點檢查動詞變化（特別是 subjonctif）和性數配合。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 練習題一：個人描述 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--red-light);">📝</div>
+          <div>
+            <h2>練習題一：個人敘事</h2>
+            <div class="subtitle">Exercice 1 — 難度：★★★☆☆</div>
+          </div>
+        </div>
+
+        <div style="background:var(--red-light);border:1px solid var(--red);border-radius:var(--radius-sm);padding:18px;margin-bottom:20px;">
+          <div style="font-weight:700;color:var(--red);margin-bottom:8px;">📋 題目</div>
+          <p style="font-size:0.92rem;line-height:1.8;">Vous êtes parti(e) en voyage dans un pays étranger. De retour en Taiwan, vous écrivez un message à un(e) ami(e) français(e) pour lui raconter cette expérience. Décrivez le pays, une activité que vous avez faite et ce que vous avez le plus apprécié.</p>
+          <p style="font-size:0.82rem;color:var(--red);margin-top:10px;">（Écrivez environ 160 mots. 建議字數：約 160 字）</p>
+        </div>
+
+        <h3 style="font-size:0.95rem;margin-bottom:12px;color:var(--gray-600);">📌 範文模板（填空版）</h3>
+        <div class="template-box">
+          <p>Salut <span class="ph">prénom de l'ami(e)</span> !</p>
+          <br>
+          <p>Je viens de rentrer de <span class="ph">nom du pays</span> et je voulais absolument te raconter mon voyage !</p>
+          <br>
+          <p>J'ai passé <span class="ph">durée</span> là-bas et franchement, c'était une expérience incroyable. Le pays est <span class="ph">adjectif : magnifique / fascinant / surprenant</span>, surtout <span class="ph">lieu remarquable</span>.</p>
+          <br>
+          <p>Pendant mon séjour, j'ai eu l'occasion de <span class="ph">activité principale</span>. C'était vraiment <span class="ph">adjectif</span> ! Ce qui m'a le plus frappé(e), c'est <span class="ph">aspect culturel ou personnel</span>.</p>
+          <br>
+          <p>Ce que j'ai le plus apprécié, c'est sans doute <span class="ph">point fort du voyage</span>. Par contre, <span class="ph">petit aspect négatif ou surprise</span>.</p>
+          <br>
+          <p>En tout cas, je te recommande vraiment d'y aller si tu en as l'occasion !</p>
+          <br>
+          <p>À bientôt,<br><span class="ph">Votre prénom</span></p>
+        </div>
+
+        <h3 style="font-size:0.95rem;margin-bottom:12px;color:var(--gray-600);">✏️ 你的作答區</h3>
+        <textarea class="writing-area" id="writing-1" placeholder="在這裡開始寫你的法文作答..." oninput="updateWordCount('writing-1','wc1')"></textarea>
+        <div class="word-count-bar">
+          <span>字數目標：120–180 字</span>
+          <span class="count low" id="wc1">0 字</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button class="btn btn-blue btn-sm" onclick="showSample('sample-1')">👁 查看範文</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="clearWriting('writing-1','wc1')">🗑 清除作答</button>
+        </div>
+
+        <!-- 範文 -->
+        <div class="sample-answer" id="sample-1">
+          <div class="sample-title">✅ 參考範文（約 170 字）</div>
+          <p>Salut Marie !</p>
+          <p>Je viens de rentrer du Japon et je voulais absolument te raconter mon voyage !</p>
+          <div class="annotation">💡 開頭直接切入主題，語氣友善自然，符合「寫給朋友的信」格式。</div>
+          <p>J'ai passé dix jours là-bas et franchement, c'était une expérience inoubliable. Le pays est fascinant, surtout la ville de Kyoto avec ses temples et ses jardins magnifiques.</p>
+          <div class="annotation">💡 「dix jours」比「10 jours」更正式；「inoubliable」是好詞，比 mémorable 更豐富。</div>
+          <p>Pendant mon séjour, j'ai eu l'occasion de participer à une cérémonie du thé traditionnelle. C'était vraiment émouvant de vivre cette expérience culturelle authentique !</p>
+          <p>Ce que j'ai le plus apprécié, c'est sans doute la gentillesse des Japonais et la qualité de la gastronomie locale. Par contre, je n'avais pas prévu que les temples seraient si nombreux — j'ai beaucoup marché !</p>
+          <div class="annotation">💡 「Par contre」表示小轉折，製造文章節奏感，並展示 conditionnel 的使用。</div>
+          <p>En tout cas, je te recommande vraiment d'y aller si tu en as l'occasion !</p>
+          <p>À bientôt,<br>Sabrina</p>
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--gray-200);">
+            <div style="font-weight:700;font-size:0.85rem;margin-bottom:8px;">📊 這篇範文的亮點：</div>
+            <ul style="list-style:disc;padding-left:18px;font-size:0.83rem;color:var(--gray-600);line-height:2;">
+              <li>使用多種時態：passé composé、imparfait、conditionnel passé</li>
+              <li>連接詞豐富：franchement、surtout、sans doute、par contre、en tout cas</li>
+              <li>語氣符合朋友書信：口語化但不過於隨便</li>
+              <li>回應所有題目要求：描述國家、活動、最喜歡的事</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 練習題二：觀點表達 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--blue-light);">📝</div>
+          <div>
+            <h2>練習題二：觀點表達</h2>
+            <div class="subtitle">Exercice 2 — 難度：★★★★☆</div>
+          </div>
+        </div>
+
+        <div style="background:var(--blue-light);border:1px solid var(--blue);border-radius:var(--radius-sm);padding:18px;margin-bottom:20px;">
+          <div style="font-weight:700;color:var(--blue);margin-bottom:8px;">📋 題目</div>
+          <p style="font-size:0.92rem;line-height:1.8;">Un magazine pour jeunes vous demande de donner votre avis sur le sujet suivant : <strong>« Est-ce que les réseaux sociaux ont plutôt un effet positif ou négatif sur les relations humaines ? »</strong> Donnez votre opinion et justifiez-la avec des exemples.</p>
+          <p style="font-size:0.82rem;color:var(--blue);margin-top:10px;">（Écrivez environ 160 mots. 建議字數：約 160 字）</p>
+        </div>
+
+        <h3 style="font-size:0.95rem;margin-bottom:12px;color:var(--gray-600);">📌 觀點表達文章結構</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">1️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:var(--blue);">立場表明</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">清楚表示你支持或反對的立場，約 2–3 句話</p>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">2️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:var(--blue);">論點 + 舉例</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">提出 2 個論點，各附上具體例子，約 4–5 句</p>
+          </div>
+          <div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:14px;text-align:center;">
+            <div style="font-size:1.5rem;margin-bottom:6px;">3️⃣</div>
+            <div style="font-weight:700;font-size:0.85rem;color:var(--blue);">結論</div>
+            <p style="font-size:0.78rem;color:var(--gray-600);margin-top:4px;">重申立場，可加入保留意見或展望，約 2 句</p>
+          </div>
+        </div>
+
+        <h3 style="font-size:0.95rem;margin-bottom:12px;color:var(--gray-600);">✏️ 你的作答區</h3>
+        <textarea class="writing-area" id="writing-2" placeholder="在這裡開始寫你的法文作答..." oninput="updateWordCount('writing-2','wc2')"></textarea>
+        <div class="word-count-bar">
+          <span>字數目標：120–180 字</span>
+          <span class="count low" id="wc2">0 字</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <button class="btn btn-blue btn-sm" onclick="showSample('sample-2')">👁 查看範文</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="clearWriting('writing-2','wc2')">🗑 清除作答</button>
+        </div>
+
+        <div class="sample-answer" id="sample-2">
+          <div class="sample-title">✅ 參考範文（約 165 字）</div>
+          <p>Selon moi, les réseaux sociaux ont globalement un effet <em>négatif</em> sur les relations humaines, même s'ils présentent certains avantages.</p>
+          <div class="annotation">💡 「Selon moi」+ 立場 + 「même si」讓步 — 這是觀點表達的黃金開場結構。</div>
+          <p>D'un côté, il est vrai qu'ils permettent de rester en contact avec des amis éloignés. Par exemple, grâce à ces plateformes, je peux garder le contact avec mes amis partis à l'étranger.</p>
+          <div class="annotation">💡「D'un côté... D'un autre côté」是觀點題最重要的對比結構。</div>
+          <p>Cependant, d'un autre côté, je remarque que les réseaux sociaux créent souvent une communication superficielle. On préfère envoyer un « like » plutôt que d'appeler un ami. De plus, ils peuvent provoquer des sentiments d'isolement, car les gens comparent constamment leur vie réelle à des images idéalisées.</p>
+          <p>En conclusion, bien que les réseaux sociaux facilitent certains contacts, ils appauvrissent la qualité des vraies relations humaines. Il faut savoir les utiliser avec modération.</p>
+          <div class="annotation">💡 結論用「bien que + subjonctif」展示語法能力，是加分句型！</div>
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--gray-200);">
+            <div style="font-weight:700;font-size:0.85rem;margin-bottom:8px;">📊 這篇範文的亮點：</div>
+            <ul style="list-style:disc;padding-left:18px;font-size:0.83rem;color:var(--gray-600);line-height:2;">
+              <li>結構清晰：立場 → 正面論點 → 反面論點 → 結論</li>
+              <li>使用 subjonctif：bien que les réseaux sociaux <em>facilitent</em></li>
+              <li>連接詞多元：D'un côté / D'un autre côté / Cependant / De plus / En conclusion</li>
+              <li>有具體例子支撐論點（like 的例子）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 必備連接詞 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon" style="background:var(--gold-light);">🔗</div>
+          <div>
+            <h2>書面表達必備連接詞</h2>
+            <div class="subtitle">用對連接詞，篇章分數大提升</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="section-tag gold" style="margin-bottom:12px;">表達立場</div>
+          <div class="connectors-grid">
+            <div class="connector-tag"><span class="fr">Selon moi / À mon avis</span><span class="zh">依我之見</span></div>
+            <div class="connector-tag"><span class="fr">Je pense que / J'estime que</span><span class="zh">我認為</span></div>
+            <div class="connector-tag"><span class="fr">Il me semble que</span><span class="zh">我覺得</span></div>
+            <div class="connector-tag"><span class="fr">Je suis convaincu(e) que</span><span class="zh">我確信</span></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="section-tag" style="margin-bottom:12px;">添加論點</div>
+          <div class="connectors-grid">
+            <div class="connector-tag"><span class="fr">De plus / En outre</span><span class="zh">此外 / 而且</span></div>
+            <div class="connector-tag"><span class="fr">D'une part... D'autre part</span><span class="zh">一方面...另一方面</span></div>
+            <div class="connector-tag"><span class="fr">Par exemple / Ainsi</span><span class="zh">例如 / 因此</span></div>
+            <div class="connector-tag"><span class="fr">Non seulement... mais aussi</span><span class="zh">不僅...而且</span></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div class="section-tag red" style="margin-bottom:12px;">表達轉折</div>
+          <div class="connectors-grid">
+            <div class="connector-tag"><span class="fr">Cependant / Néanmoins</span><span class="zh">然而 / 儘管如此</span></div>
+            <div class="connector-tag"><span class="fr">En revanche / Par contre</span><span class="zh">相反地 / 但是</span></div>
+            <div class="connector-tag"><span class="fr">Malgré cela / Toutefois</span><span class="zh">儘管如此</span></div>
+            <div class="connector-tag"><span class="fr">Bien que + subjonctif</span><span class="zh">雖然（加虛擬式）</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-tag" style="background:#E8F5E9;color:#2E7D32;margin-bottom:12px;">結論</div>
+          <div class="connectors-grid">
+            <div class="connector-tag"><span class="fr">En conclusion / Pour conclure</span><span class="zh">總結來說</span></div>
+            <div class="connector-tag"><span class="fr">En fin de compte</span><span class="zh">歸根結底</span></div>
+            <div class="connector-tag"><span class="fr">En somme / Bref</span><span class="zh">總而言之</span></div>
+            <div class="connector-tag"><span class="fr">Il est important de</span><span class="zh">有必要...</span></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="content-sidebar">
+
+      <!-- 模組導航 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">B1 學習模組</div>
+        <ul class="nav-list">
+          <li><a href="reading.html">📖 閱讀理解</a></li>
+          <li><a href="writing.html" class="current">✍️ 書面表達</a></li>
+          <li><a href="listening.html">🎧 聽力理解</a></li>
+          <li><a href="speaking.html">🗣️ 口語表達</a></li>
+          <li><a href="mock-exam.html">📋 模擬考試</a></li>
+        </ul>
+      </div>
+
+      <!-- 評分檢查清單 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">✅ 交卷前檢查清單</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 字數達到 120 字以上
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 回應題目所有要求
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 使用至少 3 個連接詞
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 動詞時態正確
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 形容詞性數配合正確
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:0.83rem;color:var(--gray-800);">
+            <input type="checkbox" style="margin-top:3px;flex-shrink:0;"> 有清楚的開頭和結尾
+          </label>
+        </div>
+      </div>
+
+      <!-- 備考小提示 -->
+      <div class="sidebar-widget" style="background:var(--red-light);border-color:var(--red);">
+        <div class="widget-title" style="color:var(--red);border-color:rgba(198,40,40,0.3);">💡 書面表達備考建議</div>
+        <p style="font-size:0.85rem;color:var(--gray-800);line-height:1.7;">
+          每天寫一小段 50 字的法文日記（描述今天做了什麼），是提升書面表達最有效的習慣。重點在於<strong>每天練習</strong>，而不是偶爾寫很長。
+        </p>
+      </div>
+
+      <!-- 常見語法錯誤 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">⚠️ 台灣考生常犯錯誤</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:0.83rem;">
+            <div style="color:var(--red);font-weight:600;">❌ 錯誤</div>
+            <div style="color:var(--gray-600);">Je suis allé en France depuis 3 ans.</div>
+            <div style="color:#2E7D32;font-weight:600;margin-top:4px;">✅ 正確</div>
+            <div style="color:var(--gray-600);">Je suis allé en France il y a 3 ans.</div>
+          </div>
+          <div style="border-top:1px solid var(--gray-200);padding-top:10px;font-size:0.83rem;">
+            <div style="color:var(--red);font-weight:600;">❌ 錯誤</div>
+            <div style="color:var(--gray-600);">C'est bien que tu <em>peux</em> venir.</div>
+            <div style="color:#2E7D32;font-weight:600;margin-top:4px;">✅ 正確（需接虛擬式）</div>
+            <div style="color:var(--gray-600);">C'est bien que tu <em>puisses</em> venir.</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2>繼續練習其他科目</h2>
+      <p>書面表達練習完了？接下來挑戰聽力理解，訓練快速抓取法語重點的能力。</p>
+      <div class="hero-actions">
+        <a href="listening.html" class="btn btn-primary">🎧 聽力理解練習</a>
+        <a href="reading.html" class="btn btn-outline">📖 回到閱讀理解</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>所有練習題均為仿真自創題，不包含 DELF 真實試題。<br>內容持續更新中。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="reading.html">閱讀理解</a></li>
+          <li><a href="writing.html">書面表達</a></li>
+          <li><a href="listening.html">聽力理解</a></li>
+          <li><a href="speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>備考資源</h4>
+        <ul>
+          <li><a href="mock-exam.html">模擬考試</a></li>
+          <li><a href="../../index.html#exam-overview">考試說明</a></li>
+          <li><a href="../../index.html">返回首頁</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 所有練習題為仿真自創，僅供學習使用</span>
+      <a href="../../index.html">← 返回首頁</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    function updateWordCount(textareaId, counterId) {
+      const text = document.getElementById(textareaId).value.trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      const el = document.getElementById(counterId);
+      el.textContent = words + ' 字';
+      el.className = 'count';
+      if (words >= 120 && words <= 200) el.classList.add('ok');
+      else if (words >= 80)             el.classList.add('warn');
+      else                              el.classList.add('low');
+    }
+
+    function showSample(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle('show');
+      const btn = el.previousElementSibling.previousElementSibling.querySelector('button');
+      if (btn) btn.textContent = el.classList.contains('show') ? '🙈 隱藏範文' : '👁 查看範文';
+    }
+
+    function clearWriting(textareaId, counterId) {
+      if (confirm('確定要清除你的作答嗎？')) {
+        document.getElementById(textareaId).value = '';
+        updateWordCount(textareaId, counterId);
+      }
+    }
+  </script>
+
+</body>
+</html>

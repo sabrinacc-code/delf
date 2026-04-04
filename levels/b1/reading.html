@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 閱讀理解練習 — 仿真練習題、解題策略、詳解說明，幫助你有效備考法語檢定。" />
+  <title>閱讀理解 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="../../index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="../../index.html">首頁</a>
+        <a href="reading.html" class="active">閱讀理解</a>
+        <a href="writing.html">書面表達</a>
+        <a href="listening.html">聽力理解</a>
+        <a href="speaking.html">口語表達</a>
+        <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HERO ===== -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="../../index.html">首頁</a>
+        <span class="sep">›</span>
+        <span>閱讀理解</span>
+      </div>
+      <h1>📖 閱讀理解</h1>
+      <p class="subtitle">Compréhension de l'écrit — 仿真練習題 + 解題策略 + 詳解</p>
+      <div class="page-hero-meta">
+        <div class="hero-meta-item"><span class="icon">⏱</span> 考試時間：60 分鐘</div>
+        <div class="hero-meta-item"><span class="icon">🏆</span> 滿分：25 分</div>
+        <div class="hero-meta-item"><span class="icon">⚠️</span> 最低及格：5 分</div>
+        <div class="hero-meta-item"><span class="icon">📝</span> 2–3 篇文章</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="content-layout">
+
+    <!-- ====== MAIN ====== -->
+    <main class="content-main">
+
+      <!-- 考試說明 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon">📋</div>
+          <div>
+            <h2>考試說明</h2>
+            <div class="subtitle">Compréhension de l'écrit — 題型分析</div>
+          </div>
+        </div>
+        <p style="margin-bottom:14px;font-size:0.93rem;">DELF B1 閱讀理解包含 <strong>2–3 篇不同類型的文章</strong>，測試考生理解日常生活中各種法語書面材料的能力。</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px;">
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;margin-bottom:6px;color:var(--blue);">📰 文章類型</div>
+            廣告、信件、電子郵件、新聞短文、說明指示、論壇貼文
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;margin-bottom:6px;color:var(--blue);">❓ 題型</div>
+            多選題（QCM）、配對題、填空題、是非判斷題
+          </div>
+          <div style="background:var(--gray-50);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;margin-bottom:6px;color:var(--blue);">⏱ 時間分配</div>
+            建議每篇文章分配 15–20 分鐘，保留 5 分鐘最後檢查
+          </div>
+        </div>
+      </div>
+
+      <!-- 解題策略 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon">💡</div>
+          <div>
+            <h2>解題策略</h2>
+            <div class="subtitle">5 步驟高效閱讀法</div>
+          </div>
+        </div>
+        <div class="strategy-box">
+          <div class="strategy-title">⭐ 黃金解題步驟</div>
+          <ul class="strategy-list">
+            <li><strong>步驟 1 — 先看題目（30 秒）：</strong>快速瀏覽所有問題，掌握考試重點方向。</li>
+            <li><strong>步驟 2 — 圈關鍵字：</strong>在題目中圈出名詞、動詞、時態等關鍵詞。</li>
+            <li><strong>步驟 3 — 掃讀文章：</strong>快速掃讀全文，確定文章大意與段落結構。</li>
+            <li><strong>步驟 4 — 定位答案：</strong>針對每題，回到文章中找對應段落精讀。</li>
+            <li><strong>步驟 5 — 注意陷阱：</strong>小心選項中改寫原文的句子，意思可能已改變。</li>
+          </ul>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;">
+          <div style="background:var(--red-light);border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:var(--red);margin-bottom:6px;">❌ 常見錯誤</div>
+            <ul style="list-style:disc;padding-left:16px;color:var(--gray-800);line-height:1.8;">
+              <li>選擇文章中出現的字詞，但意思並不符合問題</li>
+              <li>花太多時間在一題，導致後面題目沒有時間作答</li>
+              <li>沒有讀完全文就作答，遺漏重要資訊</li>
+            </ul>
+          </div>
+          <div style="background:#E8F5E9;border-radius:var(--radius-sm);padding:14px;font-size:0.85rem;">
+            <div style="font-weight:700;color:#2E7D32;margin-bottom:6px;">✅ 高分技巧</div>
+            <ul style="list-style:disc;padding-left:16px;color:var(--gray-800);line-height:1.8;">
+              <li>注意文章標題和副標題，通常透露主旨</li>
+              <li>找同義詞：答案通常不直接複製原文用詞</li>
+              <li>不確定時用排除法，先去掉明顯錯誤的選項</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 練習題 1 — 廣告類 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon">📝</div>
+          <div>
+            <h2>練習題一：廣告 / 公告類</h2>
+            <div class="subtitle">Exercice 1 — 難度：★★☆☆☆</div>
+          </div>
+        </div>
+
+        <div class="exercise-intro">
+          📌 閱讀以下廣告，回答第 1–4 題。仔細閱讀每個選項，選擇最符合文章內容的答案。
+        </div>
+
+        <div class="exercise-text">
+          <div class="text-title">🏊 Centre Aquatique de Lyon — Horaires d'été</div>
+          <p>Le Centre Aquatique de Lyon est heureux de vous informer de ses nouveaux horaires pour la saison estivale du <strong>1er juillet au 31 août</strong>.</p>
+          <p style="margin-top:10px;"><strong>Horaires d'ouverture :</strong><br>
+          Du lundi au vendredi : 8h00 – 21h00<br>
+          Samedi et dimanche : 9h00 – 19h00</p>
+          <p style="margin-top:10px;"><strong>Tarifs :</strong><br>
+          Adulte : 5,50 €  |  Enfant (moins de 12 ans) : 3,00 €  |  Carte 10 entrées adulte : 45 €</p>
+          <p style="margin-top:10px;"><strong>À noter :</strong> Le bassin olympique sera <strong>fermé les mercredis matin</strong> pour entretien (de 8h à 12h). Des cours de natation pour enfants sont proposés le mercredi après-midi et le samedi matin. Inscription obligatoire au bureau d'accueil.</p>
+          <p style="margin-top:10px;">Pour toute information : <em>contact@centreaquatique-lyon.fr</em></p>
+          <div class="text-source">Source : Texte créé à des fins pédagogiques</div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-block">
+          <div class="question-num">問題 1 / 4</div>
+          <div class="question-text">這份公告的目的是？</div>
+          <ul class="options-list" id="q1-opts">
+            <li class="option-item" onclick="selectOption('q1', 'A', false)">
+              <span class="option-letter">A</span>
+              宣傳游泳課程報名優惠
+            </li>
+            <li class="option-item" onclick="selectOption('q1', 'B', true)">
+              <span class="option-letter">B</span>
+              通知夏季開放時間的異動
+            </li>
+            <li class="option-item" onclick="selectOption('q1', 'C', false)">
+              <span class="option-letter">C</span>
+              宣布游泳池暫時關閉
+            </li>
+            <li class="option-item" onclick="selectOption('q1', 'D', false)">
+              <span class="option-letter">D</span>
+              介紹游泳池的各種設施
+            </li>
+          </ul>
+          <div class="answer-box" id="q1-ans">
+            <div class="answer-label">✅ 正確答案：B</div>
+            <div class="explanation">公告第一句即說明目的是通知夏季新開放時間（<em>de vous informer de ses nouveaux horaires pour la saison estivale</em>）。</div>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-block">
+          <div class="question-num">問題 2 / 4</div>
+          <div class="question-text">奧林匹克泳池每週三早上關閉的原因是？</div>
+          <ul class="options-list" id="q2-opts">
+            <li class="option-item" onclick="selectOption('q2', 'A', false)">
+              <span class="option-letter">A</span>
+              舉辦兒童游泳課程
+            </li>
+            <li class="option-item" onclick="selectOption('q2', 'B', false)">
+              <span class="option-letter">B</span>
+              舉辦競技比賽
+            </li>
+            <li class="option-item" onclick="selectOption('q2', 'C', true)">
+              <span class="option-letter">C</span>
+              進行定期維修保養
+            </li>
+            <li class="option-item" onclick="selectOption('q2', 'D', false)">
+              <span class="option-letter">D</span>
+              節假日特別安排
+            </li>
+          </ul>
+          <div class="answer-box" id="q2-ans">
+            <div class="answer-label">✅ 正確答案：C</div>
+            <div class="explanation">文章中提到 <em>fermé les mercredis matin pour entretien</em>（entretien = 維護保養）。注意 A 是錯誤的，兒童游泳課是週三<strong>下午</strong>而非早上。</div>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-block">
+          <div class="question-num">問題 3 / 4</div>
+          <div class="question-text">一位成人購買 10 次入場券，平均每次可節省多少錢？</div>
+          <ul class="options-list" id="q3-opts">
+            <li class="option-item" onclick="selectOption('q3', 'A', false)">
+              <span class="option-letter">A</span>
+              0,50 €
+            </li>
+            <li class="option-item" onclick="selectOption('q3', 'B', true)">
+              <span class="option-letter">B</span>
+              1,00 €
+            </li>
+            <li class="option-item" onclick="selectOption('q3', 'C', false)">
+              <span class="option-letter">C</span>
+              0,55 €
+            </li>
+            <li class="option-item" onclick="selectOption('q3', 'D', false)">
+              <span class="option-letter">D</span>
+              1,50 €
+            </li>
+          </ul>
+          <div class="answer-box" id="q3-ans">
+            <div class="answer-label">✅ 正確答案：B</div>
+            <div class="explanation">成人單次票 5,50€，10 次票 45€（平均 4,50€）。因此每次節省 5,50 – 4,50 = <strong>1,00€</strong>。這道題需要簡單計算。</div>
+          </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-block">
+          <div class="question-num">問題 4 / 4</div>
+          <div class="question-text">如果想讓孩子報名游泳課，應該怎麼做？</div>
+          <ul class="options-list" id="q4-opts">
+            <li class="option-item" onclick="selectOption('q4', 'A', false)">
+              <span class="option-letter">A</span>
+              發送電子郵件至游泳中心
+            </li>
+            <li class="option-item" onclick="selectOption('q4', 'B', false)">
+              <span class="option-letter">B</span>
+              週三下午直接帶孩子前往
+            </li>
+            <li class="option-item" onclick="selectOption('q4', 'C', true)">
+              <span class="option-letter">C</span>
+              到服務台現場報名
+            </li>
+            <li class="option-item" onclick="selectOption('q4', 'D', false)">
+              <span class="option-letter">D</span>
+              不需要事先報名
+            </li>
+          </ul>
+          <div class="answer-box" id="q4-ans">
+            <div class="answer-label">✅ 正確答案：C</div>
+            <div class="explanation">文章中明確說明 <em>Inscription obligatoire au bureau d'accueil</em>（必須在服務台報名）。D 是錯誤的，報名是強制要求的。</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+          <button class="btn btn-blue btn-sm" onclick="checkAll(['q1','q2','q3','q4'])">✅ 確認答案</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="resetExercise(['q1','q2','q3','q4'])">🔄 重新作答</button>
+          <div id="score-e1" style="font-size:0.88rem;font-weight:600;color:var(--blue);align-self:center;"></div>
+        </div>
+      </div>
+
+      <!-- 練習題 2 — 信件/電郵類 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon">📝</div>
+          <div>
+            <h2>練習題二：信件 / 電子郵件類</h2>
+            <div class="subtitle">Exercice 2 — 難度：★★★☆☆</div>
+          </div>
+        </div>
+
+        <div class="exercise-intro">
+          📌 閱讀以下電子郵件往來，回答第 5–8 題。注意寄件人與收件人的關係和語境。
+        </div>
+
+        <div class="exercise-text">
+          <div class="text-title">📧 Échange de courriels</div>
+          <p><strong>De :</strong> clara.martin@gmail.com<br>
+          <strong>À :</strong> service-client@hotelbellevue.fr<br>
+          <strong>Objet :</strong> Problème lors de mon séjour<br>
+          <strong>Date :</strong> 15 mars</p>
+          <p style="margin-top:12px;">Madame, Monsieur,</p>
+          <p style="margin-top:8px;">Je me permets de vous contacter au sujet de mon récent séjour dans votre établissement (du 10 au 13 mars, chambre 214). J'ai généralement été satisfaite de mon séjour, mais je souhaite vous signaler deux problèmes qui ont rendu mon séjour moins agréable.</p>
+          <p style="margin-top:8px;">Tout d'abord, le système de chauffage de ma chambre ne fonctionnait pas correctement. Malgré plusieurs signalements à la réception, le problème n'a pas été résolu pendant les trois jours. De plus, le petit-déjeuner, qui était inclus dans mon forfait, n'était pas disponible le dernier matin pour cause de travaux dans la salle de restaurant.</p>
+          <p style="margin-top:8px;">Je comprends que des imprévus peuvent arriver, mais j'aurais apprécié une communication plus claire de votre part et une solution alternative pour le petit-déjeuner. Je reste attachée à votre hôtel et espère que ces points pourront être améliorés pour mes futurs séjours.</p>
+          <p style="margin-top:8px;">Dans l'attente de votre réponse, je vous adresse mes cordiales salutations.</p>
+          <p style="margin-top:8px;"><strong>Clara Martin</strong></p>
+          <div class="text-source">Source : Texte créé à des fins pédagogiques</div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-block">
+          <div class="question-num">問題 5 / 4</div>
+          <div class="question-text">Clara 寫這封信的主要目的是什麼？</div>
+          <ul class="options-list" id="q5-opts">
+            <li class="option-item" onclick="selectOption('q5', 'A', false)">
+              <span class="option-letter">A</span>
+              取消未來的訂房
+            </li>
+            <li class="option-item" onclick="selectOption('q5', 'B', false)">
+              <span class="option-letter">B</span>
+              要求退費
+            </li>
+            <li class="option-item" onclick="selectOption('q5', 'C', true)">
+              <span class="option-letter">C</span>
+              反映入住期間遇到的問題
+            </li>
+            <li class="option-item" onclick="selectOption('q5', 'D', false)">
+              <span class="option-letter">D</span>
+              讚揚飯店的服務品質
+            </li>
+          </ul>
+          <div class="answer-box" id="q5-ans">
+            <div class="answer-label">✅ 正確答案：C</div>
+            <div class="explanation">信件的核心目的是 <em>vous signaler deux problèmes</em>（反映兩個問題）。雖然她提到整體還算滿意，但信件的目的是反映問題，而非要求退費（文中未提及）。</div>
+          </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-block">
+          <div class="question-num">問題 6 / 4</div>
+          <div class="question-text">Clara 在飯店遇到哪兩個問題？</div>
+          <ul class="options-list" id="q6-opts">
+            <li class="option-item" onclick="selectOption('q6', 'A', false)">
+              <span class="option-letter">A</span>
+              暖氣故障，且 WiFi 無法使用
+            </li>
+            <li class="option-item" onclick="selectOption('q6', 'B', true)">
+              <span class="option-letter">B</span>
+              暖氣故障，且最後一天沒有早餐
+            </li>
+            <li class="option-item" onclick="selectOption('q6', 'C', false)">
+              <span class="option-letter">C</span>
+              房間太吵，且早餐品質不佳
+            </li>
+            <li class="option-item" onclick="selectOption('q6', 'D', false)">
+              <span class="option-letter">D</span>
+              服務態度差，且房間髒亂
+            </li>
+          </ul>
+          <div class="answer-box" id="q6-ans">
+            <div class="answer-label">✅ 正確答案：B</div>
+            <div class="explanation">文章中清楚提到兩個問題：<em>le système de chauffage ne fonctionnait pas</em>（暖氣故障）和 <em>le petit-déjeuner n'était pas disponible le dernier matin</em>（最後一天早餐停供）。</div>
+          </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-block">
+          <div class="question-num">問題 7 / 4</div>
+          <div class="question-text">Clara 對飯店的整體態度是？</div>
+          <ul class="options-list" id="q7-opts">
+            <li class="option-item" onclick="selectOption('q7', 'A', false)">
+              <span class="option-letter">A</span>
+              非常憤怒，不會再回來
+            </li>
+            <li class="option-item" onclick="selectOption('q7', 'B', true)">
+              <span class="option-letter">B</span>
+              雖然不滿，但仍願意繼續選擇該飯店
+            </li>
+            <li class="option-item" onclick="selectOption('q7', 'C', false)">
+              <span class="option-letter">C</span>
+              完全沒有抱怨，非常滿意
+            </li>
+            <li class="option-item" onclick="selectOption('q7', 'D', false)">
+              <span class="option-letter">D</span>
+              已要求法律賠償
+            </li>
+          </ul>
+          <div class="answer-box" id="q7-ans">
+            <div class="answer-label">✅ 正確答案：B</div>
+            <div class="explanation">她說 <em>J'ai généralement été satisfaite</em>（整體滿意）且 <em>Je reste attachée à votre hôtel</em>（仍然喜愛你們飯店），語氣是建設性批評而非憤怒。</div>
+          </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-block">
+          <div class="question-num">問題 8 / 4</div>
+          <div class="question-text">早餐為何無法供應？</div>
+          <ul class="options-list" id="q8-opts">
+            <li class="option-item" onclick="selectOption('q8', 'A', false)">
+              <span class="option-letter">A</span>
+              廚師請假
+            </li>
+            <li class="option-item" onclick="selectOption('q8', 'B', false)">
+              <span class="option-letter">B</span>
+              Clara 的套餐未包含早餐
+            </li>
+            <li class="option-item" onclick="selectOption('q8', 'C', true)">
+              <span class="option-letter">C</span>
+              餐廳進行裝修工程
+            </li>
+            <li class="option-item" onclick="selectOption('q8', 'D', false)">
+              <span class="option-letter">D</span>
+              早餐時間已過
+            </li>
+          </ul>
+          <div class="answer-box" id="q8-ans">
+            <div class="answer-label">✅ 正確答案：C</div>
+            <div class="explanation">文章中說 <em>pour cause de travaux dans la salle de restaurant</em>（因為餐廳正在施工）。注意 B 是錯的，她的套餐確實包含早餐（<em>inclus dans mon forfait</em>）。</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+          <button class="btn btn-blue btn-sm" onclick="checkAll(['q5','q6','q7','q8'])">✅ 確認答案</button>
+          <button class="btn btn-sm" style="border:1.5px solid var(--gray-200);color:var(--gray-600);" onclick="resetExercise(['q5','q6','q7','q8'])">🔄 重新作答</button>
+          <div id="score-e2" style="font-size:0.88rem;font-weight:600;color:var(--blue);align-self:center;"></div>
+        </div>
+      </div>
+
+      <!-- 常考詞彙 -->
+      <div class="content-block">
+        <div class="block-header">
+          <div class="block-icon">📚</div>
+          <div>
+            <h2>閱讀理解常見詞彙</h2>
+            <div class="subtitle">高頻出現的題目指示語與文章用詞</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;">
+
+          <div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gray-200);">題目指示語</div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                D'après le texte <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「根據文章內容」— 答案必須直接出自文章，不能憑個人常識判斷。</div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                Il s'agit de... <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「這是關於...」— 通常出現在詢問文章主題或文件類型的題目中。</div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                L'objectif de ce texte est... <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「這篇文章的目的是...」— 考文章寫作目的，需注意作者立場（通知、說服、批評等）。</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gray-200);">文章轉折詞</div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                Cependant / Néanmoins <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「然而 / 儘管如此」— 表示轉折，後面的內容常是考點，注意作者立場的轉變。</div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                En revanche / Par contre <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「相反地 / 另一方面」— 表示對比，用於比較兩個相對的概念或情況。</div>
+            </div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion(this)">
+                Malgré / En dépit de <span class="accordion-chevron">▼</span>
+              </button>
+              <div class="accordion-body">「儘管」— 表示讓步，後面的結果與前提相反，是重要的邏輯轉折。</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ====== SIDEBAR ====== -->
+    <aside class="content-sidebar">
+
+      <!-- 模組導航 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">B1 學習模組</div>
+        <ul class="nav-list">
+          <li><a href="reading.html" class="current">📖 閱讀理解</a></li>
+          <li><a href="writing.html">✍️ 書面表達</a></li>
+          <li><a href="listening.html">🎧 聽力理解</a></li>
+          <li><a href="speaking.html">🗣️ 口語表達</a></li>
+          <li><a href="mock-exam.html">📋 模擬考試</a></li>
+        </ul>
+      </div>
+
+      <!-- 分數說明 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">📊 本科分數說明</div>
+        <div class="score-summary">
+          <div class="score-row">
+            <span class="label">練習題一（4 題）</span>
+            <span class="value" id="sidebar-e1">— / 4</span>
+          </div>
+          <div class="score-row">
+            <span class="label">練習題二（4 題）</span>
+            <span class="value" id="sidebar-e2">— / 4</span>
+          </div>
+          <div class="score-row" style="border-top:1px solid var(--gray-200);padding-top:10px;margin-top:4px;">
+            <span class="label" style="font-weight:700;">考試滿分</span>
+            <span class="value total">25 分</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 備考小提示 -->
+      <div class="sidebar-widget" style="background:var(--gold-light);border-color:#F9A825;">
+        <div class="widget-title" style="color:#7B5E00;border-color:#F9A825;">💡 今日備考提示</div>
+        <p style="font-size:0.85rem;color:var(--gray-800);line-height:1.7;">
+          每天閱讀一篇法語短文（廣告、新聞、信件），不查字典先猜大意，再用字典確認。這個習慣能有效提升考試中的閱讀速度。
+        </p>
+      </div>
+
+      <!-- 推薦資源 -->
+      <div class="sidebar-widget">
+        <div class="widget-title">🔗 推薦練習資源</div>
+        <ul style="list-style:none;">
+          <li style="margin-bottom:10px;">
+            <a href="https://savoirs.rfi.fr" target="_blank" style="font-size:0.85rem;color:var(--blue);font-weight:500;">RFI Savoirs →</a>
+            <p style="font-size:0.78rem;color:var(--gray-400);">RFI 法語學習文章，有 B1 等級分類</p>
+          </li>
+          <li style="margin-bottom:10px;">
+            <a href="https://www.tv5monde.com/langue-francaise" target="_blank" style="font-size:0.85rem;color:var(--blue);font-weight:500;">TV5MONDE →</a>
+            <p style="font-size:0.78rem;color:var(--gray-400);">新聞閱讀配合聽力，真實法語素材</p>
+          </li>
+          <li>
+            <a href="https://www.lepointdufle.net" target="_blank" style="font-size:0.85rem;color:var(--blue);font-weight:500;">Le Point du FLE →</a>
+            <p style="font-size:0.78rem;color:var(--gray-400);">大量免費 FLE 練習題與資源整合</p>
+          </li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2>繼續練習其他科目</h2>
+      <p>閱讀理解練完了？接下來練習書面表達，掌握寫作範文與評分重點。</p>
+      <div class="hero-actions">
+        <a href="writing.html" class="btn btn-primary">✍️ 書面表達練習</a>
+        <a href="mock-exam.html" class="btn btn-outline">📋 完整模擬考試</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>所有練習題均為仿真自創題，不包含 DELF 真實試題。<br>內容持續更新中。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="reading.html">閱讀理解</a></li>
+          <li><a href="writing.html">書面表達</a></li>
+          <li><a href="listening.html">聽力理解</a></li>
+          <li><a href="speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>備考資源</h4>
+        <ul>
+          <li><a href="mock-exam.html">模擬考試</a></li>
+          <li><a href="../../index.html#exam-overview">考試說明</a></li>
+          <li><a href="../../index.html">返回首頁</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 所有練習題為仿真自創，僅供學習使用</span>
+      <a href="../../index.html">← 返回首頁</a>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Mobile nav ----
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ---- Accordion ----
+    function toggleAccordion(btn) {
+      const body = btn.nextElementSibling;
+      const isOpen = btn.classList.contains('open');
+      // Close all in same parent
+      btn.closest('.content-block').querySelectorAll('.accordion-header').forEach(b => {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        body.classList.add('open');
+      }
+    }
+
+    // ---- Quiz Logic ----
+    const userAnswers = {};
+    const correctMap  = {};
+
+    function selectOption(qid, letter, isCorrect) {
+      if (userAnswers[qid]) return; // already answered
+      userAnswers[qid] = { letter, isCorrect };
+
+      const opts = document.querySelectorAll('#' + qid + '-opts .option-item');
+      opts.forEach(opt => {
+        const optLetter = opt.querySelector('.option-letter').textContent.trim();
+        if (optLetter === letter) {
+          opt.classList.add(isCorrect ? 'correct' : 'wrong');
+        }
+        if (!isCorrect) {
+          // highlight the correct one
+          // We need to find which is correct — mark the one that has onclick with "true"
+          const onclickAttr = opt.getAttribute('onclick');
+          if (onclickAttr && onclickAttr.includes('true')) {
+            opt.classList.add('correct');
+          }
+        }
+        opt.style.pointerEvents = 'none';
+      });
+    }
+
+    function checkAll(qids) {
+      qids.forEach(qid => {
+        const ansBox = document.getElementById(qid + '-ans');
+        if (ansBox) ansBox.classList.add('show');
+      });
+
+      // Calculate score
+      let correct = 0;
+      qids.forEach(qid => {
+        if (userAnswers[qid] && userAnswers[qid].isCorrect) correct++;
+      });
+
+      const exerciseNum = qids[0].startsWith('q1') || qids[0] === 'q1' ? '1' :
+                          qids.includes('q5') ? '2' : '1';
+
+      const scoreEl = document.getElementById('score-e' + (qids.includes('q5') ? '2' : '1'));
+      if (scoreEl) {
+        scoreEl.textContent = `得分：${correct} / ${qids.length}`;
+        scoreEl.style.color = correct >= qids.length * 0.6 ? '#2E7D32' : 'var(--red)';
+      }
+
+      const sidebarEl = document.getElementById(qids.includes('q5') ? 'sidebar-e2' : 'sidebar-e1');
+      if (sidebarEl) sidebarEl.textContent = correct + ' / ' + qids.length;
+
+      // Save progress
+      const totalAnswered = Object.keys(userAnswers).length;
+      const progressPct = Math.round((totalAnswered / 8) * 100);
+      try { localStorage.setItem('prog_read', progressPct); } catch(e) {}
+    }
+
+    function resetExercise(qids) {
+      qids.forEach(qid => {
+        delete userAnswers[qid];
+        const ansBox = document.getElementById(qid + '-ans');
+        if (ansBox) ansBox.classList.remove('show');
+        const opts = document.querySelectorAll('#' + qid + '-opts .option-item');
+        opts.forEach(opt => {
+          opt.classList.remove('correct', 'wrong', 'selected');
+          opt.style.pointerEvents = '';
+        });
+      });
+      const scoreEl = document.getElementById('score-e' + (qids.includes('q5') ? '2' : '1'));
+      if (scoreEl) scoreEl.textContent = '';
+      const sidebarEl = document.getElementById(qids.includes('q5') ? 'sidebar-e2' : 'sidebar-e1');
+      if (sidebarEl) sidebarEl.textContent = '— / 4';
+    }
+  </script>
+
+</body>
+</html>

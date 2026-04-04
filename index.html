@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="專為台灣考生設計的 DELF B1 法語檢定備考網站，提供仿真練習題、解題策略、範文模板，幫助你高效通過考試。" />
+  <title>DELF B1 法語備考 — 高效通過法語檢定</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="index.html" class="active">首頁</a>
+        <a href="levels/b1/reading.html">閱讀理解</a>
+        <a href="levels/b1/writing.html">書面表達</a>
+        <a href="levels/b1/listening.html">聽力理解</a>
+        <a href="levels/b1/speaking.html">口語表達</a>
+        <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">✦ 為台灣考生設計 · 繁體中文教學</div>
+      <h1>從 A2 到 B1<br>系統性通過 DELF 考試</h1>
+      <p>仿真練習題、解題策略、範文模板，全部免費。<br>跟著你的學習節奏，有效備考。</p>
+      <div class="hero-actions">
+        <a href="levels/b1/reading.html" class="btn btn-primary">🚀 開始練習 B1</a>
+        <a href="#exam-overview" class="btn btn-outline">📋 了解考試結構</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">考試科目</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">100</span>
+        <span class="stat-label">總分</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">50</span>
+        <span class="stat-label">及格分數</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-label">每科最低分</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2h55</span>
+        <span class="stat-label">考試總時長</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODULES ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">四大考試科目</div>
+        <h2>選擇你想練習的模組</h2>
+        <p>每個模組包含解題策略、仿真練習題與詳解，對應真實 DELF B1 考試格式。</p>
+      </div>
+      <div class="modules-grid">
+
+        <!-- 閱讀 -->
+        <div class="module-card">
+          <div class="module-icon">📖</div>
+          <h3>閱讀理解</h3>
+          <p class="fr-title">Compréhension de l'écrit</p>
+          <p>閱讀廣告、信件、新聞、說明文等不同文本，回答選擇題與理解題。</p>
+          <div class="module-meta">
+            <span class="meta-tag score">25 分</span>
+            <span class="meta-tag">60 分鐘</span>
+          </div>
+          <a href="levels/b1/reading.html" class="card-link">開始練習 →</a>
+        </div>
+
+        <!-- 書面表達 -->
+        <div class="module-card red">
+          <div class="module-icon">✍️</div>
+          <h3>書面表達</h3>
+          <p class="fr-title">Production écrite</p>
+          <p>撰寫個人敘述文與觀點表達文（正式信件或文章），展現書面溝通能力。</p>
+          <div class="module-meta">
+            <span class="meta-tag red">25 分</span>
+            <span class="meta-tag">45 分鐘</span>
+          </div>
+          <a href="levels/b1/writing.html" class="card-link">開始練習 →</a>
+        </div>
+
+        <!-- 聽力 -->
+        <div class="module-card gold">
+          <div class="module-icon">🎧</div>
+          <h3>聽力理解</h3>
+          <p class="fr-title">Compréhension de l'oral</p>
+          <p>聆聽三段不同情境的法語錄音（日常對話、廣播、訪談），回答理解題。</p>
+          <div class="module-meta">
+            <span class="meta-tag gold">25 分</span>
+            <span class="meta-tag">~25 分鐘</span>
+          </div>
+          <a href="levels/b1/listening.html" class="card-link">開始練習 →</a>
+        </div>
+
+        <!-- 口語 -->
+        <div class="module-card green">
+          <div class="module-icon">🗣️</div>
+          <h3>口語表達</h3>
+          <p class="fr-title">Production orale</p>
+          <p>三個口試部分：照片描述、觀點表達、角色扮演，展現日常溝通能力。</p>
+          <div class="module-meta">
+            <span class="meta-tag green">25 分</span>
+            <span class="meta-tag">~30 分鐘</span>
+          </div>
+          <a href="levels/b1/speaking.html" class="card-link">開始練習 →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXAM OVERVIEW ===== -->
+  <section class="section bg-gray" id="exam-overview">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">考試結構</div>
+        <h2>DELF B1 完整考試說明</h2>
+        <p>了解每個科目的分數配置和時間安排，制定有效的備考策略。</p>
+      </div>
+      <div class="exam-table-wrap">
+        <table class="exam-table">
+          <thead>
+            <tr>
+              <th>科目</th>
+              <th>法語名稱</th>
+              <th>時間</th>
+              <th>總分</th>
+              <th>及格線</th>
+              <th>題型</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>閱讀理解</strong></td>
+              <td>Compréhension de l'écrit</td>
+              <td>60 分鐘</td>
+              <td><span class="score-badge">25 分</span></td>
+              <td>5 分</td>
+              <td>多選題、配對題、填空題</td>
+            </tr>
+            <tr>
+              <td><strong>書面表達</strong></td>
+              <td>Production écrite</td>
+              <td>45 分鐘</td>
+              <td><span class="score-badge">25 分</span></td>
+              <td>5 分</td>
+              <td>個人描述 + 觀點表達（各約 160 字）</td>
+            </tr>
+            <tr>
+              <td><strong>聽力理解</strong></td>
+              <td>Compréhension de l'oral</td>
+              <td>約 25 分鐘</td>
+              <td><span class="score-badge">25 分</span></td>
+              <td>5 分</td>
+              <td>三段錄音，每段聽兩遍</td>
+            </tr>
+            <tr>
+              <td><strong>口語表達</strong></td>
+              <td>Production orale</td>
+              <td>15 分鐘準備<br>+ 15 分鐘口試</td>
+              <td><span class="score-badge">25 分</span></td>
+              <td>5 分</td>
+              <td>照片描述 + 觀點表達 + 角色扮演</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:var(--blue-light);border-left:4px solid var(--blue);padding:16px 20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-top:24px;font-size:0.9rem;color:var(--blue);">
+        <strong>⚠️ 重要：</strong>總分需達到 <strong>50/100</strong>，且每科均不得低於 <strong>5分</strong>，否則整個 DELF 視為不及格。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TIPS ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag gold">備考策略</div>
+        <h2>通過 B1 的 6 個關鍵技巧</h2>
+        <p>根據考試規則與考生經驗整理的高效備考方法。</p>
+      </div>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <div class="tip-num">1</div>
+          <div>
+            <h4>先讀題目，再讀文章</h4>
+            <p>閱讀理解考試時，先快速閱覽所有問題，再有目的性地掃讀文章，節省大量時間。</p>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">2</div>
+          <div>
+            <h4>寫作要用連接詞</h4>
+            <p>考官評分重視「篇章連貫性」，多用 Cependant、De plus、En revanche 等連接詞可有效提分。</p>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">3</div>
+          <div>
+            <h4>聽力預讀題目</h4>
+            <p>錄音播放前會有準備時間，務必用來預讀題目並圈出關鍵字，預判聽力重點。</p>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">4</div>
+          <div>
+            <h4>口試不能沉默</h4>
+            <p>口語評分重視「溝通流暢度」，犯錯繼續說比停下來更好，可以用 Je veux dire... 來修正。</p>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">5</div>
+          <div>
+            <h4>每科都要達到 5 分</h4>
+            <p>即使一科發揮極好，其他科不足 5 分也會整體不及格。每科都需均衡準備。</p>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-num">6</div>
+          <div>
+            <h4>用真實素材練習聽力</h4>
+            <p>多聽 RFI Savoirs、TV5MONDE 的簡易法語節目，比教科書錄音更接近真實考試語速。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROGRESS ===== -->
+  <section class="section progress-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">學習進度</div>
+        <h2>你的 B1 備考進度</h2>
+        <p>追蹤每個模組的練習完成情況。</p>
+      </div>
+      <div class="progress-cards">
+        <div class="progress-card">
+          <div class="progress-label">📖 閱讀理解</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="prog-read" style="width:0%"></div>
+          </div>
+          <div class="progress-pct" id="pct-read">0% 完成</div>
+        </div>
+        <div class="progress-card">
+          <div class="progress-label">✍️ 書面表達</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill red" id="prog-write" style="width:0%"></div>
+          </div>
+          <div class="progress-pct" id="pct-write">0% 完成</div>
+        </div>
+        <div class="progress-card">
+          <div class="progress-label">🎧 聽力理解</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill gold" id="prog-listen" style="width:0%"></div>
+          </div>
+          <div class="progress-pct" id="pct-listen">0% 完成</div>
+        </div>
+        <div class="progress-card">
+          <div class="progress-label">🗣️ 口語表達</div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill green" id="prog-speak" style="width:0%"></div>
+          </div>
+          <div class="progress-pct" id="pct-speak">0% 完成</div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn btn-blue btn-sm" onclick="resetProgress()">🔄 重置進度</button>
+        <span style="font-size:0.82rem;color:var(--gray-400);margin-left:12px;">進度儲存於瀏覽器本地</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2>現在就開始備考</h2>
+      <p>從閱讀理解開始，逐步建立 B1 的全科實力。</p>
+      <div class="hero-actions">
+        <a href="levels/b1/reading.html" class="btn btn-primary">📖 閱讀理解練習</a>
+        <a href="levels/b1/writing.html" class="btn btn-outline">✍️ 書面表達練習</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>為台灣法語學習者設計的免費備考資源。<br>所有練習題均為仿真自創題，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>學習模組</h4>
+        <ul>
+          <li><a href="levels/b1/reading.html">閱讀理解</a></li>
+          <li><a href="levels/b1/writing.html">書面表達</a></li>
+          <li><a href="levels/b1/listening.html">聽力理解</a></li>
+          <li><a href="levels/b1/speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>備考資源</h4>
+        <ul>
+          <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
+          <li><a href="#exam-overview">考試說明</a></li>
+          <li><a href="index.html#tips">備考策略</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 所有練習題為仿真自創，僅供學習使用</span>
+      <span>以考生視角出發 · 持續更新中 ✨</span>
+    </div>
+  </footer>
+
+  <script>
+    // ---- Mobile nav ----
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ---- Progress (localStorage) ----
+    const keys = { read: 'prog_read', write: 'prog_write', listen: 'prog_listen', speak: 'prog_speak' };
+
+    function loadProgress() {
+      Object.keys(keys).forEach(k => {
+        const val = parseInt(localStorage.getItem(keys[k])) || 0;
+        const bar = document.getElementById('prog-' + k);
+        const pct = document.getElementById('pct-' + k);
+        if (bar) bar.style.width = val + '%';
+        if (pct) pct.textContent = val + '% 完成';
+      });
+    }
+
+    function resetProgress() {
+      if (confirm('確定要重置所有進度嗎？')) {
+        Object.values(keys).forEach(k => localStorage.removeItem(k));
+        loadProgress();
+      }
+    }
+
+    // Animate on load
+    window.addEventListener('load', () => {
+      setTimeout(loadProgress, 300);
+    });
+  </script>
+
+</body>
+</html>
