@@ -237,6 +237,211 @@
       .audience-section,
       .final-cta { padding: 64px 20px; }
     }
+
+    /* ===== 你的法文名字 — 浮動泡泡 ===== */
+    .fn-bubble {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 600;
+      background: linear-gradient(135deg, #3D3350, #4A3F5C);
+      color: #fff;
+      border-radius: 100px;
+      padding: 12px 16px 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(61,51,80,0.45);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: var(--font-main);
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .fn-bubble.visible {
+      animation: bubble-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      pointer-events: auto;
+    }
+    .fn-bubble.hidden { display: none !important; }
+    .fn-bubble:hover  { box-shadow: 0 12px 36px rgba(61,51,80,0.55); }
+    .fn-bubble-main   { display: flex; align-items: center; gap: 8px; }
+    .fn-bubble-close  {
+      background: rgba(255,255,255,0.18);
+      border: none;
+      color: rgba(255,255,255,0.85);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: var(--font-main);
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .fn-bubble-close:hover { background: rgba(255,255,255,0.35); }
+    @keyframes bubble-in {
+      from { opacity: 0; transform: translateY(20px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0)    scale(1);   }
+    }
+
+    /* Modal overlay */
+    .fn-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20,14,32,0.65);
+      z-index: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+    }
+    .fn-overlay.open { opacity: 1; pointer-events: auto; }
+
+    /* Modal card — mobile: slides up from bottom; desktop: centered */
+    .fn-modal {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      z-index: 800;
+      width: min(520px, 100%);
+      background: var(--white);
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      transition: transform 0.4s cubic-bezier(0.34, 1.15, 0.64, 1);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .fn-modal.open { transform: translateX(-50%) translateY(0); }
+    @media (min-width: 560px) {
+      .fn-modal {
+        top: 50%;
+        bottom: auto;
+        border-radius: var(--radius-lg);
+        transform: translateX(-50%) translateY(-46%) scale(0.94);
+        opacity: 0;
+        transition: transform 0.35s cubic-bezier(0.34,1.15,0.64,1), opacity 0.3s ease;
+      }
+      .fn-modal.open {
+        transform: translateX(-50%) translateY(-50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Modal header */
+    .fn-modal-head {
+      background: linear-gradient(135deg, #3D3350, #2E2640);
+      color: #fff;
+      padding: 28px 28px 22px;
+      border-radius: inherit;
+      text-align: center;
+      position: relative;
+    }
+    .fn-modal-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 6px;
+    }
+    .fn-modal-head h3 {
+      font-family: Georgia, serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .fn-modal-head p { font-size: 0.83rem; color: rgba(255,255,255,0.68); }
+    .fn-modal-x {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: rgba(255,255,255,0.15);
+      border: none; color: #fff;
+      border-radius: 50%;
+      width: 30px; height: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+      font-family: var(--font-main);
+      padding: 0;
+    }
+    .fn-modal-x:hover { background: rgba(255,255,255,0.28); }
+
+    /* Modal body */
+    .fn-modal-body { padding: 24px 28px 32px; }
+    .fn-label {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .fn-row { display: flex; gap: 10px; }
+    #fnInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-main);
+      font-size: 1rem;
+      color: var(--black);
+      transition: border-color 0.2s;
+    }
+    #fnInput:focus { outline: none; border-color: #7A6E8C; }
+    .fn-btn-gen {
+      background: #7A6E8C; color: #fff;
+      border: none; border-radius: var(--radius-sm);
+      padding: 12px 22px;
+      font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.2s;
+      font-family: var(--font-main);
+    }
+    .fn-btn-gen:hover { background: #9080A0; }
+
+    /* Result */
+    .fn-result {
+      display: none;
+      background: linear-gradient(135deg, #F4F0FF, #EEE9F8);
+      border: 1px solid #D8D0EC;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .fn-result.show { display: block; animation: fadeSlideUp 0.4s ease; }
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fn-res-label  { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: #7A6E8C; margin-bottom: 4px; text-transform: uppercase; }
+    .fn-res-name   { font-family: Georgia, serif; font-size: 2rem; font-weight: 700; color: #3D3350; font-style: italic; margin-bottom: 2px; }
+    .fn-res-pron   { font-size: 0.8rem; color: #9080A0; font-style: italic; margin-bottom: 14px; }
+    .fn-res-trait  { font-size: 0.9rem; color: #5A4E6E; line-height: 1.65; background: rgba(255,255,255,0.6); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 14px; }
+    .fn-res-sent-lbl { font-size: 0.75rem; font-weight: 600; color: #9080A0; text-align: left; margin-bottom: 5px; }
+    .fn-res-sent   { font-size: 0.95rem; color: #3D3350; font-style: italic; text-align: left; background: rgba(255,255,255,0.8); padding: 11px 14px; border-radius: var(--radius-sm); border-left: 3px solid #7A6E8C; margin-bottom: 14px; line-height: 1.65; }
+    .fn-btn-play   {
+      background: transparent; border: 1.5px solid #7A6E8C; color: #7A6E8C;
+      border-radius: var(--radius-sm); padding: 7px 16px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s; font-family: var(--font-main); margin-bottom: 12px;
+    }
+    .fn-btn-play:hover { background: #7A6E8C; color: #fff; }
+    .fn-btn-copy   {
+      background: #3D3350; color: #fff; border: none;
+      border-radius: var(--radius-sm); padding: 11px 20px;
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s; font-family: var(--font-main); width: 100%;
+    }
+    .fn-btn-copy:hover   { background: #4A3F5C; }
+    .fn-btn-copy.copied  { background: #2E7D32; }
   </style>
 </head>
 <body>
@@ -438,6 +643,7 @@
         <h4>工具</h4>
         <ul>
           <li><a href="levels/b1/grammar.html">文法診斷</a></li>
+          <li><a href="professeur.html">Mon Professeur</a></li>
           <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
         </ul>
       </div>
@@ -448,9 +654,190 @@
     </div>
   </footer>
 
+  <!-- ===== 你的法文名字 — 浮動泡泡 ===== -->
+  <div class="fn-bubble" id="fnBubble">
+    <div class="fn-bubble-main" onclick="openFnModal()">
+      <span>✨</span>
+      <span>你有法文名字嗎？</span>
+    </div>
+    <button class="fn-bubble-close" onclick="dismissBubble(event)" aria-label="關閉">×</button>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div class="fn-overlay" id="fnOverlay" onclick="closeFnModal()"></div>
+
+  <!-- Modal -->
+  <div class="fn-modal" id="fnModal" role="dialog" aria-modal="true" aria-label="你的法文名字">
+    <div class="fn-modal-head">
+      <button class="fn-modal-x" onclick="closeFnModal()" aria-label="關閉">×</button>
+      <div class="fn-modal-badge">✨ 互動小測驗</div>
+      <h3>你的法文名字是？</h3>
+      <p>輸入中文名字，發現你的法文身份</p>
+    </div>
+    <div class="fn-modal-body">
+      <label class="fn-label" for="fnInput">你的中文名字（姓名都可以，最多6字）</label>
+      <div class="fn-row">
+        <input type="text" id="fnInput" placeholder="例如：陳雅婷" maxlength="6" autocomplete="off" />
+        <button class="fn-btn-gen" onclick="generateName()">生成 →</button>
+      </div>
+      <div class="fn-result" id="fnResult">
+        <div class="fn-res-label">你的法文名字是</div>
+        <div class="fn-res-name"  id="fnResName"></div>
+        <div class="fn-res-pron"  id="fnResPron"></div>
+        <button class="fn-btn-play" onclick="playName()">🔊 聽法文發音</button>
+        <div class="fn-res-trait" id="fnResTrait"></div>
+        <div class="fn-res-sent-lbl">📝 法文自我介紹：</div>
+        <div class="fn-res-sent"  id="fnResSent"></div>
+        <button class="fn-btn-copy" id="fnCopyBtn" onclick="copySent()">📋 複製介紹句，去練習發音</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ===== Navbar =====
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ===== Bubble: show after 35% scroll =====
+    (function() {
+      if (localStorage.getItem('fn_dismissed')) return;
+      let shown = false;
+      window.addEventListener('scroll', function onScroll() {
+        if (shown) return;
+        const total = document.body.scrollHeight - window.innerHeight;
+        if (total > 0 && (window.scrollY / total) * 100 >= 35) {
+          document.getElementById('fnBubble').classList.add('visible');
+          shown = true;
+          window.removeEventListener('scroll', onScroll);
+        }
+      });
+    })();
+
+    function dismissBubble(e) {
+      e.stopPropagation();
+      document.getElementById('fnBubble').classList.add('hidden');
+      localStorage.setItem('fn_dismissed', '1');
+    }
+
+    // ===== Modal =====
+    function openFnModal() {
+      document.getElementById('fnOverlay').classList.add('open');
+      document.getElementById('fnModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => document.getElementById('fnInput').focus(), 350);
+    }
+    function closeFnModal() {
+      document.getElementById('fnOverlay').classList.remove('open');
+      document.getElementById('fnModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFnModal(); });
+
+    // ===== Name data =====
+    const SN = {
+      '陳':'Martin','林':'Leblanc','黃':'Rousseau','張':'Dupont',
+      '李':'Bernard','王':'Laurent','吳':'Lefebvre','劉':'Moreau',
+      '蔡':'Blanc','楊':'Petit','許':'Robert','鄭':'Richard',
+      '謝':'Simon','江':'Michel','賴':'Leroy','周':'Dubois',
+      '高':'Fontaine','邱':'Girard','彭':'Bonnet','余':'Durand',
+      '施':'Morin','葉':'Roux','潘':'Vincent','廖':'Lemaire',
+      '曾':'Lecomte','徐':'Marchand','馬':'Barbier','趙':'Giraud',
+      '吳':'Lefebvre','何':'Renard','宋':'Leclerc','沈':'Dupuis'
+    };
+    const FCHAR = ['婷','玲','慧','雅','佳','蓉','欣','詩','如','君','珊',
+                   '霖','儀','穎','涵','芳','美','琪','嘉','悅','柔','怡',
+                   '芸','妍','菱','晴','瑜','瑾','薇','蓓','菁','茜','萍','鈺','璇'];
+    const F = [
+      {n:'Camille', p:'ka-MIY',   t:'有品味、喜愛藝術，在咖啡廳最自在的那種人。',   s:"Je m'appelle Camille, j'aime l'art et les endroits chaleureux."},
+      {n:'Sophie',  p:'so-FI',    t:'溫柔聰慧，總是帶著一本書和一杯熱可可。',        s:"Je m'appelle Sophie, j'adore lire et découvrir de nouvelles choses."},
+      {n:'Élise',   p:'é-LIZ',    t:'獨立自主，對音樂和美食有自己獨特的品味。',      s:"Je m'appelle Élise, la musique et la cuisine sont mes deux passions."},
+      {n:'Chloé',   p:'klo-É',    t:'充滿活力，喜歡旅行和認識新的人。',             s:"Je m'appelle Chloé, j'adore voyager et rencontrer de nouvelles personnes."},
+      {n:'Amélie',  p:'a-mé-LI',  t:'浪漫的夢想家，在小細節中找到生活的美好。',     s:"Je m'appelle Amélie, je trouve la beauté dans les petites choses."},
+      {n:'Claire',  p:'KLÈR',     t:'清晰理性又值得信任，是大家的心靈支柱。',        s:"Je m'appelle Claire, j'aime aider les autres et rester positive."},
+      {n:'Léa',     p:'LÉ-a',     t:'自由奔放，喜歡大自然和週末的農夫市集。',        s:"Je m'appelle Léa, j'aime la nature et les marchés du dimanche."},
+      {n:'Margot',  p:'mar-GO',   t:'神秘優雅，有故事有深度，讓人想更了解你。',      s:"Je m'appelle Margot, j'aime les mystères et les belles histoires."},
+      {n:'Céline',  p:'sé-LIN',   t:'堅定有個性，說話直接卻讓人感到溫暖。',         s:"Je m'appelle Céline, je suis franche et sincère dans tout ce que je fais."},
+      {n:'Adèle',   p:'a-DÈL',    t:'才華橫溢，在創作中找到自我表達的方式。',        s:"Je m'appelle Adèle, j'exprime mes émotions à travers la création."},
+    ];
+    const M = [
+      {n:'Julien',  p:'jyu-LIYEN', t:'風趣幽默，聚會上總是最受歡迎的那個人。',       s:"Je m'appelle Julien, j'aime rire et passer de bons moments avec mes amis."},
+      {n:'Pierre',  p:'PYÈR',      t:'穩重踏實，是朋友眼中最可靠的存在。',           s:"Je m'appelle Pierre, la famille et les amis comptent beaucoup pour moi."},
+      {n:'Nicolas', p:'ni-ko-LA',  t:'充滿好奇心，對什麼都想嘗試看看。',             s:"Je m'appelle Nicolas, j'aime apprendre et essayer de nouvelles choses."},
+      {n:'Théo',    p:'TÉ-o',      t:'悠閒自在，週末曬太陽就是最幸福的事。',         s:"Je m'appelle Théo, j'aime me détendre et profiter des belles journées."},
+      {n:'Clément', p:'klé-MYEN',  t:'思考縝密，喜歡從不同角度看事情。',             s:"Je m'appelle Clément, j'aime analyser le monde avec curiosité."},
+      {n:'Antoine', p:'an-TWAN',   t:'有冒險精神，人生信條是「試了才知道」。',        s:"Je m'appelle Antoine, je crois qu'il faut oser pour réussir."},
+      {n:'Lucas',   p:'LYU-ka',    t:'隨和好相處，走到哪都能交到朋友。',             s:"Je m'appelle Lucas, je m'entends bien avec tout le monde."},
+      {n:'Maxime',  p:'mak-SIM',   t:'有目標有熱情，做事全力以赴。',                 s:"Je m'appelle Maxime, je donne le meilleur de moi-même dans tout ce que je fais."},
+      {n:'Victor',  p:'vik-TOR',   t:'有領導氣質，默默保護著身邊的人。',             s:"Je m'appelle Victor, je prends soin des gens qui m'entourent."},
+      {n:'Hugo',    p:'YU-go',     t:'充滿想像力，腦袋裡永遠有一個宏大的故事。',     s:"Je m'appelle Hugo, j'ai toujours une histoire à raconter."},
+    ];
+
+    let currentSent = '';
+
+    function generateName() {
+      const raw = document.getElementById('fnInput').value.trim();
+      if (!raw) {
+        const inp = document.getElementById('fnInput');
+        inp.style.borderColor = 'var(--red)';
+        inp.placeholder = '請先輸入你的名字 😊';
+        setTimeout(() => { inp.style.borderColor = ''; inp.placeholder = '例如：陳雅婷'; }, 1800);
+        return;
+      }
+      const surname  = SN[raw[0]] || 'Dubois';
+      const last     = raw[raw.length - 1];
+      const isFemale = FCHAR.includes(last);
+      const pool     = isFemale ? F : M;
+      const pick     = pool[last.charCodeAt(0) % pool.length];
+      const fullName = pick.n + ' ' + surname;
+
+      document.getElementById('fnResName').textContent  = fullName;
+      document.getElementById('fnResPron').textContent  = '發音參考：' + pick.p;
+      document.getElementById('fnResTrait').textContent = '🎭 ' + pick.t;
+      document.getElementById('fnResSent').textContent  = pick.s;
+      currentSent = pick.s;
+
+      const el = document.getElementById('fnResult');
+      el.classList.remove('show');
+      void el.offsetWidth;
+      el.classList.add('show');
+
+      const btn = document.getElementById('fnCopyBtn');
+      btn.textContent = '📋 複製介紹句，去練習發音';
+      btn.classList.remove('copied');
+    }
+
+    document.getElementById('fnInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') generateName();
+    });
+
+    function playName() {
+      if (!currentSent || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(currentSent);
+      u.lang = 'fr-FR'; u.rate = 0.85;
+      window.speechSynthesis.speak(u);
+    }
+
+    function copySent() {
+      if (!currentSent) return;
+      const btn = document.getElementById('fnCopyBtn');
+      const done = () => {
+        btn.textContent = '✅ 已複製！去 Mon Professeur 練習發音';
+        btn.classList.add('copied');
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentSent).then(done).catch(fallback);
+      } else { fallback(); }
+      function fallback() {
+        const ta = document.createElement('textarea');
+        ta.value = currentSent;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        done();
+      }
     }
   </script>
 
