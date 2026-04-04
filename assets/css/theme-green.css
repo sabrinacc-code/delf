@@ -1,0 +1,74 @@
+/* ============================================================
+   主題色：森林綠 Forest Green (Option B)
+   ============================================================
+   使用方式：在 style.css 之後引入這個檔案
+   <link rel="stylesheet" href="assets/css/style.css" />
+   <link rel="stylesheet" href="assets/css/theme-green.css" />
+   ============================================================ */
+
+:root {
+  --blue:        #1E4D2B;
+  --blue-mid:    #2E7D32;
+  --blue-light:  #E8F5E9;
+
+  /* 輔色改為暖金色（與綠色搭配最佳） */
+  --gold:        #C9A84C;
+  --gold-light:  #FFF8E1;
+
+  /* 強調紅色保留（用於警告和書面表達模組） */
+  --red:         #B71C1C;
+  --red-light:   #FFEBEE;
+}
+
+/* ---- Hero / CTA 漸層覆蓋 ---- */
+.hero {
+  background: linear-gradient(135deg, #1E4D2B 0%, #154023 60%, #1B5E20 100%);
+}
+
+.cta-banner {
+  background: linear-gradient(135deg, #1E4D2B, #154023);
+}
+
+/* ---- 導覽列 active 連結 ---- */
+.navbar-links a.active { background: #E8F5E9; color: #1E4D2B; }
+.navbar-cta { background: #1E4D2B !important; }
+.navbar-cta:hover { background: #2E7D32 !important; }
+
+/* ---- 頁面內頁 Hero（各模組頁頂部）---- */
+/* 閱讀模組 — 保持原藍色（不覆蓋，讓各頁面自行定義） */
+
+/* ---- 模組卡片頂部色條 ---- */
+.module-card::before          { background: #1E4D2B; }
+.module-card:hover            { border-color: #1E4D2B; }
+.module-card .module-icon     { background: #E8F5E9; }
+
+/* ---- 分數 badge ---- */
+.score-badge                  { background: #1E4D2B; }
+
+/* ---- 進度條 ---- */
+.progress-bar-fill            { background: #1E4D2B; }
+
+/* ---- 按鈕 ---- */
+.btn-blue                     { background: #1E4D2B; }
+.btn-blue:hover               { background: #2E7D32; }
+
+/* ---- 側邊欄 current 連結 ---- */
+.nav-list li a.current        { background: #1E4D2B; }
+
+/* ---- Section tag ---- */
+.section-tag                  { background: #E8F5E9; color: #1E4D2B; }
+
+/* ---- 表格 header ---- */
+.exam-table th                { background: #1E4D2B; }
+.exam-table tr:hover td       { background: #E8F5E9; }
+
+/* ---- Tip 數字圓圈 ---- */
+.tip-num                      { background: #1E4D2B; }
+
+/* ---- Accordion open ---- */
+.accordion-header.open        { background: #1E4D2B; }
+
+/* ---- Footer ---- */
+/* 保持深黑色 footer，不需要覆蓋 */
+
+/* ---- 圖表顏色（透過 JS 動態設定，此處無需覆蓋）---- */

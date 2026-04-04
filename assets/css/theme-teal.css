@@ -1,0 +1,98 @@
+/* ============================================================
+   主題色：深孔雀藍 Deep Teal (Option C)
+   ============================================================
+   使用方式：在 style.css 之後引入這個檔案
+   <link rel="stylesheet" href="assets/css/style.css" />
+   <link rel="stylesheet" href="assets/css/theme-teal.css" />
+   ============================================================ */
+
+:root {
+  --blue:        #004D4D;
+  --blue-mid:    #00695C;
+  --blue-light:  #E0F2F1;
+
+  /* 輔色改為珊瑚橘（與孔雀藍形成強烈對比，CTA 更搶眼）*/
+  --gold:        #E8714A;
+  --gold-light:  #FBE9E7;
+
+  /* 強調紅色保留 */
+  --red:         #C62828;
+  --red-light:   #FFEBEE;
+}
+
+/* ---- Hero / CTA 漸層覆蓋 ---- */
+.hero {
+  background: linear-gradient(135deg, #004D4D 0%, #003838 60%, #006064 100%);
+}
+
+.cta-banner {
+  background: linear-gradient(135deg, #004D4D, #003838);
+}
+
+/* ---- 導覽列 ---- */
+.navbar-links a.active { background: #E0F2F1; color: #004D4D; }
+.navbar-cta { background: #004D4D !important; }
+.navbar-cta:hover { background: #00695C !important; }
+
+/* ---- 模組卡片 ---- */
+.module-card::before          { background: #004D4D; }
+.module-card:hover            { border-color: #004D4D; }
+.module-card .module-icon     { background: #E0F2F1; }
+
+/* ---- 分數 badge ---- */
+.score-badge                  { background: #004D4D; }
+
+/* ---- 進度條 ---- */
+.progress-bar-fill            { background: #004D4D; }
+
+/* ---- 按鈕 ---- */
+.btn-blue                     { background: #004D4D; }
+.btn-blue:hover               { background: #00695C; }
+
+/* ---- Hero 主要 CTA 按鈕（白底）— 文字改為孔雀藍 ---- */
+.btn-primary                  { color: #004D4D; }
+
+/* ---- 側邊欄 current ---- */
+.nav-list li a.current        { background: #004D4D; }
+
+/* ---- Section tag ---- */
+.section-tag                  { background: #E0F2F1; color: #004D4D; }
+/* 金色系 tag 改為橘色調 */
+.section-tag.gold             { background: #FBE9E7; color: #BF360C; }
+
+/* ---- 表格 ---- */
+.exam-table th                { background: #004D4D; }
+.exam-table tr:hover td       { background: #E0F2F1; }
+
+/* ---- Tip 數字圓圈 ---- */
+.tip-num                      { background: #004D4D; }
+
+/* ---- Strategy box（原本金色）改為橘調 ---- */
+.strategy-box {
+  background: #FBE9E7;
+  border-color: #E8714A;
+}
+.strategy-box .strategy-title { color: #BF360C; }
+.strategy-list li::before     { color: #E8714A; }
+
+/* ---- Accordion open ---- */
+.accordion-header.open        { background: #004D4D; }
+
+/* ---- Exercise intro bar ---- */
+.exercise-intro {
+  background: #E0F2F1;
+  border-left-color: #004D4D;
+  color: #004D4D;
+}
+
+/* ---- Score badge (inline) ---- */
+.meta-tag.score               { background: #E0F2F1; color: #004D4D; }
+
+/* ---- Card link color ---- */
+.module-card a.card-link      { color: #004D4D; }
+
+/* ---- 備考小提示 sidebar widget ---- */
+.sidebar-widget[style*="gold"] {
+  background: #FBE9E7 !important;
+  border-color: #E8714A !important;
+}
