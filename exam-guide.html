@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 考試攻略 — 考試結構、評分標準、各科策略、時間分配、常見陷阱，讓你上考場不緊張。" />
+  <title>考試攻略 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/theme-lavender.css" />
+  <style>
+    /* ---- Exam Guide specific ---- */
+    .guide-section { padding: 64px 24px; }
+    .guide-section:nth-child(even) { background: var(--gray-50); }
+    .guide-inner { max-width: 860px; margin: 0 auto; }
+
+    /* Exam structure table */
+    .structure-table { width: 100%; border-collapse: collapse; margin-top: 32px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .structure-table th { background: #3D3350; color: #fff; padding: 14px 18px; text-align: left; font-size: 0.9rem; font-weight: 600; }
+    .structure-table td { padding: 14px 18px; font-size: 0.92rem; border-bottom: 1px solid var(--gray-100); vertical-align: top; line-height: 1.6; }
+    .structure-table tr:last-child td { border-bottom: none; }
+    .structure-table tr:hover td { background: #EEEAF4; }
+    .score-pill { display: inline-block; background: #EEEAF4; color: #7A6E8C; border-radius: 20px; padding: 3px 10px; font-size: 0.82rem; font-weight: 700; }
+    .time-pill { display: inline-block; background: #f0f4ff; color: #3D3350; border-radius: 20px; padding: 3px 10px; font-size: 0.82rem; font-weight: 600; }
+
+    /* Strategy cards */
+    .strategy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+    @media (max-width: 680px) { .strategy-grid { grid-template-columns: 1fr; } }
+    .strat-card { background: white; border-radius: 12px; padding: 24px; border: 1px solid var(--gray-100); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .strat-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .strat-icon { width: 40px; height: 40px; border-radius: 10px; background: #EEEAF4; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .strat-card h3 { font-size: 1rem; font-weight: 700; color: var(--black); margin: 0; }
+    .strat-card ul { margin: 0; padding-left: 18px; }
+    .strat-card ul li { font-size: 0.9rem; color: var(--gray-600); line-height: 1.8; margin-bottom: 4px; }
+
+    /* Trap cards */
+    .trap-list { margin-top: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .trap-item { display: flex; gap: 16px; align-items: flex-start; background: white; border-radius: 10px; padding: 18px 20px; border-left: 4px solid #A05060; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+    .trap-num { font-size: 1.2rem; font-weight: 800; color: #A05060; min-width: 28px; }
+    .trap-content h4 { font-size: 0.95rem; font-weight: 700; color: var(--black); margin: 0 0 4px 0; }
+    .trap-content p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.7; margin: 0; }
+
+    /* Passing strategy */
+    .pass-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+    @media (max-width: 680px) { .pass-grid { grid-template-columns: 1fr; } }
+    .pass-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid var(--gray-100); text-align: center; }
+    .pass-card .subject { font-size: 0.85rem; color: var(--gray-500); margin-bottom: 6px; }
+    .pass-card .score-req { font-size: 1.6rem; font-weight: 800; color: #7A6E8C; }
+    .pass-card .score-note { font-size: 0.8rem; color: var(--gray-500); margin-top: 4px; line-height: 1.5; }
+    .pass-highlight { background: #3D3350; color: white; border-radius: 12px; padding: 20px 24px; margin-top: 20px; text-align: center; }
+    .pass-highlight strong { font-size: 1.1rem; }
+
+    /* Checklist */
+    .checklist { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 580px) { .checklist { grid-template-columns: 1fr; } }
+    .check-row { display: flex; align-items: center; gap: 10px; background: white; border-radius: 8px; padding: 12px 14px; border: 1px solid var(--gray-100); font-size: 0.9rem; color: var(--gray-700); }
+    .check-row .check-dot { width: 22px; height: 22px; border-radius: 50%; background: #EEEAF4; border: 2px solid #7A6E8C; flex-shrink: 0; }
+
+    /* Time tips */
+    .time-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+    @media (max-width: 580px) { .time-grid { grid-template-columns: 1fr; } }
+    .time-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid var(--gray-100); }
+    .time-card h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 12px 0; color: #3D3350; }
+    .time-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--gray-50); font-size: 0.88rem; }
+    .time-row:last-child { border-bottom: none; }
+    .time-row .task { color: var(--gray-700); }
+    .time-row .mins { font-weight: 700; color: #7A6E8C; }
+
+    /* Info box */
+    .info-box { background: #EEEAF4; border-radius: 10px; padding: 18px 22px; margin: 20px 0; font-size: 0.9rem; color: #4A3F5C; line-height: 1.7; }
+    .info-box strong { color: #3D3350; }
+  </style>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MVHK1R4G3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2MVHK1R4G3');
+  </script>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="index.html">首頁</a>
+        <a href="exam-guide.html" class="active">考試攻略</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" onclick="toggleDropdown(this)">備考技能 <span class="nav-arrow">▾</span></button>
+          <div class="nav-dropdown-menu">
+            <a href="levels/b1/reading.html">📖 閱讀理解</a>
+            <a href="levels/b1/writing.html">✍️ 書面表達</a>
+            <a href="levels/b1/listening.html">🎧 聽力理解</a>
+            <a href="levels/b1/speaking.html">🗣️ 口語表達</a>
+          </div>
+        </div>
+        <a href="levels/b1/grammar.html">文法診斷</a>
+        <a href="study-plan.html">學習計畫</a>
+        <a href="professeur.html" class="navbar-cta-secondary">✨ Mon Professeur</a>
+        <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner">
+        <div class="page-hero-text">
+          <div class="section-tag" style="margin-bottom:14px;">考試攻略</div>
+          <h1>徹底搞懂 DELF B1</h1>
+          <p>考試結構、評分規則、各科策略、時間分配、常見陷阱。<br>看完這頁，上考場不再緊張。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DELF 是什麼 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">認識考試</div>
+      <h2>DELF 是什麼？</h2>
+      <p style="color:var(--gray-600);line-height:1.9;margin-top:12px;">DELF（Diplôme d'Études en Langue Française）是法國教育部頒發的法語官方檢定，全球通用、終身有效，不像 DALF 有時效限制。分為 A1、A2、B1、B2、C1、C2 六個等級，對應 CEFR 歐洲語言框架。B1 代表「獨立使用者」——可以在日常生活中應付大部分情境，是許多升學、移民或工作申請的最低門檻。</p>
+      <div class="info-box" style="margin-top:20px;">
+        <strong>🇫🇷 B1 代表什麼程度？</strong><br>
+        可以理解主要話題的要點（工作、學校、休閒），能在法語地區旅行並處理大部分突發情況，可以用連貫的方式描述經驗、事件、夢想和計畫，並說明自己的看法。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 考試結構 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">考試結構</div>
+      <h2>四大科目一次看清楚</h2>
+      <p style="color:var(--gray-600);line-height:1.8;margin-top:12px;">DELF B1 分為四個獨立科目，筆試（閱讀+寫作）和口試（聽力+口說）通常分開日期舉行。每科滿分 25 分，合計 100 分，須達到 <strong>50 分且每科至少 5 分</strong>才算通過。</p>
+      <table class="structure-table">
+        <thead>
+          <tr>
+            <th>科目</th>
+            <th>考試時間</th>
+            <th>滿分</th>
+            <th>考什麼</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📖 閱讀理解</strong><br><small style="color:var(--gray-500)">Compréhension de l'écrit</small></td>
+            <td><span class="time-pill">35 分鐘</span></td>
+            <td><span class="score-pill">25 分</span></td>
+            <td>2–3 篇文章（公告、Email、新聞稿、廣告等），選擇題＋是非題＋簡答題</td>
+          </tr>
+          <tr>
+            <td><strong>✍️ 書面表達</strong><br><small style="color:var(--gray-500)">Production écrite</small></td>
+            <td><span class="time-pill">45 分鐘</span></td>
+            <td><span class="score-pill">25 分</span></td>
+            <td>2 題：個人信函（描述經驗、感受）＋論點表達（贊成/反對）。各約 160–180 字</td>
+          </tr>
+          <tr>
+            <td><strong>🎧 聽力理解</strong><br><small style="color:var(--gray-500)">Compréhension de l'oral</small></td>
+            <td><span class="time-pill">~25 分鐘</span></td>
+            <td><span class="score-pill">25 分</span></td>
+            <td>3 段錄音：簡短對話（聽 2 遍）、長篇錄音（聽 2 遍）、廣播節目/採訪（聽 1 遍）</td>
+          </tr>
+          <tr>
+            <td><strong>🗣️ 口語表達</strong><br><small style="color:var(--gray-500)">Production orale</small></td>
+            <td><span class="time-pill">準備 10 分 + 考試 15 分</span></td>
+            <td><span class="score-pill">25 分</span></td>
+            <td>3 部分：自我介紹（3 分）、情境模擬單人表達（2–3 分）、觀點交換互動（5–7 分）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 各科策略 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">解題策略</div>
+      <h2>各科答題攻略</h2>
+      <div class="strategy-grid">
+
+        <div class="strat-card">
+          <div class="strat-card-head">
+            <div class="strat-icon">📖</div>
+            <h3>閱讀理解</h3>
+          </div>
+          <ul>
+            <li><strong>先看題目再看文章</strong>——知道要找什麼，速度快兩倍</li>
+            <li>注意題目關鍵字，在文章中圈出對應段落</li>
+            <li>簡答題不要寫太長，文章原文句子直接引用即可</li>
+            <li>真/假/文章沒提到：「文章沒提到」常被忽略，要仔細判斷</li>
+            <li>時間分配：第一篇 10 分鐘，第二篇 12 分鐘，第三篇 13 分鐘</li>
+          </ul>
+        </div>
+
+        <div class="strat-card">
+          <div class="strat-card-head">
+            <div class="strat-icon">✍️</div>
+            <h3>書面表達</h3>
+          </div>
+          <ul>
+            <li><strong>套模板</strong>是關鍵：開頭、轉折、結尾各有固定句型</li>
+            <li>每題至少 160 字，字數不夠直接扣分</li>
+            <li>先打草稿（5 分鐘），再正式寫，留 5 分鐘檢查</li>
+            <li>連接詞要多用：Cependant, De plus, En effet, C'est pourquoi</li>
+            <li>論點題：至少給 2 個理由，每個理由配一個例子</li>
+          </ul>
+        </div>
+
+        <div class="strat-card">
+          <div class="strat-card-head">
+            <div class="strat-icon">🎧</div>
+            <h3>聽力理解</h3>
+          </div>
+          <ul>
+            <li><strong>播放前先看題目</strong>——聽錄音時心裡有方向</li>
+            <li>第一遍聽大意，第二遍抓細節（數字、名詞、地點）</li>
+            <li>廣播題只聽一遍，要邊聽邊記關鍵字</li>
+            <li>數字（年份、金額、時間）特別容易考，聽到就寫下來</li>
+            <li>答案不確定時，根據第一印象選，不要空白</li>
+          </ul>
+        </div>
+
+        <div class="strat-card">
+          <div class="strat-card-head">
+            <div class="strat-icon">🗣️</div>
+            <h3>口語表達</h3>
+          </div>
+          <ul>
+            <li>準備 10 分鐘要好好用：先列出 3 個論點的關鍵字</li>
+            <li><strong>開口第一句很重要</strong>——用背好的句型破題，讓考官知道你懂</li>
+            <li>聽不懂考官的問題：「Pourriez-vous répéter, s'il vous plaît ?」</li>
+            <li>說錯了不要停頓太久，繼續說，流暢度比正確度更重要</li>
+            <li>互動部分：表達同意/不同意要用多樣句型，不要每次都說 Oui</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 時間分配 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">時間管理</div>
+      <h2>考場時間分配建議</h2>
+      <div class="time-grid">
+        <div class="time-card">
+          <h4>📖 閱讀（35 分鐘）</h4>
+          <div class="time-row"><span class="task">先瀏覽所有題目</span><span class="mins">3 分</span></div>
+          <div class="time-row"><span class="task">第一篇文章+題目</span><span class="mins">10 分</span></div>
+          <div class="time-row"><span class="task">第二篇文章+題目</span><span class="mins">12 分</span></div>
+          <div class="time-row"><span class="task">第三篇文章+題目</span><span class="mins">8 分</span></div>
+          <div class="time-row"><span class="task">檢查答案</span><span class="mins">2 分</span></div>
+        </div>
+        <div class="time-card">
+          <h4>✍️ 書面表達（45 分鐘）</h4>
+          <div class="time-row"><span class="task">讀題目、構思草稿</span><span class="mins">5 分</span></div>
+          <div class="time-row"><span class="task">第一題（信函）</span><span class="mins">18 分</span></div>
+          <div class="time-row"><span class="task">第二題（論點）</span><span class="mins">17 分</span></div>
+          <div class="time-row"><span class="task">檢查文法＋字數</span><span class="mins">5 分</span></div>
+        </div>
+        <div class="time-card">
+          <h4>🎧 聽力（約 25 分鐘）</h4>
+          <div class="time-row"><span class="task">錄音播放前：看題目</span><span class="mins">必做</span></div>
+          <div class="time-row"><span class="task">第一段（對話 ×2）</span><span class="mins">5 分</span></div>
+          <div class="time-row"><span class="task">第二段（長錄音 ×2）</span><span class="mins">10 分</span></div>
+          <div class="time-row"><span class="task">第三段（廣播 ×1）</span><span class="mins">8 分</span></div>
+        </div>
+        <div class="time-card">
+          <h4>🗣️ 口說（準備 10 + 考試 15 分）</h4>
+          <div class="time-row"><span class="task">自我介紹準備</span><span class="mins">2 分</span></div>
+          <div class="time-row"><span class="task">情境模擬草稿</span><span class="mins">4 分</span></div>
+          <div class="time-row"><span class="task">論點關鍵字列舉</span><span class="mins">4 分</span></div>
+          <div class="time-row"><span class="task">考試流程</span><span class="mins">15 分</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 常見陷阱 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">避開陷阱</div>
+      <h2>最常讓人失分的陷阱</h2>
+      <div class="trap-list">
+        <div class="trap-item">
+          <div class="trap-num">01</div>
+          <div class="trap-content">
+            <h4>閱讀：把「文章沒有提到」當成「錯誤」</h4>
+            <p>DELF 閱讀常出現三選一：Vrai（正確）/ Faux（錯誤）/ On ne sait pas（文章未提及）。很多人習慣只二選一，但「文章沒說」不等於錯誤，必須區分清楚。</p>
+          </div>
+        </div>
+        <div class="trap-item">
+          <div class="trap-num">02</div>
+          <div class="trap-content">
+            <h4>寫作：字數沒達到最低門檻</h4>
+            <p>B1 書面表達每題最低 160 字，低於門檻直接扣分。很多人邊寫邊不確定字數，建議平時練習就要培養「大概多少字」的手感，考前確認字數。</p>
+          </div>
+        </div>
+        <div class="trap-item">
+          <div class="trap-num">03</div>
+          <div class="trap-content">
+            <h4>聽力：沒有在錄音前先看題目</h4>
+            <p>考試中聽力錄音有「準備時間」讓你看題目，很多考生因為緊張而浪費這段時間。一定要在錄音播放前把題目看清楚，知道要「聽什麼」，答題效率直接翻倍。</p>
+          </div>
+        </div>
+        <div class="trap-item">
+          <div class="trap-num">04</div>
+          <div class="trap-content">
+            <h4>口說：說到一半停頓太久</h4>
+            <p>口說評分有一項是「流暢度」，停頓太多會影響分數。說錯了不要停下來糾結，可以說「Euh... je veux dire... / Comment dire...」自然帶過，繼續說下去比說對更重要。</p>
+          </div>
+        </div>
+        <div class="trap-item">
+          <div class="trap-num">05</div>
+          <div class="trap-content">
+            <h4>整體：把時間都花在最難的題目上</h4>
+            <p>遇到不會的題目，先跳過標記，做完能做的再回來。DELF 不倒扣，空白題必然失分，先答有把握的題目確保基本分。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 合格策略 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">合格策略</div>
+      <h2>怎麼確保通過？</h2>
+      <p style="color:var(--gray-600);line-height:1.8;margin-top:12px;">DELF B1 通過標準：<strong>總分達 50/100，且每科不低於 5/25</strong>。沒有「最低分要求」的科目特別吃香——你可以在強項科目多拿分，來補足弱項科目。</p>
+      <div class="pass-grid">
+        <div class="pass-card">
+          <div class="subject">閱讀理解</div>
+          <div class="score-req">5+</div>
+          <div class="score-note">最低門檻<br>建議目標：15+</div>
+        </div>
+        <div class="pass-card">
+          <div class="subject">書面表達</div>
+          <div class="score-req">5+</div>
+          <div class="score-note">最低門檻<br>建議目標：12+</div>
+        </div>
+        <div class="pass-card">
+          <div class="subject">聽力理解</div>
+          <div class="score-req">5+</div>
+          <div class="score-note">最低門檻<br>建議目標：13+</div>
+        </div>
+        <div class="pass-card">
+          <div class="subject">口語表達</div>
+          <div class="score-req">5+</div>
+          <div class="score-note">最低門檻<br>建議目標：13+</div>
+        </div>
+        <div class="pass-card" style="grid-column: span 2; background: #EEEAF4;">
+          <div class="subject">總分</div>
+          <div class="score-req" style="font-size:2rem;">50+</div>
+          <div class="score-note">100 分滿分<br>4 科都需高於 5 分</div>
+        </div>
+      </div>
+      <div class="pass-highlight">
+        <strong>💡 實際策略：</strong>閱讀和書面表達靠練習可以快速提升，是最好補強的科目。口說和聽力需要長期累積，如果時間有限，優先確保這兩科過 5 分門檻，再把力氣放在筆試拉高總分。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 考試當天 ===== -->
+  <section class="guide-section">
+    <div class="guide-inner">
+      <div class="section-tag" style="margin-bottom:12px;">考試準備</div>
+      <h2>考試當天準備清單</h2>
+      <div class="checklist">
+        <div class="check-row"><div class="check-dot"></div>護照或有效身份證件</div>
+        <div class="check-row"><div class="check-dot"></div>准考證（列印版或手機截圖）</div>
+        <div class="check-row"><div class="check-dot"></div>黑色原子筆（2 支以上）</div>
+        <div class="check-row"><div class="check-dot"></div>鉛筆（填塗答案卡用）</div>
+        <div class="check-row"><div class="check-dot"></div>橡皮擦</div>
+        <div class="check-row"><div class="check-dot"></div>手錶（計時用，不可用手機）</div>
+        <div class="check-row"><div class="check-dot"></div>提前確認考場地址和路線</div>
+        <div class="check-row"><div class="check-dot"></div>提早 30 分鐘到達考場</div>
+        <div class="check-row"><div class="check-dot"></div>水和少量零食（長時間考試）</div>
+        <div class="check-row"><div class="check-dot"></div>衛生紙（緊張時用得上）</div>
+      </div>
+      <div class="info-box" style="margin-top:24px;">
+        <strong>🧘 心態建議：</strong>考試當天不要複習新東西，只要把之前練習過的東西喚起來就好。如果有緊張的感覺，提醒自己：你已經練習過了，你知道怎麼做。緊張是正常的，深呼吸，先從最有把握的科目開始。
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section style="background: linear-gradient(135deg, #3D3350, #2E2640); padding: 72px 24px; text-align: center;">
+    <div class="container">
+      <div class="section-tag" style="margin-bottom:16px; background: rgba(255,255,255,0.15); color: white;">準備開始</div>
+      <h2 style="color:white; margin-bottom:12px;">知道考什麼了，現在開始練習</h2>
+      <p style="color:rgba(255,255,255,0.8); margin-bottom:32px;">先做文法診斷找出弱點，或是直接進入備考技能模組。</p>
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <a href="levels/b1/grammar.html" class="btn btn-blue" style="padding:14px 32px;">🔬 文法診斷</a>
+        <a href="study-plan.html" class="btn" style="padding:14px 32px; background:rgba(255,255,255,0.15); color:white; border:1.5px solid rgba(255,255,255,0.4);">📅 查看學習計畫</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>為有限時間、明確目標的自學者設計。<br>所有練習題均為仿真自創，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>備考技能</h4>
+        <ul>
+          <li><a href="levels/b1/reading.html">閱讀理解</a></li>
+          <li><a href="levels/b1/writing.html">書面表達</a></li>
+          <li><a href="levels/b1/listening.html">聽力理解</a></li>
+          <li><a href="levels/b1/speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="levels/b1/grammar.html">文法診斷</a></li>
+          <li><a href="exam-guide.html">考試攻略</a></li>
+          <li><a href="study-plan.html">學習計畫</a></li>
+          <li><a href="professeur.html">Mon Professeur</a></li>
+          <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 仿真自創內容，僅供學習使用</span>
+      <span>以考生視角出發 · 持續更新中</span>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    function toggleDropdown(btn) {
+      const dd = btn.closest('.nav-dropdown');
+      const isOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) dd.classList.add('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+    });
+  </script>
+</body>
+</html>

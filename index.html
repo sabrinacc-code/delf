@@ -748,11 +748,18 @@
       </button>
       <div class="navbar-links" id="navLinks">
         <a href="index.html" class="active">首頁</a>
-        <a href="levels/b1/reading.html">閱讀理解</a>
-        <a href="levels/b1/writing.html">書面表達</a>
-        <a href="levels/b1/listening.html">聽力理解</a>
-        <a href="levels/b1/speaking.html">口語表達</a>
+        <a href="exam-guide.html">考試攻略</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" onclick="toggleDropdown(this)">備考技能 <span class="nav-arrow">▾</span></button>
+          <div class="nav-dropdown-menu">
+            <a href="levels/b1/reading.html">📖 閱讀理解</a>
+            <a href="levels/b1/writing.html">✍️ 書面表達</a>
+            <a href="levels/b1/listening.html">🎧 聽力理解</a>
+            <a href="levels/b1/speaking.html">🗣️ 口語表達</a>
+          </div>
+        </div>
         <a href="levels/b1/grammar.html">文法診斷</a>
+        <a href="study-plan.html">學習計畫</a>
         <a href="professeur.html" class="navbar-cta-secondary">✨ Mon Professeur</a>
         <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
       </div>
@@ -777,16 +784,16 @@
     <div class="origin-inner">
       <div class="origin-quote">
         <blockquote>
-          我找不到一個用中文解釋、專門為了通過 DELF 設計的學習工具，所以我自己做了一個。
+          先生是法國人，我只想在餐桌上開口說話，不靠任何人翻譯。
         </blockquote>
-        <p class="quote-source">— 這個網站的起點</p>
+        <p class="quote-source">— Sabrina，網站創辦人 · A2 通過 90.5 分</p>
       </div>
       <div class="origin-text">
-        <div class="section-tag" style="margin-bottom:14px;">初衷</div>
-        <h2>從一個真實的學習困境出發</h2>
-        <p>法文書全是法文，看不懂卻沒人解釋。做完考試題目，改完答案，不知道為什麼錯。想問問題，沒有人可以問。</p>
-        <p>每天能學習的時間不多，卻不確定自己現在的程度在哪、離 B1 還差多遠、該先補強哪個部分。</p>
-        <p>這個網站試圖解決這些問題——用繁體中文，針對 DELF B1，讓你能夠自學、自我修正、有方向地備考。</p>
+        <div class="section-tag" style="margin-bottom:14px;">為什麼有這個網站</div>
+        <h2>從一個真實的故事出發</h2>
+        <p>工作、家庭、照顧小孩——每天能拿出來學法文的時間真的不多。不想上補習班，身邊有母語人士，她相信自己可以靠自學通過。</p>
+        <p>最難的是聽力：不住在法語環境，要很有意識地去找材料。做完題目改完答案，找不到用繁體中文解釋 DELF 的資源。</p>
+        <p>2025 年底，報名 A2，高強度備考三個月，<strong>90.5 分通過</strong>。成就感很大。這個網站，是她想給所有跟她一樣、時間有限卻目標明確的人的一份禮物。</p>
       </div>
     </div>
   </section>
@@ -921,7 +928,7 @@
         <p>為有限時間、明確目標的自學者設計。<br>所有練習題均為仿真自創，不包含 DELF 真實試題。</p>
       </div>
       <div class="footer-col">
-        <h4>學習模組</h4>
+        <h4>備考技能</h4>
         <ul>
           <li><a href="levels/b1/reading.html">閱讀理解</a></li>
           <li><a href="levels/b1/writing.html">書面表達</a></li>
@@ -930,8 +937,10 @@
         </ul>
       </div>
       <div class="footer-col">
-        <h4>工具</h4>
+        <h4>工具與資源</h4>
         <ul>
+          <li><a href="exam-guide.html">考試攻略</a></li>
+          <li><a href="study-plan.html">學習計畫</a></li>
           <li><a href="levels/b1/grammar.html">文法診斷</a></li>
           <li><a href="professeur.html">Mon Professeur</a></li>
           <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
@@ -1172,6 +1181,17 @@
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
     }
+    function toggleDropdown(btn) {
+      const dd = btn.closest('.nav-dropdown');
+      const isOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) dd.classList.add('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+    });
 
     // ===== Onboarding Survey =====
     const obAns = { methods: [] };

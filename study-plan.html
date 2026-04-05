@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DELF B1 學習計畫 — 30天衝刺版免費下載，每日任務清單，有效率地通過法語檢定。" />
+  <title>學習計畫 · DELF B1 備考</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/theme-lavender.css" />
+  <style>
+    /* ---- Study Plan specific ---- */
+    .plan-hero-stats { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .plan-stat { text-align: center; }
+    .plan-stat .num { font-size: 2.2rem; font-weight: 800; color: white; }
+    .plan-stat .label { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+
+    /* Plan tabs */
+    .plan-tabs { display: flex; gap: 12px; margin: 40px 0 32px; }
+    .plan-tab { padding: 10px 24px; border-radius: 30px; border: 2px solid var(--gray-200); background: white; font-weight: 600; font-size: 0.92rem; cursor: pointer; color: var(--gray-600); transition: all 0.2s; }
+    .plan-tab.active { background: #7A6E8C; border-color: #7A6E8C; color: white; }
+
+    /* Week cards */
+    .week-section { margin-bottom: 40px; }
+    .week-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .week-badge { background: #3D3350; color: white; border-radius: 10px; padding: 8px 16px; font-size: 0.85rem; font-weight: 700; white-space: nowrap; }
+    .week-title { font-size: 1.1rem; font-weight: 700; color: var(--black); }
+    .week-focus { font-size: 0.85rem; color: var(--gray-500); margin-top: 2px; }
+
+    .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+    @media (max-width: 800px) { .day-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 480px) { .day-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .day-card { background: white; border-radius: 10px; padding: 14px 12px; border: 1px solid var(--gray-100); transition: transform 0.15s, box-shadow 0.15s; }
+    .day-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .day-card.rest { background: #f9f9f9; border-style: dashed; }
+    .day-num { font-size: 0.72rem; font-weight: 700; color: var(--gray-400); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .day-icon { font-size: 1.3rem; margin-bottom: 6px; }
+    .day-task { font-size: 0.8rem; font-weight: 600; color: var(--gray-700); line-height: 1.4; }
+    .day-time { font-size: 0.72rem; color: var(--gray-400); margin-top: 4px; }
+    .day-card.rest .day-task { color: var(--gray-400); font-weight: 400; }
+
+    /* Color themes per week */
+    .week-1 .day-card:not(.rest) { border-top: 3px solid #7A6E8C; }
+    .week-2 .day-card:not(.rest) { border-top: 3px solid #8C7A6A; }
+    .week-3 .day-card:not(.rest) { border-top: 3px solid #A05060; }
+    .week-4 .day-card:not(.rest) { border-top: 3px solid #3D3350; }
+
+    /* Tips sidebar */
+    .plan-layout { display: grid; grid-template-columns: 1fr 280px; gap: 40px; max-width: 1000px; margin: 0 auto; }
+    @media (max-width: 860px) { .plan-layout { grid-template-columns: 1fr; } }
+    .plan-sidebar { position: sticky; top: 80px; align-self: start; }
+    .sidebar-card { background: white; border-radius: 12px; padding: 22px; border: 1px solid var(--gray-100); margin-bottom: 16px; }
+    .sidebar-card h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 14px 0; color: #3D3350; }
+    .sidebar-tip { display: flex; gap: 10px; margin-bottom: 10px; font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; }
+    .sidebar-tip-icon { font-size: 1rem; flex-shrink: 0; }
+
+    /* Level selector */
+    .level-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+    .level-btn { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--gray-200); background: white; font-size: 0.88rem; font-weight: 600; cursor: pointer; color: var(--gray-600); transition: all 0.2s; }
+    .level-btn.active { background: #EEEAF4; border-color: #7A6E8C; color: #7A6E8C; }
+
+    /* Coming soon */
+    .coming-soon-banner { background: linear-gradient(135deg, #3D3350, #2E2640); border-radius: 16px; padding: 40px; text-align: center; color: white; margin-top: 48px; }
+    .coming-soon-banner h3 { font-size: 1.3rem; margin-bottom: 10px; }
+    .coming-soon-banner p { color: rgba(255,255,255,0.8); font-size: 0.9rem; line-height: 1.7; margin-bottom: 24px; }
+    .email-row { display: flex; gap: 10px; max-width: 420px; margin: 0 auto; }
+    .email-input { flex: 1; padding: 12px 16px; border-radius: 8px; border: none; font-size: 0.9rem; }
+    .email-btn { padding: 12px 20px; background: #8C7A6A; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; white-space: nowrap; font-size: 0.9rem; transition: background 0.2s; }
+    .email-btn:hover { background: #a08070; }
+    .email-note { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 10px; }
+
+    .section-pad { padding: 64px 24px; }
+    .section-pad:nth-child(even) { background: var(--gray-50); }
+  </style>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MVHK1R4G3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2MVHK1R4G3');
+  </script>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-logo">
+        <span class="flag">🇫🇷</span>
+        <span>DELF B1 備考</span>
+      </a>
+      <button class="nav-toggle" onclick="toggleNav()" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navLinks">
+        <a href="index.html">首頁</a>
+        <a href="exam-guide.html">考試攻略</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" onclick="toggleDropdown(this)">備考技能 <span class="nav-arrow">▾</span></button>
+          <div class="nav-dropdown-menu">
+            <a href="levels/b1/reading.html">📖 閱讀理解</a>
+            <a href="levels/b1/writing.html">✍️ 書面表達</a>
+            <a href="levels/b1/listening.html">🎧 聽力理解</a>
+            <a href="levels/b1/speaking.html">🗣️ 口語表達</a>
+          </div>
+        </div>
+        <a href="levels/b1/grammar.html">文法診斷</a>
+        <a href="study-plan.html" class="active">學習計畫</a>
+        <a href="professeur.html" class="navbar-cta-secondary">✨ Mon Professeur</a>
+        <a href="levels/b1/mock-exam.html" class="navbar-cta">模擬考試</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner">
+        <div class="page-hero-text">
+          <div class="section-tag" style="margin-bottom:14px;">學習計畫</div>
+          <h1>30 天衝刺通過 B1</h1>
+          <p>時間有限也可以有計畫。每日任務清單，四週打通四科，<br>讓備考不再茫然。</p>
+          <div class="plan-hero-stats">
+            <div class="plan-stat">
+              <div class="num">30</div>
+              <div class="label">天</div>
+            </div>
+            <div class="plan-stat">
+              <div class="num">4</div>
+              <div class="label">大科目全覆蓋</div>
+            </div>
+            <div class="plan-stat">
+              <div class="num">1h</div>
+              <div class="label">每天最低時間</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLAN INTRO ===== -->
+  <section class="section-pad">
+    <div style="max-width:860px; margin:0 auto;">
+      <div class="section-tag" style="margin-bottom:12px;">使用說明</div>
+      <h2>這個計畫適合誰？</h2>
+      <p style="color:var(--gray-600); line-height:1.9; margin-top:14px; max-width:640px;">這份 30 天計畫針對<strong>已有基礎（A2 程度以上）</strong>、需要在短時間內衝刺備考的人設計。如果你完全零基礎，建議先花一個月打基礎再執行這份計畫。</p>
+
+      <div style="display:flex; gap:14px; margin-top:24px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px; background:#EEEAF4; border-radius:10px; padding:18px 20px;">
+          <div style="font-size:1.3rem; margin-bottom:8px;">⏰</div>
+          <div style="font-weight:700; font-size:0.95rem; color:#3D3350; margin-bottom:6px;">每天 1 小時版</div>
+          <div style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">上班族、父母、有家庭責任的人。每天固定一個時段，可以是早起或睡前。</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:#f0f4ff; border-radius:10px; padding:18px 20px;">
+          <div style="font-size:1.3rem; margin-bottom:8px;">🔥</div>
+          <div style="font-weight:700; font-size:0.95rem; color:#3D3350; margin-bottom:6px;">每天 2 小時版</div>
+          <div style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">離考試剩不到一個月，需要高強度衝刺。每項任務加倍練習量，額外加上模擬考練習。</div>
+        </div>
+        <div style="flex:1; min-width:200px; background:#fff8f0; border-radius:10px; padding:18px 20px;">
+          <div style="font-size:1.3rem; margin-bottom:8px;">📆</div>
+          <div style="font-weight:700; font-size:0.95rem; color:#3D3350; margin-bottom:6px;">彈性版</div>
+          <div style="font-size:0.85rem; color:var(--gray-600); line-height:1.7;">把 30 天拉長成 45 天，每周有 2 天休息日，節奏更輕鬆，適合同時有其他學習壓力的人。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WEEK 1 ===== -->
+  <section class="section-pad" style="background:var(--gray-50);">
+    <div style="max-width:1000px; margin:0 auto;">
+      <div class="plan-layout">
+        <div>
+          <!-- Week 1 -->
+          <div class="week-section week-1">
+            <div class="week-header">
+              <div class="week-badge">第 1 週</div>
+              <div>
+                <div class="week-title">診斷基礎 × 閱讀理解</div>
+                <div class="week-focus">先摸清自己的狀況，再針對弱點下手</div>
+              </div>
+            </div>
+            <div class="day-grid">
+              <div class="day-card">
+                <div class="day-num">Day 1</div>
+                <div class="day-icon">🔬</div>
+                <div class="day-task">文法診斷測驗</div>
+                <div class="day-time">30 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 2</div>
+                <div class="day-icon">📋</div>
+                <div class="day-task">複習診斷弱點，看解析</div>
+                <div class="day-time">40 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 3</div>
+                <div class="day-icon">📖</div>
+                <div class="day-task">閱讀理解：解題技巧</div>
+                <div class="day-time">45 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 4</div>
+                <div class="day-icon">📖</div>
+                <div class="day-task">閱讀練習題 × 1 篇</div>
+                <div class="day-time">40 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 5</div>
+                <div class="day-icon">📖</div>
+                <div class="day-task">閱讀練習題 × 1 篇 + 複習錯誤</div>
+                <div class="day-time">50 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 6</div>
+                <div class="day-icon">📝</div>
+                <div class="day-task">背 10 個閱讀常見詞彙</div>
+                <div class="day-time">30 分鐘</div>
+              </div>
+              <div class="day-card rest">
+                <div class="day-num">Day 7</div>
+                <div class="day-icon">😴</div>
+                <div class="day-task">休息 · 複習筆記</div>
+                <div class="day-time">選擇性</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 2 -->
+          <div class="week-section week-2" style="margin-top:36px;">
+            <div class="week-header">
+              <div class="week-badge">第 2 週</div>
+              <div>
+                <div class="week-title">書面表達集中突破</div>
+                <div class="week-focus">模板背熟，每天寫一篇，分數快速提升</div>
+              </div>
+            </div>
+            <div class="day-grid">
+              <div class="day-card">
+                <div class="day-num">Day 8</div>
+                <div class="day-icon">✍️</div>
+                <div class="day-task">學習書面表達模板</div>
+                <div class="day-time">45 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 9</div>
+                <div class="day-icon">✍️</div>
+                <div class="day-task">練習信函題 × 1 篇</div>
+                <div class="day-time">50 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 10</div>
+                <div class="day-icon">✍️</div>
+                <div class="day-task">練習論點題 × 1 篇</div>
+                <div class="day-time">50 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 11</div>
+                <div class="day-icon">🔗</div>
+                <div class="day-task">學連接詞 + 常用短語</div>
+                <div class="day-time">35 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 12</div>
+                <div class="day-icon">✍️</div>
+                <div class="day-task">寫一篇完整作文計時練習</div>
+                <div class="day-time">45 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 13</div>
+                <div class="day-icon">🔍</div>
+                <div class="day-task">自我批改 + 分析錯誤</div>
+                <div class="day-time">40 分鐘</div>
+              </div>
+              <div class="day-card rest">
+                <div class="day-num">Day 14</div>
+                <div class="day-icon">😴</div>
+                <div class="day-task">休息 · 複習筆記</div>
+                <div class="day-time">選擇性</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 3 -->
+          <div class="week-section week-3" style="margin-top:36px;">
+            <div class="week-header">
+              <div class="week-badge">第 3 週</div>
+              <div>
+                <div class="week-title">聽力 × 口說強化</div>
+                <div class="week-focus">每天開口說，每天聽法語，培養語感</div>
+              </div>
+            </div>
+            <div class="day-grid">
+              <div class="day-card">
+                <div class="day-num">Day 15</div>
+                <div class="day-icon">🎧</div>
+                <div class="day-task">聽力策略 + 練習題 × 1</div>
+                <div class="day-time">45 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 16</div>
+                <div class="day-icon">🎧</div>
+                <div class="day-task">聽力練習題 × 1（計時）</div>
+                <div class="day-time">35 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 17</div>
+                <div class="day-icon">🗣️</div>
+                <div class="day-task">口說模板 + 自我介紹練習</div>
+                <div class="day-time">40 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 18</div>
+                <div class="day-icon">🗣️</div>
+                <div class="day-task">口說情境模擬 × 2 題</div>
+                <div class="day-time">40 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 19</div>
+                <div class="day-icon">🎧</div>
+                <div class="day-task">聽力 + 口說綜合練習</div>
+                <div class="day-time">50 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 20</div>
+                <div class="day-icon">🔄</div>
+                <div class="day-task">複習前三週弱點</div>
+                <div class="day-time">60 分鐘</div>
+              </div>
+              <div class="day-card rest">
+                <div class="day-num">Day 21</div>
+                <div class="day-icon">😴</div>
+                <div class="day-task">休息 · 複習筆記</div>
+                <div class="day-time">選擇性</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 4 -->
+          <div class="week-section week-4" style="margin-top:36px;">
+            <div class="week-header">
+              <div class="week-badge">第 4 週</div>
+              <div>
+                <div class="week-title">模擬考 × 查缺補漏</div>
+                <div class="week-focus">完整模擬考試體驗，找出最後弱點</div>
+              </div>
+            </div>
+            <div class="day-grid">
+              <div class="day-card">
+                <div class="day-num">Day 22</div>
+                <div class="day-icon">📝</div>
+                <div class="day-task">完整模擬考（筆試）</div>
+                <div class="day-time">80 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 23</div>
+                <div class="day-icon">🔍</div>
+                <div class="day-task">模擬考解析 + 分析失分</div>
+                <div class="day-time">60 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 24</div>
+                <div class="day-icon">🎧</div>
+                <div class="day-task">聽力模擬 + 口說練習</div>
+                <div class="day-time">50 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 25</div>
+                <div class="day-icon">🔧</div>
+                <div class="day-task">針對弱項科目強化</div>
+                <div class="day-time">60 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 26</div>
+                <div class="day-icon">✍️</div>
+                <div class="day-task">書面表達計時練習</div>
+                <div class="day-time">45 分鐘</div>
+              </div>
+              <div class="day-card">
+                <div class="day-num">Day 27–29</div>
+                <div class="day-icon">🧘</div>
+                <div class="day-task">輕鬆複習，確認考場、文具</div>
+                <div class="day-time">30 分鐘</div>
+              </div>
+              <div class="day-card" style="border-top: 3px solid #8C7A6A; background:#FFF8F0;">
+                <div class="day-num">Day 30</div>
+                <div class="day-icon">🎉</div>
+                <div class="day-task">考試日！你準備好了</div>
+                <div class="day-time">加油！</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="plan-sidebar">
+          <div class="sidebar-card" style="background: #3D3350; color: white;">
+            <h4 style="color:white; margin-bottom:14px;">📌 每日學習 checklist</h4>
+            <div style="font-size:0.85rem; color:rgba(255,255,255,0.85); line-height:2.0;">
+              <div>□ 昨天的錯誤有複習嗎？</div>
+              <div>□ 今天的任務完成了嗎？</div>
+              <div>□ 有沒有開口說法文？</div>
+              <div>□ 新學到的詞彙記下來了嗎？</div>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h4>💡 備考心法</h4>
+            <div class="sidebar-tip">
+              <span class="sidebar-tip-icon">🎯</span>
+              <span>每天固定時段，培養「學法文」的習慣比偶爾大量學習更有效</span>
+            </div>
+            <div class="sidebar-tip">
+              <span class="sidebar-tip-icon">📵</span>
+              <span>學習時把手機放一邊，30 分鐘專注效果比 2 小時分心更好</span>
+            </div>
+            <div class="sidebar-tip">
+              <span class="sidebar-tip-icon">🗣️</span>
+              <span>每天至少開口說一句法文，哪怕只是自言自語也算</span>
+            </div>
+            <div class="sidebar-tip">
+              <span class="sidebar-tip-icon">😌</span>
+              <span>考前一週不要學新東西，只複習已知的，保持狀態比衝刺更重要</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card" style="background:#EEEAF4; border-color:#EEEAF4;">
+            <h4>🔗 搭配工具</h4>
+            <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+              <a href="levels/b1/grammar.html" style="display:flex; align-items:center; gap:8px; font-size:0.87rem; color:#7A6E8C; font-weight:600; text-decoration:none;">
+                🔬 文法診斷 →
+              </a>
+              <a href="levels/b1/writing.html" style="display:flex; align-items:center; gap:8px; font-size:0.87rem; color:#7A6E8C; font-weight:600; text-decoration:none;">
+                ✍️ 書面表達練習 →
+              </a>
+              <a href="levels/b1/listening.html" style="display:flex; align-items:center; gap:8px; font-size:0.87rem; color:#7A6E8C; font-weight:600; text-decoration:none;">
+                🎧 聽力練習 →
+              </a>
+              <a href="professeur.html" style="display:flex; align-items:center; gap:8px; font-size:0.87rem; color:#7A6E8C; font-weight:600; text-decoration:none;">
+                ✨ Mon Professeur →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMING SOON ===== -->
+  <section class="section-pad">
+    <div style="max-width:700px; margin:0 auto;">
+      <div class="coming-soon-banner">
+        <div style="display:inline-block; background:rgba(255,255,255,0.15); border-radius:20px; padding:5px 16px; font-size:0.8rem; font-weight:700; margin-bottom:16px; color:rgba(255,255,255,0.9);">即將推出</div>
+        <h3>🗓️ 3 個月完整備考計畫</h3>
+        <p>從零基礎到 B1，包含每週學習重點、推薦資源、進度追蹤。<br>適合有充裕時間、想紮實備考的學習者。</p>
+        <div class="email-row">
+          <input class="email-input" type="email" id="notifyEmail" placeholder="你的 Email" />
+          <button class="email-btn" onclick="subscribeNotify()">通知我</button>
+        </div>
+        <div class="email-note">推出時會第一個通知你，不會發垃圾郵件</div>
+        <div id="notifyMsg" style="margin-top:10px; font-size:0.85rem; color:rgba(255,255,255,0.9); display:none;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">🇫🇷 DELF B1 備考</div>
+        <p>為有限時間、明確目標的自學者設計。<br>所有練習題均為仿真自創，不包含 DELF 真實試題。</p>
+      </div>
+      <div class="footer-col">
+        <h4>備考技能</h4>
+        <ul>
+          <li><a href="levels/b1/reading.html">閱讀理解</a></li>
+          <li><a href="levels/b1/writing.html">書面表達</a></li>
+          <li><a href="levels/b1/listening.html">聽力理解</a></li>
+          <li><a href="levels/b1/speaking.html">口語表達</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>工具</h4>
+        <ul>
+          <li><a href="levels/b1/grammar.html">文法診斷</a></li>
+          <li><a href="exam-guide.html">考試攻略</a></li>
+          <li><a href="study-plan.html">學習計畫</a></li>
+          <li><a href="professeur.html">Mon Professeur</a></li>
+          <li><a href="levels/b1/mock-exam.html">模擬考試</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 DELF B1 備考 · 仿真自創內容，僅供學習使用</span>
+      <span>以考生視角出發 · 持續更新中</span>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    function toggleDropdown(btn) {
+      const dd = btn.closest('.nav-dropdown');
+      const isOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) dd.classList.add('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+    });
+
+    function subscribeNotify() {
+      const email = document.getElementById('notifyEmail').value.trim();
+      const msg = document.getElementById('notifyMsg');
+      if (!email || !email.includes('@')) {
+        msg.style.display = 'block';
+        msg.textContent = '請輸入有效的 Email 地址。';
+        return;
+      }
+      // GA4 event
+      if (typeof gtag === 'function') {
+        gtag('event', 'study_plan_notify', { email_domain: email.split('@')[1] });
+      }
+      msg.style.display = 'block';
+      msg.textContent = '✅ 收到！完整計畫推出時會通知你。';
+      document.getElementById('notifyEmail').value = '';
+    }
+  </script>
+</body>
+</html>
