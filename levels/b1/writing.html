@@ -162,10 +162,18 @@
       </button>
       <div class="navbar-links" id="navLinks">
         <a href="../../index.html">首頁</a>
-        <a href="reading.html">閱讀理解</a>
-        <a href="writing.html" class="active">書面表達</a>
-        <a href="listening.html">聽力理解</a>
-        <a href="speaking.html">口語表達</a>
+        <a href="../../exam-guide.html">考試攻略</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle active" onclick="toggleDropdown(this)">備考技能 <span class="nav-arrow">▾</span></button>
+          <div class="nav-dropdown-menu">
+            <a href="reading.html">📖 閱讀理解</a>
+            <a href="writing.html" class="active">✍️ 書面表達</a>
+            <a href="listening.html">🎧 聽力理解</a>
+            <a href="speaking.html">🗣️ 口語表達</a>
+          </div>
+        </div>
+        <a href="grammar.html">文法診斷</a>
+        <a href="../../study-plan.html">學習計畫</a>
         <a href="../../professeur.html" class="navbar-cta-secondary">✨ Mon Professeur</a>
         <a href="mock-exam.html" class="navbar-cta">模擬考試</a>
       </div>
@@ -581,6 +589,17 @@
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
     }
+    function toggleDropdown(btn) {
+      const dd = btn.closest('.nav-dropdown');
+      const isOpen = dd.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) dd.classList.add('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+      }
+    });
 
     function updateWordCount(textareaId, counterId) {
       const text = document.getElementById(textareaId).value.trim();
