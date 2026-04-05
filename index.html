@@ -496,7 +496,243 @@
     }
     .fn-btn-copy:hover   { background: #4A3F5C; }
     .fn-btn-copy.copied  { background: #2E7D32; }
+
+    /* ===== Onboarding Survey ===== */
+    .ob-overlay {
+      position: fixed; inset: 0;
+      background: rgba(20,14,32,0.72);
+      z-index: 950;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+      backdrop-filter: blur(6px);
+    }
+    .ob-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .ob-modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-46%) scale(0.96);
+      z-index: 960;
+      width: min(600px, 95vw);
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 24px;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transition: transform 0.38s cubic-bezier(0.34,1.1,0.64,1), opacity 0.3s ease;
+      box-shadow: 0 28px 80px rgba(20,14,32,0.4);
+      overflow: hidden;
+    }
+    .ob-modal.open {
+      transform: translate(-50%,-50%) scale(1);
+      opacity: 1; pointer-events: auto;
+    }
+
+    /* Top bar */
+    .ob-topbar {
+      padding: 18px 24px 14px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid var(--gray-100);
+      flex-shrink: 0;
+    }
+    .ob-prog-track {
+      flex: 1; height: 6px;
+      background: var(--gray-100);
+      border-radius: 100px; overflow: hidden;
+    }
+    .ob-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7A6E8C, #9080A0);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .ob-prog-txt {
+      font-size: 0.73rem; font-weight: 700;
+      color: var(--gray-400); white-space: nowrap;
+    }
+    .ob-skip-btn {
+      font-size: 0.76rem; color: var(--gray-400);
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-main); padding: 4px 6px;
+      transition: color 0.2s; white-space: nowrap;
+    }
+    .ob-skip-btn:hover { color: var(--gray-600); }
+
+    /* Scrollable body */
+    .ob-body {
+      flex: 1; overflow-y: auto;
+      padding: 28px 32px 12px;
+    }
+    .ob-q { display: none; }
+    .ob-q.active { display: block; animation: obIn 0.3s ease; }
+    @keyframes obIn {
+      from { opacity: 0; transform: translateX(18px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes obShake {
+      0%,100% { transform: translateX(0); }
+      20%  { transform: translateX(-7px); }
+      40%  { transform: translateX(7px); }
+      60%  { transform: translateX(-5px); }
+      80%  { transform: translateX(4px); }
+    }
+    .ob-qnum {
+      font-family: Georgia, serif; font-size: 3.2rem;
+      font-weight: 700; color: #EEEAF4; line-height: 1;
+      margin-bottom: -6px; user-select: none;
+    }
+    .ob-qtitle {
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--black); margin-bottom: 6px; line-height: 1.4;
+    }
+    .ob-qhint {
+      font-size: 0.8rem; color: var(--gray-400);
+      margin-bottom: 18px;
+    }
+
+    /* Single-select option pills */
+    .ob-grid {
+      display: grid; gap: 9px; margin-bottom: 4px;
+    }
+    .ob-grid.c1 { grid-template-columns: 1fr; }
+    .ob-grid.c2 { grid-template-columns: 1fr 1fr; }
+    .ob-grid.c3 { grid-template-columns: repeat(3,1fr); }
+    .ob-grid.c4 { grid-template-columns: repeat(4,1fr); }
+    @media(max-width:480px) {
+      .ob-grid.c3 { grid-template-columns: 1fr 1fr; }
+      .ob-grid.c4 { grid-template-columns: 1fr 1fr; }
+    }
+    .ob-opt {
+      padding: 11px 12px; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; background: #fff;
+      font-family: var(--font-main); font-size: 0.88rem;
+      font-weight: 500; color: var(--gray-800);
+      cursor: pointer; transition: all 0.18s ease;
+      text-align: center; line-height: 1.35;
+    }
+    .ob-opt:hover { border-color: #7A6E8C; background: #F4F0FF; color: #3D3350; }
+    .ob-opt.sel   { border-color: #7A6E8C; background: #EEEAF4; color: #3D3350; font-weight: 700; box-shadow: 0 0 0 3px rgba(122,110,140,0.18); }
+
+    /* Conditional sub-section */
+    .ob-sub {
+      display: none; margin-top: 16px;
+      padding: 18px 16px; background: var(--gray-50);
+      border-radius: 12px; border: 1px solid var(--gray-200);
+    }
+    .ob-sub.show { display: block; animation: obIn 0.25s ease; }
+    .ob-sub-lbl {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: 9px; margin-top: 12px;
+    }
+    .ob-sub-lbl:first-child { margin-top: 0; }
+
+    /* Multi-select checkboxes */
+    .ob-checks { display: flex; flex-direction: column; gap: 9px; }
+    .ob-chk {
+      display: flex; align-items: center; gap: 13px;
+      padding: 12px 16px; border: 1.5px solid var(--gray-200);
+      border-radius: 10px; cursor: pointer; transition: all 0.18s;
+      user-select: none;
+    }
+    .ob-chk:hover { border-color: #7A6E8C; background: #F9F7FF; }
+    .ob-chk.sel   { border-color: #7A6E8C; background: #EEEAF4; }
+    .ob-chk-box {
+      width: 20px; height: 20px; flex-shrink: 0;
+      border: 2px solid var(--gray-300); border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: transparent;
+      transition: all 0.18s;
+    }
+    .ob-chk.sel .ob-chk-box { background: #7A6E8C; border-color: #7A6E8C; color: #fff; }
+    .ob-chk-lbl { font-size: 0.9rem; font-weight: 500; color: var(--gray-800); }
+    .ob-chk.sel .ob-chk-lbl { color: #3D3350; font-weight: 600; }
+
+    /* Text inputs inside survey */
+    .ob-input {
+      width: 100%; padding: 11px 14px; margin-top: 10px;
+      border: 1.5px solid var(--gray-200); border-radius: 9px;
+      font-family: var(--font-main); font-size: 0.9rem;
+      color: var(--black); box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .ob-input:focus { outline: none; border-color: #7A6E8C; }
+
+    /* Footer nav */
+    .ob-footer {
+      padding: 14px 32px 22px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--gray-100); flex-shrink: 0;
+    }
+    .ob-btn-back {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-main); font-size: 0.88rem;
+      font-weight: 600; color: var(--gray-400);
+      padding: 8px 4px; transition: color 0.2s;
+    }
+    .ob-btn-back:hover { color: var(--gray-600); }
+    .ob-btn-next {
+      background: #7A6E8C; color: #fff; border: none;
+      border-radius: 10px; padding: 12px 32px;
+      font-family: var(--font-main); font-size: 0.92rem;
+      font-weight: 700; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .ob-btn-next:hover { background: #9080A0; transform: translateY(-1px); }
+    .ob-btn-next:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; transform: none; }
+
+    /* Result screen */
+    .ob-result { display: none; padding: 8px 0 4px; }
+    .ob-result.show { display: block; animation: obIn 0.35s ease; }
+    .ob-result-hero {
+      text-align: center;
+      background: linear-gradient(135deg, #3D3350, #4A3F5C);
+      margin: -28px -32px 24px;
+      padding: 32px 28px 28px;
+      color: #fff;
+    }
+    .ob-result-hero h3 { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .ob-result-hero p  { font-size: 0.85rem; color: rgba(255,255,255,0.72); }
+    .ob-result-hero .ob-done-badge {
+      display: inline-block; background: rgba(255,255,255,0.15);
+      border-radius: 100px; padding: 4px 14px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      margin-bottom: 12px; color: rgba(255,255,255,0.85);
+    }
+    .ob-recs-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gray-400);
+      margin-bottom: 12px;
+    }
+    .ob-rec-card {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; border-radius: 12px;
+      border: 1px solid #D8D0EC; background: #F4F0FF;
+      margin-bottom: 10px;
+    }
+    .ob-rec-icon { font-size: 1.3rem; flex-shrink: 0; padding-top: 1px; }
+    .ob-rec-text strong { display: block; font-size: 0.9rem; font-weight: 700; color: #3D3350; margin-bottom: 2px; }
+    .ob-rec-text span   { font-size: 0.82rem; color: #5A4E6E; line-height: 1.55; }
+    .ob-start-btn {
+      width: 100%; margin-top: 20px;
+      background: linear-gradient(135deg, #3D3350, #7A6E8C);
+      color: #fff; border: none; border-radius: 12px;
+      padding: 15px; font-family: var(--font-main);
+      font-size: 0.98rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ob-start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(61,51,80,0.35); }
   </style>
+
+  <!-- ★ Google Analytics 4 — 換成你的 Measurement ID (格式：G-2MVHK1R4G3) ★ -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MVHK1R4G3"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2MVHK1R4G3');
+  </script>
 </head>
 <body>
 
@@ -708,6 +944,144 @@
     </div>
   </footer>
 
+  <!-- ===== Onboarding Survey ===== -->
+  <div class="ob-overlay" id="obOverlay"></div>
+  <div class="ob-modal" id="obModal" role="dialog" aria-modal="true">
+
+    <!-- Top progress bar -->
+    <div class="ob-topbar">
+      <div class="ob-prog-track"><div class="ob-prog-fill" id="obProgFill"></div></div>
+      <span class="ob-prog-txt" id="obProgTxt">1 / 6</span>
+      <button class="ob-skip-btn" onclick="obSkip()">略過 ×</button>
+    </div>
+
+    <!-- Questions -->
+    <div class="ob-body" id="obBody">
+
+      <!-- Q1 -->
+      <div class="ob-q" id="obQ1">
+        <div class="ob-qnum">01</div>
+        <h3 class="ob-qtitle">你的法文程度？</h3>
+        <div class="ob-grid c4">
+          <button class="ob-opt" data-q="1" data-val="zero"    onclick="obSel(this)">零基礎</button>
+          <button class="ob-opt" data-q="1" data-val="little"  onclick="obSel(this)">學過一點</button>
+          <button class="ob-opt" data-q="1" data-val="A1"      onclick="obSel(this)">通過 A1</button>
+          <button class="ob-opt" data-q="1" data-val="A2"      onclick="obSel(this)">通過 A2</button>
+          <button class="ob-opt" data-q="1" data-val="B1"      onclick="obSel(this)">通過 B1</button>
+          <button class="ob-opt" data-q="1" data-val="B2"      onclick="obSel(this)">通過 B2</button>
+          <button class="ob-opt" data-q="1" data-val="C1"      onclick="obSel(this)">通過 C1</button>
+          <button class="ob-opt" data-q="1" data-val="C2"      onclick="obSel(this)">通過 C2</button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="ob-q" id="obQ2">
+        <div class="ob-qnum">02</div>
+        <h3 class="ob-qtitle">有在準備法文檢定嗎？</h3>
+        <div class="ob-grid c1">
+          <button class="ob-opt" data-q="2" data-val="no"  onclick="obSel(this); obQ2Sub(false)">沒有，純學習興趣</button>
+          <button class="ob-opt" data-q="2" data-val="yes" onclick="obSel(this); obQ2Sub(true)">有！正在準備檢定</button>
+        </div>
+        <div class="ob-sub" id="obQ2Sub">
+          <div class="ob-sub-lbl">目標等級</div>
+          <div class="ob-grid c3">
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="A1" onclick="obSubSel(this)">DELF A1</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="A2" onclick="obSubSel(this)">DELF A2</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="B1" onclick="obSubSel(this)">DELF B1</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="B2" onclick="obSubSel(this)">DELF B2</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="C1" onclick="obSubSel(this)">DALF C1</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_level" data-val="C2" onclick="obSubSel(this)">DALF C2</button>
+          </div>
+          <div class="ob-sub-lbl">預計考試時間</div>
+          <div class="ob-grid c2">
+            <button class="ob-opt ob-sub-opt" data-sub="exam_timeline" data-val="1m"  onclick="obSubSel(this)">1 個月內</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_timeline" data-val="3m"  onclick="obSubSel(this)">3 個月內</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_timeline" data-val="6m"  onclick="obSubSel(this)">6 個月內</button>
+            <button class="ob-opt ob-sub-opt" data-sub="exam_timeline" data-val="6m+" onclick="obSubSel(this)">6 個月以後</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="ob-q" id="obQ3">
+        <div class="ob-qnum">03</div>
+        <h3 class="ob-qtitle">你學法文是為了？</h3>
+        <div class="ob-grid c1">
+          <button class="ob-opt" data-q="3" data-val="delf"    onclick="obSel(this)">通過法語檢定（DELF / DALF）</button>
+          <button class="ob-opt" data-q="3" data-val="travel"  onclick="obSel(this)">旅行或移居法語系國家</button>
+          <button class="ob-opt" data-q="3" data-val="work"    onclick="obSel(this)">工作需要</button>
+          <button class="ob-opt" data-q="3" data-val="culture" onclick="obSel(this)">喜歡法國文化，興趣使然</button>
+          <button class="ob-opt" data-q="3" data-val="school"  onclick="obSel(this)">學校課程要求</button>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="ob-q" id="obQ4">
+        <div class="ob-qnum">04</div>
+        <h3 class="ob-qtitle">你現在最大的學習困難是？</h3>
+        <div class="ob-grid c1">
+          <button class="ob-opt" data-q="4" data-val="grammar"   onclick="obSel(this); obQ4Other(false)">文法規則太多，背不起來</button>
+          <button class="ob-opt" data-q="4" data-val="listening" onclick="obSel(this); obQ4Other(false)">聽力速度太快，跟不上</button>
+          <button class="ob-opt" data-q="4" data-val="writing"   onclick="obSel(this); obQ4Other(false)">寫作不知道怎麼組句</button>
+          <button class="ob-opt" data-q="4" data-val="speaking"  onclick="obSel(this); obQ4Other(false)">開口說話很害怕</button>
+          <button class="ob-opt" data-q="4" data-val="level"     onclick="obSel(this); obQ4Other(false)">不確定自己的程度在哪</button>
+          <button class="ob-opt" data-q="4" data-val="other"     onclick="obSel(this); obQ4Other(true)">其他</button>
+        </div>
+        <input type="text" class="ob-input" id="obQ4Other" placeholder="請描述你的困難…" style="display:none;"
+               oninput="obAns.weakness_other=this.value">
+      </div>
+
+      <!-- Q5 -->
+      <div class="ob-q" id="obQ5">
+        <div class="ob-qnum">05</div>
+        <h3 class="ob-qtitle">你主要怎麼學法文？</h3>
+        <p class="ob-qhint">可以複選</p>
+        <div class="ob-checks">
+          <div class="ob-chk" data-val="class"   onclick="obChk(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">上課（線上或實體）</span></div>
+          <div class="ob-chk" data-val="self"    onclick="obChk(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">自學</span></div>
+          <div class="ob-chk" data-val="friend"  onclick="obChk(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">跟朋友學 / 語言交換</span></div>
+          <div class="ob-chk" data-val="youtube" onclick="obChk(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">YouTube</span></div>
+          <div class="ob-chk" data-val="ai"      onclick="obChk(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">AI（ChatGPT / Gemini 等）</span></div>
+          <div class="ob-chk" data-val="website" onclick="obChk(this); obQ5Website(this)"><div class="ob-chk-box">✓</div><span class="ob-chk-lbl">法文學習網站</span></div>
+        </div>
+        <input type="text" class="ob-input" id="obQ5Website" placeholder="你常用哪些法文學習網站？" style="display:none;"
+               oninput="obAns.website_name=this.value">
+      </div>
+
+      <!-- Q6 -->
+      <div class="ob-q" id="obQ6">
+        <div class="ob-qnum">06</div>
+        <h3 class="ob-qtitle">你每天大概能學多久？</h3>
+        <div class="ob-grid c2">
+          <button class="ob-opt" data-q="6" data-val="30min"   onclick="obSel(this)">30 分鐘以內</button>
+          <button class="ob-opt" data-q="6" data-val="1hr"     onclick="obSel(this)">1 小時</button>
+          <button class="ob-opt" data-q="6" data-val="1-2hr"   onclick="obSel(this)">1–2 小時</button>
+          <button class="ob-opt" data-q="6" data-val="2hr+"    onclick="obSel(this)">2 小時以上</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="ob-result" id="obResult">
+        <div class="ob-result-hero">
+          <div class="ob-done-badge">✨ 設定完成</div>
+          <h3>你的個人學習建議</h3>
+          <p>根據你的回答，我們為你整理了最適合的起點</p>
+        </div>
+        <div class="ob-recs-title">建議你優先做這些</div>
+        <div id="obRecCards"></div>
+        <button class="ob-start-btn" onclick="obClose()">開始學習 →</button>
+      </div>
+
+    </div><!-- /ob-body -->
+
+    <!-- Footer nav -->
+    <div class="ob-footer" id="obFooter">
+      <button class="ob-btn-back" id="obBtnBack" onclick="obPrev()">← 上一題</button>
+      <button class="ob-btn-next" id="obBtnNext" onclick="obNext()">繼續 →</button>
+    </div>
+
+  </div><!-- /ob-modal -->
+
   <!-- ===== 吉祥物 ===== -->
   <div class="mascot-wrap" id="mascotWrap">
     <div class="mascot-char" onclick="openFnModal()">
@@ -779,9 +1153,211 @@
   </div>
 
   <script>
+    // ===== 匿名訪客 UUID =====
+    (function() {
+      if (!localStorage.getItem('visitor_id')) {
+        localStorage.setItem('visitor_id', crypto.randomUUID());
+      }
+    })();
+    const VISITOR_ID = localStorage.getItem('visitor_id');
+
+    // GA4 helper — 若 ID 尚未設定則靜默不送
+    function gaEvent(name, params) {
+      if (typeof gtag === 'function' && !document.querySelector('[src*="G-2MVHK1R4G3"]')) {
+        gtag('event', name, params || {});
+      }
+    }
+
     // ===== Navbar =====
     function toggleNav() {
       document.getElementById('navLinks').classList.toggle('open');
+    }
+
+    // ===== Onboarding Survey =====
+    const obAns = { methods: [] };
+    let obCurrent = 1;
+    const OB_TOTAL = 6;
+
+    // Q map: question number → answer key
+    const OB_QMAP = { 1:'level', 2:'preparing', 3:'goal', 4:'weakness', 6:'daily_time' };
+
+    function obInit() {
+      if (localStorage.getItem('onboarding_done')) return;
+      document.getElementById('obOverlay').classList.add('open');
+      document.getElementById('obModal').classList.add('open');
+      obShowQ(1);
+    }
+    setTimeout(obInit, 900);
+
+    function obShowQ(n) {
+      obCurrent = n;
+      document.querySelectorAll('.ob-q').forEach(q => q.classList.remove('active'));
+      document.getElementById('obQ' + n).classList.add('active');
+      // Progress
+      document.getElementById('obProgFill').style.width = (n / OB_TOTAL * 100) + '%';
+      document.getElementById('obProgTxt').textContent = n + ' / ' + OB_TOTAL;
+      // Back button
+      document.getElementById('obBtnBack').style.visibility = n === 1 ? 'hidden' : 'visible';
+      // Next button label
+      document.getElementById('obBtnNext').textContent = n === OB_TOTAL ? '完成，看建議 →' : '繼續 →';
+    }
+
+    function obValidate(n) {
+      if (n === 1) return !!obAns.level;
+      if (n === 2) return !!obAns.preparing;
+      if (n === 3) return !!obAns.goal;
+      if (n === 4) return !!obAns.weakness;
+      if (n === 5) return obAns.methods.length > 0;
+      if (n === 6) return !!obAns.daily_time;
+      return true;
+    }
+
+    function obNext() {
+      if (!obValidate(obCurrent)) {
+        const btn = document.getElementById('obBtnNext');
+        btn.style.animation = 'none';
+        void btn.offsetWidth;
+        btn.style.animation = 'obShake 0.4s ease';
+        return;
+      }
+      if (obCurrent < OB_TOTAL) {
+        obShowQ(obCurrent + 1);
+      } else {
+        obShowResult();
+      }
+    }
+
+    function obPrev() {
+      if (obCurrent > 1) obShowQ(obCurrent - 1);
+    }
+
+    function obSel(btn) {
+      const q = btn.dataset.q;
+      document.querySelectorAll(`.ob-opt[data-q="${q}"]`).forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      const key = OB_QMAP[q];
+      if (key) obAns[key] = btn.dataset.val;
+    }
+
+    function obSubSel(btn) {
+      const sub = btn.dataset.sub;
+      document.querySelectorAll(`.ob-sub-opt[data-sub="${sub}"]`).forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      obAns[sub] = btn.dataset.val;
+    }
+
+    function obChk(item) {
+      item.classList.toggle('sel');
+      const v = item.dataset.val;
+      if (item.classList.contains('sel')) { if (!obAns.methods.includes(v)) obAns.methods.push(v); }
+      else { obAns.methods = obAns.methods.filter(x => x !== v); }
+    }
+
+    function obQ2Sub(show) {
+      document.getElementById('obQ2Sub').classList.toggle('show', show);
+      if (!show) { obAns.exam_level = null; obAns.exam_timeline = null; }
+    }
+
+    function obQ4Other(show) {
+      document.getElementById('obQ4Other').style.display = show ? 'block' : 'none';
+      if (!show) obAns.weakness_other = '';
+    }
+
+    function obQ5Website(item) {
+      const inp = document.getElementById('obQ5Website');
+      inp.style.display = item.classList.contains('sel') ? 'block' : 'none';
+      if (!item.classList.contains('sel')) obAns.website_name = '';
+    }
+
+    function obShowResult() {
+      // Hide questions + footer, show result
+      document.querySelectorAll('.ob-q').forEach(q => q.classList.remove('active'));
+      document.getElementById('obFooter').style.display = 'none';
+      document.getElementById('obProgFill').style.width = '100%';
+      document.getElementById('obProgTxt').textContent = '完成！';
+      document.getElementById('obResult').classList.add('show');
+
+      // Generate recommendations
+      const recs = obGenRecs();
+      document.getElementById('obRecCards').innerHTML = recs.map(r =>
+        `<div class="ob-rec-card">
+          <div class="ob-rec-icon">${r.icon}</div>
+          <div class="ob-rec-text"><strong>${r.title}</strong><span>${r.desc}</span></div>
+        </div>`
+      ).join('');
+
+      // Attach metadata
+      obAns.visitor_id   = VISITOR_ID;
+      obAns.submitted_at = new Date().toISOString();
+      obAns.page_lang    = navigator.language || '';
+
+      // Persist locally
+      localStorage.setItem('onboarding_done', '1');
+      localStorage.setItem('user_profile', JSON.stringify(obAns));
+
+      // GA4 event
+      gaEvent('onboarding_complete', {
+        user_level:    obAns.level,
+        user_goal:     obAns.goal,
+        preparing:     obAns.preparing,
+        weakness:      obAns.weakness,
+        daily_time:    obAns.daily_time,
+        visitor_id:    VISITOR_ID
+      });
+
+      // ── Google Sheets integration ──
+      // 1. 建立 Google Apps Script Web App（教學見 README）
+      // 2. 把下方 URL 換成你的 Web App URL，取消註解即可
+      // const SHEETS_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL';
+      // fetch(SHEETS_URL, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(obAns)
+      // }).catch(() => {});
+    }
+
+    function obGenRecs() {
+      const r = [];
+      const { level, weakness, preparing, exam_timeline, goal, daily_time } = obAns;
+
+      // Always: grammar diagnosis (unless they've passed B2+)
+      const advanced = ['B2','C1','C2'].includes(level);
+      if (!advanced) {
+        r.push({ icon:'🔬', title:'先做文法程度診斷', desc:'20 題找出你的弱點，產出個人化雷達圖，知道該先補哪裡。' });
+      }
+
+      // Weakness-based
+      if (weakness === 'listening') r.push({ icon:'🎧', title:'加強聽力練習', desc:'從 RFI 慢速法語開始，搭配文化筆記，循序漸進提升理解力。' });
+      if (weakness === 'speaking')  r.push({ icon:'🗣', title:'開口練口說', desc:'用語音辨識練習發音，不需要老師，即時知道說得準不準。' });
+      if (weakness === 'writing' || goal === 'delf') r.push({ icon:'✍️', title:'練習書面表達', desc:'B1 寫作有固定格式，先熟悉範本結構與連接詞，分數容易提升。' });
+      if (weakness === 'level')     r.push({ icon:'📊', title:'做文法診斷確認程度', desc:'診斷後會告訴你目前六大文法類別各落在哪裡，讓準備更有方向。' });
+
+      // Exam urgency
+      if (preparing === 'yes' && exam_timeline === '1m') {
+        r.push({ icon:'🎯', title:'直接做模擬考試', desc:'距離考試不到一個月，建議用整題模擬測驗確認準備狀況。' });
+      }
+
+      // Time constraint
+      if (daily_time === '30min') {
+        r.push({ icon:'⚡', title:'善用零散時間', desc:'每天 30 分鐘也夠用，建議每次只專注一個科目，累積比速度重要。' });
+      }
+
+      // Mon Professeur suggestion
+      if (obAns.methods.includes('ai')) {
+        r.push({ icon:'✨', title:'試試 Mon Professeur', desc:'你已經習慣用 AI 學習，網站的虛擬老師可以直接幫你批改法文、翻譯和發音。' });
+      }
+
+      return r.slice(0, 3);
+    }
+
+    function obClose() {
+      document.getElementById('obOverlay').classList.remove('open');
+      document.getElementById('obModal').classList.remove('open');
+    }
+
+    function obSkip() {
+      localStorage.setItem('onboarding_done', '1');
+      obClose();
     }
 
     // ===== Mascot speech bubble — periodic =====
